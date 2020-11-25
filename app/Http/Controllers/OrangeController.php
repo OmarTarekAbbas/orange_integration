@@ -100,7 +100,45 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
             $request_array[$headers] = $value;
         }
 
-        return $request_array;
+
+        $response_xml = '<?xml version = "1.0" encoding ="utf-8"?>
+        <soap:Envelope
+            xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+            xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xsd = "http://www.w3.org/2001/XMLSchema">
+            <soap:Body>
+                <NotificationResponse
+                    xmlns="http://tempuri.org/">
+                    <NotificationResult>200</NotificationResult>
+                </NotificationResponse>
+            </soap:Body>
+        </soap:Envelope>';
+
+        $orange_notify = new Request();
+        $orange_notify->req = $request_xml;
+        $orange_notify->response = $response_xml;
+        $orange_notify->action = $post_array['action'];
+        $orange_notify->msisdn = $post_array['msisdn'];
+        $orange_notify->service_id = $post_array['service_id'];
+        $orange_notify->notification_result = 200;
+
+        $OrangeNotify = $this->orange_notify_store($orange_notify);
+
+        $orange_subscribe = new Request();
+        $orange_subscribe->msisdn = $post_array['msisdn'];
+        $orange_subscribe->orange_notify_id = $OrangeNotify->id;
+        $orange_subscribe->table_name = 'orange_notifies';
+
+        if($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE"){
+            $orange_subscribe->active = 1;
+        }elseif($post_array['action'] == "OPERATORUNSUBSCRIBE" || $post_array['action'] == "GRACE2" || $post_array['action'] == "TERMINATE"){
+            $orange_subscribe->active = 0;
+        }
+
+        $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+
+        return $response_xml;
+
     }
 
     public function notify(Request $request)
@@ -130,7 +168,43 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
             }
         }
 
-        return $post_array;
+        $response_xml = '<?xml version = "1.0" encoding ="utf-8"?>
+        <soap:Envelope
+            xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+            xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xsd = "http://www.w3.org/2001/XMLSchema">
+            <soap:Body>
+                <NotificationResponse
+                    xmlns="http://tempuri.org/">
+                    <NotificationResult>200</NotificationResult>
+                </NotificationResponse>
+            </soap:Body>
+        </soap:Envelope>';
+
+        $orange_notify = new Request();
+        $orange_notify->req = $request_xml;
+        $orange_notify->response = $response_xml;
+        $orange_notify->action = $post_array['action'];
+        $orange_notify->msisdn = $post_array['msisdn'];
+        $orange_notify->service_id = $post_array['service_id'];
+        $orange_notify->notification_result = 200;
+
+        $OrangeNotify = $this->orange_notify_store($orange_notify);
+
+        $orange_subscribe = new Request();
+        $orange_subscribe->msisdn = $post_array['msisdn'];
+        $orange_subscribe->orange_notify_id = $OrangeNotify->id;
+        $orange_subscribe->table_name = 'orange_notifies';
+
+        if($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE"){
+            $orange_subscribe->active = 1;
+        }elseif($post_array['action'] == "OPERATORUNSUBSCRIBE" || $post_array['action'] == "GRACE2" || $post_array['action'] == "TERMINATE"){
+            $orange_subscribe->active = 0;
+        }
+
+        $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+
+        return $response_xml;
 
     }
 
