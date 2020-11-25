@@ -100,18 +100,32 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
 
     public function notify(Request $request)
     {
-        dd($request->all());
-        $request_ex = '';
+        $request_xml = file_get_contents('php://input');
 
-        $doc = new \DOMDocument('1.0', 'utf-8');
+        $request_array = array(
+            'action' => ['start' => '<ns1:Action>', 'end' => '</ns1:Action>'],
+            'msisdn' => ['start' => '<ns1:MSISDN>', 'end' => '</ns1:MSISDN>'],
+            'service_id' => ['start' => '<ns1:ServiceID>', 'end' => '</ns1:ServiceID>']
+        );
 
-        $doc->loadXML($request_ex);
+        $string = $request_xml;
 
-        $action = $doc->getElementsByTagName("ns1:Action");
+        foreach ($request_array as $key => $value) {
+            $start = $value['start'];
+            $end = $value['end'];
 
-        $status = $action->item(0);
+            $startpos = strpos($string, $start) + strlen($start);
+            if (strpos($string, $start) !== false) {
+                $endpos = strpos($string, $end, $startpos);
+                if (strpos($string, $end, $startpos) !== false) {
+                    $post_array[$key] = substr($string, $startpos, $endpos - $startpos);
+                } else {
+                    $post_array[$key] = "";
+                }
+            }
+        }
 
-        dd($status);
+        return $post_array;
 
     }
 
