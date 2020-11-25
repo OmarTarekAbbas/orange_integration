@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\OrangeNotify;
+use App\OrangeWeb;
 use Illuminate\Http\Request;
 
 class OrangeController extends Controller
@@ -114,5 +116,41 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         dd($status);
 
     }
+
+
+    public function orange_notify(Request $request)
+    {
+        $orange_notify = New OrangeNotify;
+        $orange_notify->req = $request->req;
+        $orange_notify->response = $request->response;
+        $orange_notify->action = $request->action;
+        $orange_notify->msisdn = $request->msisdn;
+        $orange_notify->service_id = $request->service_id;
+        $orange_notify->notification_result = $request->notification_result;
+        $orange_notify->save();
+        return $orange_notify;
+    }
+
+    public function orange_web(Request $request)
+    {
+        $orange_web = New OrangeWeb;
+        $orange_web->req = $request->req;
+        $orange_web->response = $request->response;
+        $orange_web->spId = $request->spId;
+        $orange_web->sp_password = $request->sp_password;
+        $orange_web->time_stamp = $request->time_stamp;
+        $orange_web->service_number = $request->service_number;
+        $orange_web->calling_party_id = $request->calling_party_id;
+        $orange_web->selfcare_command = $request->selfcare_command;
+        $orange_web->on_bearer_type = $request->on_bearer_type;
+        $orange_web->on_result_code = $request->on_result_code;
+        $orange_web->save();
+        return $orange_web;
+    }
+
+
+
+
+
 
 }
