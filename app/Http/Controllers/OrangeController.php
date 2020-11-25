@@ -54,16 +54,6 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
 
         $error = $client->getError();
 
-        // $soapHeader = array(
-        //     "RequestSOAPHeader" => array(
-        //         array(
-        //             "spId" => $spId,
-        //             "spPassword" => $spPassword,
-        //             "timeStamp" => $timeStamp
-        //         ),
-        //     ),
-        // );
-
         $soapBody = array(
                     "CC_Service_Number" => 2142,
                     "CC_Calling_Party_Id" => "201208138169",
@@ -99,6 +89,17 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         echo "<h2>Response</h2>";
         echo "<pre>" . $client->response . "</pre>";
         echo '<h2>Response</h2><pre>' . htmlspecialchars($client->responseData, ENT_QUOTES) . '</pre>';
+    }
+
+    public function ussd_notify()
+    {
+        $header = apache_request_headers();
+
+        foreach ($header as $headers => $value) {
+            $request_array[$headers] = $value;
+        }
+
+        return $request_array;
     }
 
     public function notify(Request $request)

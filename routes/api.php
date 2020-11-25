@@ -68,4 +68,6 @@ Route::post('subscription', 'OrangeController@subscription');
 
 Route::post('notify', 'OrangeController@notify');
 
+Route::get('ussd_notify', 'OrangeController@ussd_notify');
+
 /************************************** */
