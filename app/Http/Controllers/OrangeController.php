@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\OrangeNotify;
+use App\OrangeSubscribe;
 use App\OrangeWeb;
 use Illuminate\Http\Request;
 
@@ -146,6 +147,17 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         $orange_web->on_result_code = $request->on_result_code;
         $orange_web->save();
         return $orange_web;
+    }
+
+    public function orange_subscribe(Request $request)
+    {
+        $orange_subscribe = New OrangeSubscribe;
+        $orange_subscribe->msisdn = $request->msisdn;
+        $orange_subscribe->active = $request->active;
+        $orange_subscribe->orange_notify_id = $request->orange_notify_id;
+        $orange_subscribe->table_name = $request->table_name;
+        $orange_subscribe->save();
+        return $orange_subscribe;
     }
 
 
