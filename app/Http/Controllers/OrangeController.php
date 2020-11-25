@@ -100,40 +100,27 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
             $request_array[$headers] = $value;
         }
 
+        $request_array['User-MSISDN'] = ltrim( $request_array['User-MSISDN'], 'tel:+');
 
-        $response_xml = '<?xml version = "1.0" encoding ="utf-8"?>
-        <soap:Envelope
-            xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-            xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-            xmlns:xsd = "http://www.w3.org/2001/XMLSchema">
-            <soap:Body>
-                <NotificationResponse
-                    xmlns="http://tempuri.org/">
-                    <NotificationResult>200</NotificationResult>
-                </NotificationResponse>
-            </soap:Body>
-        </soap:Envelope>';
+        $response_msg = 'سوف يتم الاشتراك قريبا';
 
-        $orange_notify = new Request();
-        $orange_notify->req = $request_xml;
-        $orange_notify->response = $response_xml;
-        $orange_notify->action = $post_array['action'];
-        $orange_notify->msisdn = $post_array['msisdn'];
-        $orange_notify->service_id = $post_array['service_id'];
-        $orange_notify->notification_result = 200;
+        $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>'.$response_msg.'</body></html>';
 
-        $OrangeNotify = $this->orange_notify_store($orange_notify);
+        $orange_ussd = new Request();
+        $orange_ussd->req = json_encode($header);
+        $orange_ussd->response = $response_xml;
+        $orange_ussd->language = $request_array['User-Language'];
+        $orange_ussd->msisdn = $request_array['User-MSISDN'];
+        $orange_ussd->session_id = $request_array['User-SessionId'];
+        $orange_ussd->host = $request_array['Host'];
+
+        $OrangeUssd = $this->orange_ussd_store($orange_ussd);
 
         $orange_subscribe = new Request();
-        $orange_subscribe->msisdn = $post_array['msisdn'];
-        $orange_subscribe->orange_notify_id = $OrangeNotify->id;
-        $orange_subscribe->table_name = 'orange_notifies';
-
-        if($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE"){
-            $orange_subscribe->active = 1;
-        }elseif($post_array['action'] == "OPERATORUNSUBSCRIBE" || $post_array['action'] == "GRACE2" || $post_array['action'] == "TERMINATE"){
-            $orange_subscribe->active = 0;
-        }
+        $orange_subscribe->msisdn = $request_array['User-MSISDN'];
+        $orange_subscribe->orange_notify_id = $OrangeUssd->id;
+        $orange_subscribe->table_name = 'orange_ussds';
+        $orange_subscribe->active = 1;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 

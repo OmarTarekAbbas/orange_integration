@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "ef5be532-a5aa-4361-8778-f22dbba1d248",
+		"name": "orange",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "notify",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n    <soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n    <soapenv:Body>\r\n        <ns1:Notification xmlns:ns1=\"http://tempuri.org/\">\r\n            <ns1:Action>OPERATORSUBSCRIBE</ns1:Action>\r\n            <ns1:MSISDN>201272033505</ns1:MSISDN>\r\n            <ns1:ServiceID>1000003886</ns1:ServiceID>\r\n        </ns1:Notification>\r\n    </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/orange_integration/api/notify",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"orange_integration",
+						"api",
+						"notify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "notify ussd",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": " text/html",
+						"type": "text"
+					},
+					{
+						"key": "User-Language",
+						"value": " ar",
+						"type": "text"
+					},
+					{
+						"key": "User-MSISDN",
+						"value": " tel:+201212513414",
+						"type": "text"
+					},
+					{
+						"key": "User-SessionId",
+						"value": " 23112020215558mln",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": " 10.240.14.156:80",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": " close",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": " 0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/orange_integration/api/ussd_notify",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"orange_integration",
+						"api",
+						"ussd_notify"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
