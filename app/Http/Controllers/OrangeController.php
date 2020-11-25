@@ -257,7 +257,7 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         $orange_ussd->response = $request->response;
         $orange_ussd->language = $request->language;
         $orange_ussd->msisdn = $request->msisdn;
-        $orange_ussd->service_id = $request->service_id;
+        $orange_ussd->session_id = $request->session_id;
         $orange_ussd->host = $request->host;
         $orange_ussd->save();
         return $orange_ussd;
