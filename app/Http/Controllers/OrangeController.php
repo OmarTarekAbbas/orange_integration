@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\OrangeNotify;
 use App\OrangeSubscribe;
+use App\OrangeUssd;
 use App\OrangeWeb;
 use Illuminate\Http\Request;
 
@@ -134,7 +135,7 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
     }
 
 
-    public function orange_notify(Request $request)
+    public function orange_notify_store(Request $request)
     {
         $orange_notify = New OrangeNotify;
         $orange_notify->req = $request->req;
@@ -147,7 +148,7 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         return $orange_notify;
     }
 
-    public function orange_web(Request $request)
+    public function orange_web_store(Request $request)
     {
         $orange_web = New OrangeWeb;
         $orange_web->req = $request->req;
@@ -164,7 +165,7 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         return $orange_web;
     }
 
-    public function orange_subscribe(Request $request)
+    public function orange_subscribe_store(Request $request)
     {
         $orange_subscribe = New OrangeSubscribe;
         $orange_subscribe->msisdn = $request->msisdn;
@@ -173,6 +174,19 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         $orange_subscribe->table_name = $request->table_name;
         $orange_subscribe->save();
         return $orange_subscribe;
+    }
+
+    public function orange_ussd_store(Request $request)
+    {
+        $orange_ussd = New OrangeUssd;
+        $orange_ussd->req = $request->req;
+        $orange_ussd->response = $request->response;
+        $orange_ussd->language = $request->language;
+        $orange_ussd->msisdn = $request->msisdn;
+        $orange_ussd->service_id = $request->service_id;
+        $orange_ussd->host = $request->host;
+        $orange_ussd->save();
+        return $orange_ussd;
     }
 
 
