@@ -59,3 +59,13 @@ Route::post('notification/first-charge/{partnerRole}', 'TimeweController@userFir
 
 /********************end ******************* */
 Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link_per_each_service');
+
+
+
+/**************Start Orange************* */
+
+Route::post('subscription', 'OrangeController@subscription');
+
+Route::post('notify', 'OrangeController@notify');
+
+/************************************** */

@@ -6,6 +6,35 @@ use Illuminate\Http\Request;
 
 class OrangeController extends Controller
 {
+
+
+/*POST /smsgwws/ASP/ HTTP/1.1
+Content-Type: text/xml; charset=utf-8
+Host: 10.240.22.40:8310
+Content-Length: 671
+Expect: 100-continue
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope
+xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+<soap:Header>
+<RequestSOAPHeader
+xmlns="http://www.huawei.com.cn/schema/common/v2_1">
+<spId>000812</spId>
+<spPassword>90ee4516894a1f0dae7e7c2c13e4c423</spPassword>
+<timeStamp>20191128150121</timeStamp>
+</RequestSOAPHeader>
+</soap:Header>
+<soap:Body>
+<asp:AspActionRequest>
+<CC_Service_Number>2142</CC_Service_Number>
+<CC_Calling_Party_Id>201208138169</CC_Calling_Party_Id>
+<ON_Selfcare_Command>BILLINGSUBSCRIBE</ON_Selfcare_Command>
+<ON_Bearer_Type>SMS</ON_Bearer_Type>
+</asp:AspActionRequest>
+</soap:Body>
+</soap:Envelope>
+*/
     public function subscription()
     {
         $client = new \nusoap_client('http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl', 'wsdl');
@@ -16,37 +45,34 @@ class OrangeController extends Controller
         $spPassword = "90ee4516894a1f0dae7e7c2c13e4c423";
         $timeStamp = date('YmdHis');
 
+        $client->setHeaders('<spId>000812</spId>
+        <spPassword>90ee4516894a1f0dae7e7c2c13e4c423</spPassword>
+        <timeStamp>20191128150121</timeStamp>');
+
         $error = $client->getError();
 
-        $soapHeader = array(
-            "RequestSOAPHeader" => array(
-                array(
-                    "spId" => $spId,
-                    "spPassword" => $spPassword,
-                    "timeStamp" => $timeStamp
-                ),
-            ),
-        );
+        // $soapHeader = array(
+        //     "RequestSOAPHeader" => array(
+        //         array(
+        //             "spId" => $spId,
+        //             "spPassword" => $spPassword,
+        //             "timeStamp" => $timeStamp
+        //         ),
+        //     ),
+        // );
 
         $soapBody = array(
-            "asp:AspActionRequest" => array(
-                array(
                     "CC_Service_Number" => 2142,
                     "CC_Calling_Party_Id" => "201208138169",
                     "ON_Selfcare_Command" => "BILLINGSUBSCRIBE",
                     "ON_Bearer_Type" => "SMS"
-                ),
-            ),
         );
 
         if ($error) {
             echo "<h2>Constructor error</h2><pre>" . $error . "</pre>";
         }
 
-        $result = $client->call("GetSmsIN", array(
-            "soap:Header" => $soapHeader,
-            "soap:Body" => $soapBody,
-        ));
+        $result = $client->call("AspActionRequest", $soapBody);
 
         if ($client->fault) {
             echo "<h2>Fault</h2><pre>";
@@ -72,22 +98,10 @@ class OrangeController extends Controller
         echo '<h2>Response</h2><pre>' . htmlspecialchars($client->responseData, ENT_QUOTES) . '</pre>';
     }
 
-    public function notify()
+    public function notify(Request $request)
     {
-
-        $request_ex = '<?xml version="1.0" encoding="utf-8" ?>
-        <soapenv:Envelope
-        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <soapenv:Body>
-        <ns1:Notification
-        xmlns:ns1="http://tempuri.org/">
-        <ns1:Action>OPERATORSUBSCRIBE</ns1:Action>
-        <ns1:MSISDN>201272033505</ns1:MSISDN>
-        <ns1:ServiceID>1000003886</ns1:ServiceID>
-        </ns1:Notification>
-        </soapenv:Body>
-        </soapenv:Envelope>';
+        dd($request->all());
+        $request_ex = '';
 
         $doc = new \DOMDocument('1.0', 'utf-8');
 
