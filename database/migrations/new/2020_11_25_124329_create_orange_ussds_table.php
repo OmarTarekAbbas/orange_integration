@@ -19,7 +19,7 @@ class CreateOrangeUssdsTable extends Migration
             $table->text('response');
             $table->string('language',191);
             $table->string('msisdn',191);
-            $table->string('service_id',191);
+            $table->string('session_id',191);
             $table->string('host',191);
             $table->timestamps();
         });

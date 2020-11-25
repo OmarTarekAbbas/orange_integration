@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class OrangeUssd extends Model
 {
     protected $table = 'orange_ussds';
-    protected $fillable = ['req','response','language','msisdn','service_id','host'];
+    protected $fillable = ['req','response','language','msisdn','session_id','host'];
 }
