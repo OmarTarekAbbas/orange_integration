@@ -7,38 +7,281 @@ use App\OrangeSubscribe;
 use App\OrangeUssd;
 use App\OrangeWeb;
 use Illuminate\Http\Request;
+use App\Provision;
 
 class OrangeController extends Controller
 {
 
+    public function subscription_response_test(Request $request)
+    {
+        return '<?xml version="1.0" encoding="utf-8" ?>
+        <soapenv:Envelope
+        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <soapenv:Body>
+        <ns1:AspActionResult
+        xmlns:ns1="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+        <ON_Result_Code>0</ON_Result_Code>
+        <ON_Bearer_Type>SMS</ON_Bearer_Type>
+        </ns1:AspActionResult>
+        </soapenv:Body>
+        </soapenv:Envelope>';
+    }
 
-/*POST /smsgwws/ASP/ HTTP/1.1
-Content-Type: text/xml; charset=utf-8
-Host: 10.240.22.40:8310
-Content-Length: 671
-Expect: 100-continue
-<?xml version="1.0" encoding="UTF-8"?>
-<soap:Envelope
-xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
-xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+    public function provision_response_test(Request $request)
+    {
+        return '<?xml version="1.0" encoding="utf-8" ?>
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sen="http://eaidev.mobinil.com/MEAI_OnlineServices/webServices/ESchool/sendProvisionMsg_WSDL">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <sen:sendProvisionMsgResponse>
+         <resultCode>00000000</resultCode>
+         <resultDescription>Success</resultDescription>
+         <msg><![CDATA[<?xml version="1.0" encoding="UTF-8"?><userInfo>  <userType>1</userType>  <areaCode>23</areaCode>  <nickName>Terry</nickName>  <name>    <firstName>xx</firstName>    <middleName>yy</middleName>    <lastName>zz</lastName>  </name></userInfo>]]></msg>
+         <extensionInfo>
+            <item>
+               <key>k1</key>
+               <value>value0</value>
+            </item>
+            <item>
+               <key>k2</key>
+               <value>value1</value>
+            </item>
+         </extensionInfo>
+      </sen:sendProvisionMsgResponse>
+   </soapenv:Body>
+</soapenv:Envelope>';
+    }
+
+    public function provision_curl(Request $request)
+    {
+        $spId = spId;
+        $time_stamp = date('YmdHis');
+        $sp_password = MD5($spId.password.$time_stamp);
+
+        $partnerId = partnerId;
+        $transactionId = $partnerId.password.rand(10000 , 99999);
+
+        $service = service;
+        $msisdn = '201208138169';
+
+        $message = 'SMS';
+
+        $msg = "<![CDATA[<?xml version='1.0' encoding='UTF-8'?><userInfo> <userType>1</userType>  <areaCode>23</areaCode>  <nickName>Terry</nickName>  <name>    <firstName>xx</firstName>    <middleName>yy</middleName>    <lastName>zz</lastName>  </name></userInfo>]]>";
+
+        $soap_request =
+"<?xml version='1.0' encoding='UTF-8'?>
+<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:sen='http://eaidev.mobinil.com/MEAI_OnlineServices/webServices/ESchool/sendProvisionMsg_WSDL'>
+   <soapenv:Header>
+      <v2:RequestSOAPHeader>
+         <v2:spId>$spId</v2:spId>
+         <v2:spPassword>$time_stamp</v2:spPassword>
+         <v2:timeStamp>$sp_password</v2:timeStamp>
+      </v2:RequestSOAPHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <sen:sendProvisionMsg>
+         <transactionId>$transactionId</transactionId>
+         <sourceId>bob</sourceId>
+         <msisdn>$msisdn</msisdn>
+         <serviceId>$service</serviceId>
+         <operationType>$message</operationType>
+         <createdTime>$time_stamp</createdTime>
+         <msg>$msg</msg>
+         <callBackData>abc</callBackData>
+         <extensionInfo>
+            <item>
+               <key>k1</key>
+               <value>value0</value>
+            </item>
+            <item>
+               <key>k2</key>
+               <value>value1</value>
+            </item>
+         </extensionInfo>
+      </sen:sendProvisionMsg>
+   </soapenv:Body>
+</soapenv:Envelope>";
+
+        $header = array(
+            "Content-type: text/xml;charset=\"utf-8\"",
+            "Accept: text/xml",
+            "Cache-Control: no-cache",
+            "Pragma: no-cache",
+            "SOAPAction: 'sendProvisionMsg'",
+            "Content-length: " . strlen($soap_request),
+        );
+
+        $URL = url('api/provision_test');
+
+        $soap_do = curl_init();
+        curl_setopt($soap_do, CURLOPT_URL, $URL);
+        curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($soap_do, CURLOPT_POST, true);
+        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
+        curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+
+        $output = curl_exec($soap_do);
+
+        curl_close($soap_do);
+
+        $request_array = array(
+            'result_code' => ['start' => '<resultCode>', 'end' => '</resultCode>'],
+        );
+
+        $string = $output;
+
+        foreach ($request_array as $key => $value) {
+            $start = $value['start'];
+            $end = $value['end'];
+
+            $startpos = strpos($string, $start) + strlen($start);
+            if (strpos($string, $start) !== false) {
+                $endpos = strpos($string, $end, $startpos);
+                if (strpos($string, $end, $startpos) !== false) {
+                    $post_array[$key] = substr($string, $startpos, $endpos - $startpos);
+                } else {
+                    $post_array[$key] = "";
+                }
+            }
+        }
+
+        $orange_provisions = new Request;
+        $orange_provisions->req = $soap_request;
+        $orange_provisions->response = $output;
+        $orange_provisions->spId = $spId;
+        $orange_provisions->spPassword = $sp_password;
+        $orange_provisions->timeStamp = $time_stamp;
+        $orange_provisions->transactionId = $transactionId;
+        $orange_provisions->msisdn = $msisdn;
+        $orange_provisions->serviceId = $service;
+        $orange_provisions->operationType = $message;
+        $orange_provisions->createdTime = $time_stamp;
+        $orange_provisions->msg = $msg;
+        $orange_provisions->resultCode = $post_array['result_code'];
+
+        $Provision = $this->orange_provisions_store($orange_provisions);
+
+        return $post_array['result_code'];
+
+    }
+
+    public function subscription_curl(Request $request)
+    {
+        $spId = spId;
+        $time_stamp = date('YmdHis');
+        $sp_password = MD5($spId.password.$time_stamp);
+
+        $service = service;
+        $msisdn = '201208138169';
+        // $command = 'Subscribe';
+        $command = 'Unsubscribe';
+        $bearer = 'SMS';
+
+        $soap_request =
+"<?xml version='1.0' encoding='UTF-8'?>
+<soap:Envelope xmlns:soap='http://www.w3.org/2003/05/soap-envelope' xmlns:asp='http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl'>
 <soap:Header>
-<RequestSOAPHeader
-xmlns="http://www.huawei.com.cn/schema/common/v2_1">
-<spId>000812</spId>
-<spPassword>90ee4516894a1f0dae7e7c2c13e4c423</spPassword>
-<timeStamp>20191128150121</timeStamp>
+<RequestSOAPHeader xmlns='http://www.huawei.com.cn/schema/common/v2_1'>
+<spId>$spId</spId>
+<spPassword>$sp_password</spPassword>
+<timeStamp>$time_stamp</timeStamp>
 </RequestSOAPHeader>
 </soap:Header>
 <soap:Body>
 <asp:AspActionRequest>
-<CC_Service_Number>2142</CC_Service_Number>
-<CC_Calling_Party_Id>201208138169</CC_Calling_Party_Id>
-<ON_Selfcare_Command>BILLINGSUBSCRIBE</ON_Selfcare_Command>
-<ON_Bearer_Type>SMS</ON_Bearer_Type>
+<CC_Service_Number>$service</CC_Service_Number>
+<CC_Calling_Party_Id>$msisdn</CC_Calling_Party_Id>
+<ON_Selfcare_Command>$command</ON_Selfcare_Command>
+<ON_Bearer_Type>$bearer</ON_Bearer_Type>
 </asp:AspActionRequest>
 </soap:Body>
-</soap:Envelope>
-*/
+</soap:Envelope>";
+
+        $header = array(
+            "Content-type: text/xml;charset=\"utf-8\"",
+            "Accept: text/xml",
+            "Cache-Control: no-cache",
+            "Pragma: no-cache",
+            "SOAPAction: 'AspActionRequest'",
+            "Content-length: " . strlen($soap_request),
+        );
+
+        $URL = url('api/subscription_test');
+
+        $soap_do = curl_init();
+        curl_setopt($soap_do, CURLOPT_URL, $URL);
+        curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($soap_do, CURLOPT_POST, true);
+        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
+        curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+
+        $output = curl_exec($soap_do);
+
+        curl_close($soap_do);
+
+        $request_array = array(
+            'result_code' => ['start' => '<ON_Result_Code>', 'end' => '</ON_Result_Code>'],
+            'bearer_type' => ['start' => '<ON_Bearer_Type>', 'end' => '</ON_Bearer_Type>']
+        );
+
+        $string = $output;
+
+        foreach ($request_array as $key => $value) {
+            $start = $value['start'];
+            $end = $value['end'];
+
+            $startpos = strpos($string, $start) + strlen($start);
+            if (strpos($string, $start) !== false) {
+                $endpos = strpos($string, $end, $startpos);
+                if (strpos($string, $end, $startpos) !== false) {
+                    $post_array[$key] = substr($string, $startpos, $endpos - $startpos);
+                } else {
+                    $post_array[$key] = "";
+                }
+            }
+        }
+
+        $orange_web = new request;
+        $orange_web->req = $soap_request;
+        $orange_web->response = $output;
+        $orange_web->spId = $spId;
+        $orange_web->sp_password = $sp_password;
+        $orange_web->time_stamp = $time_stamp;
+        $orange_web->service_number = $service;
+        $orange_web->calling_party_id = $msisdn;
+        $orange_web->selfcare_command = $command;
+        $orange_web->on_bearer_type = $bearer;
+        $orange_web->on_result_code = $post_array['result_code'];
+
+        $OrangeWeb = $this->orange_web_store($orange_web);
+
+        if($post_array['result_code'] == 0){
+            $orange_subscribe = new Request();
+            $orange_subscribe->msisdn = $msisdn;
+            $orange_subscribe->orange_notify_id = $OrangeWeb->id;
+            $orange_subscribe->table_name = 'orange_webs';
+            if($command = 'Subscribe'){
+                $orange_subscribe->active = 1;
+            }elseif('Unsubscribe'){
+                $orange_subscribe->active = 0;
+            }
+
+            $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+        }
+
+        return $post_array['result_code'];
+
+    }
+
     public function subscription()
     {
         $client = new \nusoap_client('http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl', 'wsdl');
@@ -56,10 +299,10 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         $error = $client->getError();
 
         $soapBody = array(
-                    "CC_Service_Number" => 2142,
-                    "CC_Calling_Party_Id" => "201208138169",
-                    "ON_Selfcare_Command" => "BILLINGSUBSCRIBE",
-                    "ON_Bearer_Type" => "SMS"
+            "CC_Service_Number" => 2142,
+            "CC_Calling_Party_Id" => "201208138169",
+            "ON_Selfcare_Command" => "BILLINGSUBSCRIBE",
+            "ON_Bearer_Type" => "SMS",
         );
 
         if ($error) {
@@ -100,11 +343,11 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
             $request_array[$headers] = $value;
         }
 
-        $request_array['User-MSISDN'] = ltrim( $request_array['User-MSISDN'], 'tel:+');
+        $request_array['User-MSISDN'] = ltrim($request_array['User-MSISDN'], 'tel:+');
 
         $response_msg = 'سوف يتم الاشتراك قريبا';
 
-        $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>'.$response_msg.'</body></html>';
+        $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
 
         $orange_ussd = new Request();
         $orange_ussd->req = json_encode($header);
@@ -135,7 +378,7 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         $request_array = array(
             'action' => ['start' => '<ns1:Action>', 'end' => '</ns1:Action>'],
             'msisdn' => ['start' => '<ns1:MSISDN>', 'end' => '</ns1:MSISDN>'],
-            'service_id' => ['start' => '<ns1:ServiceID>', 'end' => '</ns1:ServiceID>']
+            'service_id' => ['start' => '<ns1:ServiceID>', 'end' => '</ns1:ServiceID>'],
         );
 
         $string = $request_xml;
@@ -183,9 +426,9 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         $orange_subscribe->orange_notify_id = $OrangeNotify->id;
         $orange_subscribe->table_name = 'orange_notifies';
 
-        if($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE"){
+        if ($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE") {
             $orange_subscribe->active = 1;
-        }elseif($post_array['action'] == "OPERATORUNSUBSCRIBE" || $post_array['action'] == "GRACE2" || $post_array['action'] == "TERMINATE"){
+        } elseif ($post_array['action'] == "OPERATORUNSUBSCRIBE" || $post_array['action'] == "GRACE2" || $post_array['action'] == "TERMINATE") {
             $orange_subscribe->active = 0;
         }
 
@@ -195,10 +438,9 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
 
     }
 
-
     public function orange_notify_store(Request $request)
     {
-        $orange_notify = New OrangeNotify;
+        $orange_notify = new OrangeNotify;
         $orange_notify->req = $request->req;
         $orange_notify->response = $request->response;
         $orange_notify->action = $request->action;
@@ -211,7 +453,7 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
 
     public function orange_web_store(Request $request)
     {
-        $orange_web = New OrangeWeb;
+        $orange_web = new OrangeWeb;
         $orange_web->req = $request->req;
         $orange_web->response = $request->response;
         $orange_web->spId = $request->spId;
@@ -228,18 +470,26 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
 
     public function orange_subscribe_store(Request $request)
     {
-        $orange_subscribe = New OrangeSubscribe;
-        $orange_subscribe->msisdn = $request->msisdn;
-        $orange_subscribe->active = $request->active;
-        $orange_subscribe->orange_notify_id = $request->orange_notify_id;
-        $orange_subscribe->table_name = $request->table_name;
-        $orange_subscribe->save();
+        $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->first();
+        if ($orange_subscribe) {
+            $orange_subscribe->active = $request->active;
+            $orange_subscribe->orange_notify_id = $request->orange_notify_id;
+            $orange_subscribe->table_name = $request->table_name;
+            $orange_subscribe->save();
+        } else {
+            $orange_subscribe = new OrangeSubscribe;
+            $orange_subscribe->msisdn = $request->msisdn;
+            $orange_subscribe->active = $request->active;
+            $orange_subscribe->orange_notify_id = $request->orange_notify_id;
+            $orange_subscribe->table_name = $request->table_name;
+            $orange_subscribe->save();
+        }
         return $orange_subscribe;
     }
 
     public function orange_ussd_store(Request $request)
     {
-        $orange_ussd = New OrangeUssd;
+        $orange_ussd = new OrangeUssd;
         $orange_ussd->req = $request->req;
         $orange_ussd->response = $request->response;
         $orange_ussd->language = $request->language;
@@ -250,9 +500,23 @@ xmlns="http://www.huawei.com.cn/schema/common/v2_1">
         return $orange_ussd;
     }
 
-
-
-
-
+    public function orange_provisions_store(Request $request)
+    {
+        $orange_provisions = new Provision;
+        $orange_provisions->req = $request->req;
+        $orange_provisions->response = $request->response;
+        $orange_provisions->spId = $request->spId;
+        $orange_provisions->spPassword = $request->spPassword;
+        $orange_provisions->timeStamp = $request->timeStamp;
+        $orange_provisions->transactionId = $request->transactionId;
+        $orange_provisions->msisdn = $request->msisdn;
+        $orange_provisions->serviceId = $request->serviceId;
+        $orange_provisions->operationType = $request->operationType;
+        $orange_provisions->createdTime = $request->createdTime;
+        $orange_provisions->msg = $request->msg;
+        $orange_provisions->resultCode = $request->resultCode;
+        $orange_provisions->save();
+        return $orange_provisions;
+    }
 
 }

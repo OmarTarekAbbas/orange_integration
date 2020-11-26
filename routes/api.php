@@ -64,7 +64,18 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 
 /**************Start Orange************* */
 
+define('spId', '000812');
+define('password', 'ivas');
+define('service', '2142');
+define('partnerId', '2142');
+
 Route::post('subscription', 'OrangeController@subscription');
+
+Route::post('subscription_curl', 'OrangeController@subscription_curl');
+Route::post('subscription_test', 'OrangeController@subscription_response_test');
+
+Route::post('provision_curl', 'OrangeController@provision_curl');
+Route::post('provision_test', 'OrangeController@provision_response_test');
 
 Route::post('notify', 'OrangeController@notify');
 

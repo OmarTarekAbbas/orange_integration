@@ -107,6 +107,64 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "subscribe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [],
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/orange_integration/api/subscription_curl",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"orange_integration",
+						"api",
+						"subscription_curl"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "provision",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [],
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/orange_integration/api/provision_curl",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"orange_integration",
+						"api",
+						"provision_curl"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
