@@ -60,9 +60,17 @@ Route::get('admin/services/{id}/show','AdminServicesController@show');
 Route::resource('admin/country','AdminCountryController');
 Route::resource('admin/operator','AdminOperatorController');
 
-// orange Routes...
-Route::get('admin/orange_notifie','AdminOrangeController@index');
-Route::get('admin/orange_notifie/request_and_response/{id}','AdminOrangeController@request_and_response');
+// Start orange Routes...
+Route::get('admin/orange_notifie','AdminOrangeController@orange_notifie');
+Route::get('admin/orange_ussds','AdminOrangeController@orange_ussds');
+Route::get('admin/orange_webs','AdminOrangeController@orange_webs');
+Route::get('admin/orange_subscribes','AdminOrangeController@orange_subscribes');
+Route::get('admin/orange_provisions','AdminOrangeController@orange_provisions');
+Route::get('admin/orange_notifie/request_and_response/{id}','AdminOrangeController@orange_notifie_request_and_response');
+Route::get('admin/orange_ussds/request_and_response/{id}','AdminOrangeController@orange_ussds_request_and_response');
+Route::get('admin/orange_webs/request_and_response/{id}','AdminOrangeController@orange_webs_request_and_response');
+Route::get('admin/orange_provisions/request_and_response/{id}','AdminOrangeController@orange_provisions_request_and_response');
+// End orange Routes...
 
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

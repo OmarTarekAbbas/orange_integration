@@ -1,7 +1,7 @@
 @include('backend.header')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">All Orange Charges Notifier</h1>
+        <h1 class="page-header">All Orange Ussds</h1>
     </div>
 </div>
 <!--/.row-->
@@ -19,7 +19,7 @@
 
     <br>
     <div class="form-group">
-        {!! Form::open(['url' => url('admin/orange_notifie'),'method'=>'get']) !!}
+        {!! Form::open(['url' => url('admin/orange_ussds'),'method'=>'get']) !!}
 
         <div class="col-md-2">
             {!! Form::label('ms', 'Msisdn:') !!}
@@ -33,10 +33,10 @@
         </div>
 
         <div class="col-md-2">
-            {!! Form::label('action', 'Action:') !!}
+            {!! Form::label('language', 'Language:') !!}
             <div class='input-group date'>
-                <input type='text' id="action" class="form-control" value="{{request()->get('action')}}"
-                    name="action" />
+                <input type='text' id="language" class="form-control" value="{{request()->get('language')}}"
+                    name="language"/>
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -45,10 +45,10 @@
         </div>
 
         <div class="col-md-2">
-            {!! Form::label('se', 'Service Id:') !!}
+            {!! Form::label('se', 'Session Id:') !!}
             <div class='input-group date'>
-                <input type='text' id="se" class="form-control" value="{{request()->get('service_id')}}"
-                    name="service_id" />
+                <input type='text' id="se" class="form-control" value="{{request()->get('session_id')}}"
+                    name="session_id" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -59,13 +59,17 @@
 
 
         <div class="col-md-2">
-            {!! Form::label('notification_result', 'Notification Result:') !!}
-            <div class=''>
-                {!! Form::select('notification_result', ['200'=>'Success' , '0' => 'Failed'] ,
-                request()->get('notification_result'),
-                ['class'=>'form-control','id'=>'notification_result','placeholder'=>'Select Notification Result']) !!}
+            {!! Form::label('host', 'Host:') !!}
+            <div class='input-group date'>
+                <input type='text' id="host" class="form-control" value="{{request()->get('host')}}"
+                    name="host"/>
+                <span class="input-group-btn">
+                    <button type="button" id="search-btn" class="btn"><i
+                            class="glyphicon glyphicon-search"></i></button>
+                </span>
             </div>
         </div>
+
 
         <div class="col-md-2">
             {!! Form::label('from_date', 'Select Form Date :') !!}
@@ -98,7 +102,7 @@
         <div class="col-md-1">
             {!! Form::label('date', 'Count :') !!}
             <div class='input-group date'>
-                <span dir="rtl" class="btn btn-success">{{ count($orange_notify) }} </span>
+                <span dir="rtl" class="btn btn-success">{{ count($orange_ussds) }} </span>
             </div>
         </div>
 
@@ -113,7 +117,7 @@
                     {{ Session::get('success') }}
                 </div>
                 @endif
-                <h3>Orange Charges Notifier</h3>
+                <h3>Orange Ussds</h3>
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-striped mt-table">
@@ -121,27 +125,27 @@
                         <tr>
                             <th>ID</th>
                             <th>Msisdn</th>
-                            <th>Action</th>
-                            <th>ServiceId</th>
-                            <th>Notification Result</th>
+                            <th>Language</th>
+                            <th>Session Id</th>
+                            <th>Host</th>
                             <th>Date Time</th>
                             <th>Result</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if($orange_notify->count() > 0)
-                        @foreach($orange_notify as $item)
+                        @if($orange_ussds->count() > 0)
+                        @foreach($orange_ussds as $item)
                         <tr>
                             <td> {{ $item->id }}</td>
                             <td> {{ $item->msisdn }}</td>
-                            <td> {{ $item->action }}</td>
-                            <td> {{ $item->service_id }} </td>
-                            <td> {{ $item->notification_result }} </td>
+                            <td> {{ $item->language }}</td>
+                            <td> {{ $item->session_id }} </td>
+                            <td> {{ $item->host }} </td>
                             <td> {{ $item->created_at->format('Y-m-d') }} </td>
                             <td>
-                            <a href="{{url('admin/orange_notifie/request_and_response/'.$item->id)}}" target="_blank">
+                            <a href="{{url('admin/orange_ussds/request_and_response/'.$item->id)}}" target="_blank">
                                     <button class="btn btn-warning borderRadius">Request&Response</button>
-                            </a>
+                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -153,7 +157,7 @@
         </div>
 
         @if(!$without_paginate)
-        {!! $orange_notify->setPath('orange_notify') !!}
+        {!! $orange_ussds->setPath('orange_ussds') !!}
         @endif
 
 

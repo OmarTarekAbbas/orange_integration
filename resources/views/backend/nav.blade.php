@@ -83,14 +83,27 @@
         <ul class="children collapse" id="sub-item-5">
             <li id="orange_notifie">
                 <a class="" href="{{url('admin/orange_notifie')}}">
-                    <span class="glyphicon glyphicon-list-alt"></span> Orange Notifier
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Charges Notifier
                 </a>
             </li>
-        </ul>
-        <ul class="children collapse" id="sub-item-5">
-            <li id="orange_notifie">
-                <a class="" href="{{url('admin/orange_notifie')}}">
-                    <span class="glyphicon glyphicon-list-alt"></span> Orange Notifier
+            <li id="orange_ussd">
+                <a class="" href="{{url('admin/orange_ussds')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Ussds
+                </a>
+            </li>
+            <li id="orange_webs">
+                <a class="" href="{{url('admin/orange_webs')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Webs
+                </a>
+            </li>
+            <li id="orange_subscribes">
+                <a class="" href="{{url('admin/orange_subscribes')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Subscribes
+                </a>
+            </li>
+            <li id="orange_subscribes">
+                <a class="" href="{{url('admin/orange_provisions')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Provisions
                 </a>
             </li>
         </ul>

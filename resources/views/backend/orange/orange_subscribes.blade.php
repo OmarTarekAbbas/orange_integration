@@ -1,7 +1,7 @@
 @include('backend.header')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">All Orange Charges Notifier</h1>
+        <h1 class="page-header">All Orange Subscribes</h1>
     </div>
 </div>
 <!--/.row-->
@@ -19,7 +19,7 @@
 
     <br>
     <div class="form-group">
-        {!! Form::open(['url' => url('admin/orange_notifie'),'method'=>'get']) !!}
+        {!! Form::open(['url' => url('admin/orange_subscribes'),'method'=>'get']) !!}
 
         <div class="col-md-2">
             {!! Form::label('ms', 'Msisdn:') !!}
@@ -33,37 +33,33 @@
         </div>
 
         <div class="col-md-2">
-            {!! Form::label('action', 'Action:') !!}
-            <div class='input-group date'>
-                <input type='text' id="action" class="form-control" value="{{request()->get('action')}}"
-                    name="action" />
-                <span class="input-group-btn">
-                    <button type="button" id="search-btn" class="btn"><i
-                            class="glyphicon glyphicon-search"></i></button>
-                </span>
-            </div>
-        </div>
-
-        <div class="col-md-2">
-            {!! Form::label('se', 'Service Id:') !!}
-            <div class='input-group date'>
-                <input type='text' id="se" class="form-control" value="{{request()->get('service_id')}}"
-                    name="service_id" />
-                <span class="input-group-btn">
-                    <button type="button" id="search-btn" class="btn"><i
-                            class="glyphicon glyphicon-search"></i></button>
-                </span>
-            </div>
-        </div>
-
-
-
-        <div class="col-md-2">
-            {!! Form::label('notification_result', 'Notification Result:') !!}
+            {!! Form::label('active', 'Active:') !!}
             <div class=''>
-                {!! Form::select('notification_result', ['200'=>'Success' , '0' => 'Failed'] ,
-                request()->get('notification_result'),
-                ['class'=>'form-control','id'=>'notification_result','placeholder'=>'Select Notification Result']) !!}
+                {!! Form::select('active', ['1'=>'Active' , '0' => 'Notactive'] ,
+                request()->get('active'),
+                ['class'=>'form-control','id'=>'active','placeholder'=>'Select Active']) !!}
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            {!! Form::label('orange_notify_id', 'Orange Notify Id:') !!}
+            <div class='input-group date'>
+                <input type='text' id="orange_notify_id" class="form-control"
+                    value="{{request()->get('orange_notify_id')}}" name="orange_notify_id" />
+                <span class="input-group-btn">
+                    <button type="button" id="search-btn" class="btn"><i
+                            class="glyphicon glyphicon-search"></i></button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            {!! Form::label('table_name', 'Table Name:') !!}
+            <div class=''>
+                {!! Form::select('table_name', ['orange_notifies'=>'orange_notifies' , 'orange_ussds' => 'orange_ussds']
+                ,
+                request()->get('table_name'),
+                ['class'=>'form-control','id'=>'table_name','placeholder'=>'Select Table Name']) !!}
             </div>
         </div>
 
@@ -98,7 +94,7 @@
         <div class="col-md-1">
             {!! Form::label('date', 'Count :') !!}
             <div class='input-group date'>
-                <span dir="rtl" class="btn btn-success">{{ count($orange_notify) }} </span>
+                <span dir="rtl" class="btn btn-success">{{ count($orange_subscribes) }} </span>
             </div>
         </div>
 
@@ -113,7 +109,7 @@
                     {{ Session::get('success') }}
                 </div>
                 @endif
-                <h3>Orange Charges Notifier</h3>
+                <h3>Orange Subscribes</h3>
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-striped mt-table">
@@ -121,28 +117,29 @@
                         <tr>
                             <th>ID</th>
                             <th>Msisdn</th>
-                            <th>Action</th>
-                            <th>ServiceId</th>
-                            <th>Notification Result</th>
+                            <th>Active</th>
+                            <th>Orange Notify Id</th>
+                            <th>Table Name</th>
                             <th>Date Time</th>
-                            <th>Result</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if($orange_notify->count() > 0)
-                        @foreach($orange_notify as $item)
+                        @if($orange_subscribes->count() > 0)
+                        @foreach($orange_subscribes as $item)
                         <tr>
                             <td> {{ $item->id }}</td>
                             <td> {{ $item->msisdn }}</td>
-                            <td> {{ $item->action }}</td>
-                            <td> {{ $item->service_id }} </td>
-                            <td> {{ $item->notification_result }} </td>
-                            <td> {{ $item->created_at->format('Y-m-d') }} </td>
                             <td>
-                            <a href="{{url('admin/orange_notifie/request_and_response/'.$item->id)}}" target="_blank">
-                                    <button class="btn btn-warning borderRadius">Request&Response</button>
-                            </a>
+                                @if($item->active == 1)
+                                Active
+                                @else
+                                Notactive
+                                @endif
                             </td>
+                            <td> {{ $item->orange_notify_id }}</td>
+                            <td> {{ $item->table_name }}</td>
+                            <td> {{ $item->created_at->format('Y-m-d') }} </td>
+                            
                         </tr>
                         @endforeach
                         @endif
@@ -153,7 +150,7 @@
         </div>
 
         @if(!$without_paginate)
-        {!! $orange_notify->setPath('orange_notify') !!}
+        {!! $orange_subscribes->setPath('orange_subscribes') !!}
         @endif
 
 

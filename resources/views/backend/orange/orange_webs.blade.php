@@ -1,7 +1,7 @@
 @include('backend.header')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">All Orange Charges Notifier</h1>
+        <h1 class="page-header">All Orange Webs</h1>
     </div>
 </div>
 <!--/.row-->
@@ -19,12 +19,13 @@
 
     <br>
     <div class="form-group">
-        {!! Form::open(['url' => url('admin/orange_notifie'),'method'=>'get']) !!}
+        {!! Form::open(['url' => url('admin/orange_webs'),'method'=>'get']) !!}
+
 
         <div class="col-md-2">
-            {!! Form::label('ms', 'Msisdn:') !!}
+            {!! Form::label('se', 'SpId:') !!}
             <div class='input-group date'>
-                <input type='text' id="ms" class="form-control" value="{{request()->get('msisdn')}}" name="msisdn" />
+                <input type='text' id="se" class="form-control" value="{{request()->get('spId')}}" name="spId" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -33,10 +34,10 @@
         </div>
 
         <div class="col-md-2">
-            {!! Form::label('action', 'Action:') !!}
+            {!! Form::label('time_stamp', 'Time Stamp:') !!}
             <div class='input-group date'>
-                <input type='text' id="action" class="form-control" value="{{request()->get('action')}}"
-                    name="action" />
+                <input type='text' id="time_stamp" class="form-control" value="{{request()->get('time_stamp')}}"
+                    name="time_stamp" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -45,10 +46,38 @@
         </div>
 
         <div class="col-md-2">
-            {!! Form::label('se', 'Service Id:') !!}
+            {!! Form::label('service_number', 'Service Number:') !!}
             <div class='input-group date'>
-                <input type='text' id="se" class="form-control" value="{{request()->get('service_id')}}"
-                    name="service_id" />
+                <input type='text' id="service_number" class="form-control" value="{{request()->get('service_number')}}"
+                    name="service_number" />
+                <span class="input-group-btn">
+                    <button type="button" id="search-btn" class="btn"><i
+                            class="glyphicon glyphicon-search"></i></button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            {!! Form::label('ms', 'Calling Party:') !!}
+            <div class='input-group date'>
+                <input type='text' id="ms" class="form-control" value="{{request()->get('calling_party_id')}}"
+                    name="calling_party_id" />
+                <span class="input-group-btn">
+                    <button type="button" id="search-btn" class="btn"><i
+                            class="glyphicon glyphicon-search"></i></button>
+                </span>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="col-md-2">
+            {!! Form::label('selfcare_command', 'Selfcare Command:') !!}
+            <div class='input-group date'>
+                <input type='text' id="selfcare_command" class="form-control"
+                    value="{{request()->get('selfcare_command')}}" name="selfcare_command" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -59,13 +88,17 @@
 
 
         <div class="col-md-2">
-            {!! Form::label('notification_result', 'Notification Result:') !!}
-            <div class=''>
-                {!! Form::select('notification_result', ['200'=>'Success' , '0' => 'Failed'] ,
-                request()->get('notification_result'),
-                ['class'=>'form-control','id'=>'notification_result','placeholder'=>'Select Notification Result']) !!}
+            {!! Form::label('on_bearer_type', ' Bearer Type:') !!}
+            <div class='input-group date'>
+                <input type='text' id="on_bearer_type" class="form-control" value="{{request()->get('on_bearer_type')}}"
+                    name="on_bearer_type" />
+                <span class="input-group-btn">
+                    <button type="button" id="search-btn" class="btn"><i
+                            class="glyphicon glyphicon-search"></i></button>
+                </span>
             </div>
         </div>
+
 
         <div class="col-md-2">
             {!! Form::label('from_date', 'Select Form Date :') !!}
@@ -98,7 +131,7 @@
         <div class="col-md-1">
             {!! Form::label('date', 'Count :') !!}
             <div class='input-group date'>
-                <span dir="rtl" class="btn btn-success">{{ count($orange_notify) }} </span>
+                <span dir="rtl" class="btn btn-success">{{ count($orange_webs) }} </span>
             </div>
         </div>
 
@@ -113,35 +146,39 @@
                     {{ Session::get('success') }}
                 </div>
                 @endif
-                <h3>Orange Charges Notifier</h3>
+                <h3>Orange Ussds</h3>
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-striped mt-table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Msisdn</th>
-                            <th>Action</th>
-                            <th>ServiceId</th>
-                            <th>Notification Result</th>
+                            <th>SpId</th>
+                            <th>Time Stamp</th>
+                            <th>Service Number</th>
+                            <th>Calling Party</th>
+                            <th>Selfcare Command</th>
+                            <th>Bearer Type</th>
                             <th>Date Time</th>
                             <th>Result</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if($orange_notify->count() > 0)
-                        @foreach($orange_notify as $item)
+                        @if($orange_webs->count() > 0)
+                        @foreach($orange_webs as $item)
                         <tr>
                             <td> {{ $item->id }}</td>
-                            <td> {{ $item->msisdn }}</td>
-                            <td> {{ $item->action }}</td>
-                            <td> {{ $item->service_id }} </td>
-                            <td> {{ $item->notification_result }} </td>
+                            <td> {{ $item->spId }}</td>
+                            <td> {{ $item->time_stamp }}</td>
+                            <td> {{ $item->service_number }}</td>
+                            <td> {{ $item->calling_party_id }} </td>
+                            <td> {{ $item->selfcare_command }} </td>
+                            <td> {{ $item->on_bearer_type }} </td>
                             <td> {{ $item->created_at->format('Y-m-d') }} </td>
                             <td>
-                            <a href="{{url('admin/orange_notifie/request_and_response/'.$item->id)}}" target="_blank">
+                                <a href="{{url('admin/orange_webs/request_and_response/'.$item->id)}}" target="_blank">
                                     <button class="btn btn-warning borderRadius">Request&Response</button>
-                            </a>
+                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -153,7 +190,7 @@
         </div>
 
         @if(!$without_paginate)
-        {!! $orange_notify->setPath('orange_notify') !!}
+        {!! $orange_webs->setPath('orange_webs') !!}
         @endif
 
 
