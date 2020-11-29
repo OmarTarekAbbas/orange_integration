@@ -35,7 +35,7 @@
         <div class="col-md-2">
             {!! Form::label('active', 'Active:') !!}
             <div class=''>
-                {!! Form::select('active', ['1'=>'Active' , '0' => 'Notactive'] ,
+                {!! Form::select('active', ['1'=>'Active' , '0' => 'Not active'] ,
                 request()->get('active'),
                 ['class'=>'form-control','id'=>'active','placeholder'=>'Select Active']) !!}
             </div>
@@ -56,7 +56,7 @@
         <div class="col-md-2">
             {!! Form::label('table_name', 'Table Name:') !!}
             <div class=''>
-                {!! Form::select('table_name', ['orange_notifies'=>'orange_notifies' , 'orange_ussds' => 'orange_ussds']
+                {!! Form::select('table_name', ['orange_notifies'=>'orange_notifies' , 'orange_ussds' => 'orange_ussds' , 'orange_webs' => 'orange_webs']
                 ,
                 request()->get('table_name'),
                 ['class'=>'form-control','id'=>'table_name','placeholder'=>'Select Table Name']) !!}
@@ -133,13 +133,13 @@
                                 @if($item->active == 1)
                                 Active
                                 @else
-                                Notactive
+                                Not active
                                 @endif
                             </td>
                             <td> {{ $item->orange_notify_id }}</td>
                             <td> {{ $item->table_name }}</td>
                             <td> {{ $item->created_at->format('Y-m-d') }} </td>
-                            
+
                         </tr>
                         @endforeach
                         @endif

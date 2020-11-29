@@ -35,7 +35,8 @@
         <div class="col-md-2">
             {!! Form::label('timeStamp', 'timeStamp:') !!}
             <div class='input-group date'>
-                <input type='text' id="timeStamp" class="form-control" value="{{request()->get('timeStamp')}}" name="timeStamp" />
+                <input type='text' id="timeStamp" class="form-control" value="{{request()->get('timeStamp')}}"
+                    name="timeStamp" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -46,7 +47,8 @@
         <div class="col-md-2">
             {!! Form::label('transactionId', 'transactionId:') !!}
             <div class='input-group date'>
-                <input type='text' id="transactionId" class="form-control" value="{{request()->get('transactionId')}}" name="transactionId" />
+                <input type='text' id="transactionId" class="form-control" value="{{request()->get('transactionId')}}"
+                    name="transactionId" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -57,7 +59,8 @@
         <div class="col-md-2">
             {!! Form::label('msisdn', 'msisdn:') !!}
             <div class='input-group date'>
-                <input type='text' id="msisdn" class="form-control" value="{{request()->get('msisdn')}}" name="msisdn" />
+                <input type='text' id="msisdn" class="form-control" value="{{request()->get('msisdn')}}"
+                    name="msisdn" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -67,7 +70,8 @@
         <div class="col-md-2">
             {!! Form::label('serviceId', 'serviceId:') !!}
             <div class='input-group date'>
-                <input type='text' id="serviceId" class="form-control" value="{{request()->get('serviceId')}}" name="serviceId" />
+                <input type='text' id="serviceId" class="form-control" value="{{request()->get('serviceId')}}"
+                    name="serviceId" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -78,7 +82,8 @@
         <div class="col-md-2">
             {!! Form::label('operationType', 'operationType:') !!}
             <div class='input-group date'>
-                <input type='text' id="operationType" class="form-control" value="{{request()->get('operationType')}}" name="operationType" />
+                <input type='text' id="operationType" class="form-control" value="{{request()->get('operationType')}}"
+                    name="operationType" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -89,7 +94,8 @@
         <div class="col-md-2">
             {!! Form::label('createdTime', 'createdTime:') !!}
             <div class='input-group date'>
-                <input type='text' id="createdTime" class="form-control" value="{{request()->get('createdTime')}}" name="createdTime" />
+                <input type='text' id="createdTime" class="form-control" value="{{request()->get('createdTime')}}"
+                    name="createdTime" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -100,7 +106,8 @@
         <div class="col-md-2">
             {!! Form::label('resultCode', 'resultCode:') !!}
             <div class='input-group date'>
-                <input type='text' id="resultCode" class="form-control" value="{{request()->get('resultCode')}}" name="resultCode" />
+                <input type='text' id="resultCode" class="form-control" value="{{request()->get('resultCode')}}"
+                    name="resultCode" />
                 <span class="input-group-btn">
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
@@ -187,10 +194,17 @@
                             <td> {{ $item->operationType }} </td>
                             <td> {{ $item->createdTime }} </td>
                             <td> {{ $item->msg }} </td>
-                            <td> {{ $item->resultCode }} </td>
+                            <td>
+                                @if($item->resultCode == 00000000)
+                                Success
+                                @else
+                                Failed
+                                @endif
+                            </td>
                             <td> {{ $item->created_at->format('Y-m-d') }} </td>
                             <td>
-                                <a href="{{url('admin/orange_provisions/request_and_response/'.$item->id)}}" target="_blank">
+                                <a href="{{url('admin/orange_provisions/request_and_response/'.$item->id)}}"
+                                    target="_blank">
                                     <button class="btn btn-warning borderRadius">Request&Response</button>
                                 </a>
                             </td>

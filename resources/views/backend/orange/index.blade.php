@@ -1,7 +1,7 @@
 @include('backend.header')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">All Orange Charges Notifier</h1>
+        <h1 class="page-header">All Charges Notifier</h1>
     </div>
 </div>
 <!--/.row-->
@@ -113,7 +113,7 @@
                     {{ Session::get('success') }}
                 </div>
                 @endif
-                <h3>Orange Charges Notifier</h3>
+                <h3> Charges Notifier</h3>
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-striped mt-table">
