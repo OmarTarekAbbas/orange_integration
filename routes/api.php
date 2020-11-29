@@ -68,7 +68,7 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 define('spId', '000812');
 define('password', 'ivas');
 define('service', '2142');
-define('partnerId', '2142');
+define('partnerId', '35000001');
 
 Route::post('subscription', 'OrangeController@subscription');
 
