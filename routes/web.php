@@ -62,6 +62,8 @@ Route::resource('admin/operator','AdminOperatorController');
 
 // orange Routes...
 Route::get('admin/orange_notifie','AdminOrangeController@index');
+Route::get('admin/orange_notifie/request/{id}','AdminOrangeController@request_id');
+Route::get('admin/orange_notifie/response/{id}','AdminOrangeController@response_id');
 
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
