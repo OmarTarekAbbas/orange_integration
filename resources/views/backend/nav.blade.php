@@ -76,6 +76,19 @@
         </ul>
     </li>
 
+    <li class="parent">
+        <a href="#sub-item-5"  data-toggle="collapse">
+            <span class="glyphicon glyphicon-list-alt"></span> Orange <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+        </a>
+        <ul class="children collapse" id="sub-item-5">
+            <li id="orange_notifie">
+                <a class="" href="{{url('admin/orange_notifie')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Notifier
+                </a>
+            </li>
+        </ul>
+    </li>
+
     @endif
     <li role="presentation" class="divider"></li>
     <li><a href="{{ url('service') }}"><span class="glyphicon glyphicon-random"></span> Change service</a></li>

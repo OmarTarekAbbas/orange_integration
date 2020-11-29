@@ -60,6 +60,9 @@ Route::get('admin/services/{id}/show','AdminServicesController@show');
 Route::resource('admin/country','AdminCountryController');
 Route::resource('admin/operator','AdminOperatorController');
 
+// orange Routes...
+Route::get('admin/orange_notifie','AdminOrangeController@index');
+
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
@@ -79,9 +82,5 @@ Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
-
-// Route::get('orange_notify', 'OrangeController@orange_notify');
-// Route::get('orange_web', 'OrangeController@orange_web');
-// Route::get('orange_subscribe', 'OrangeController@orange_subscribe');
 
 
