@@ -59,7 +59,7 @@
         <div class="col-md-2">
             {!! Form::label('notification_result', 'Notification Result:') !!}
             <div class=''>
-                {!! Form::select('notification_result', ['200'=>'Success' , '0' => 'Filled'] ,
+                {!! Form::select('notification_result', ['200'=>'Success' , '0' => 'Failed'] ,
                 request()->get('notification_result'),
                 ['class'=>'form-control','id'=>'notification_result','placeholder'=>'Select Notification Result']) !!}
             </div>
@@ -111,7 +111,7 @@
                             <th>Action</th>
                             <th>ServiceId</th>
                             <th>Notification Result</th>
-                            <th>Created At</th>
+                            <th>Date Time</th>
                             <th>Result</th>
                         </tr>
                     </thead>
@@ -124,13 +124,10 @@
                             <td> {{ $item->action }}</td>
                             <td> {{ $item->service_id }} </td>
                             <td> {{ $item->notification_result }} </td>
-                            <td> {{ $item->created_at->format('d-m-Y') }} </td>
+                            <td> {{ $item->created_at->format('Y-m-d') }} </td>
                             <td>
-                            <a href="{{url('admin/orange_notifie/request/'.$item->id)}}">
-                                    <button class="btn btn-success borderRadius">Request</button>
-                                </a>
-                                <a href="{{url('admin/orange_notifie/response/'.$item->id)}}">
-                                    <button class="btn btn-warning borderRadius">Response</button>
+                            <a href="{{url('admin/orange_notifie/request_and_response/'.$item->id)}}">
+                                    <button class="btn btn-warning borderRadius">Request&Response</button>
                                 </a>
                             </td>
                         </tr>

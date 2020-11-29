@@ -19,6 +19,10 @@
                             <td width='30%' class='label-view text-left' style="font-weight: bold">Request</td>
                             <td>{{$show_request_orange_notify->req}} </td>
                         </tr>
+                        <tr>
+                            <td width='30%' class='label-view text-left' style="font-weight: bold">Response</td>
+                            <td>{{$show_request_orange_notify->response}} </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

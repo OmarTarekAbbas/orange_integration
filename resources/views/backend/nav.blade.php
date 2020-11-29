@@ -87,6 +87,13 @@
                 </a>
             </li>
         </ul>
+        <ul class="children collapse" id="sub-item-5">
+            <li id="orange_notifie">
+                <a class="" href="{{url('admin/orange_notifie')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Notifier
+                </a>
+            </li>
+        </ul>
     </li>
 
     @endif

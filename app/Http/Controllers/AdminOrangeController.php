@@ -53,17 +53,9 @@ class AdminOrangeController extends Controller
 
     }
 
-    public function request_id($id)
+    public function request_and_response($id)
     {
         $show_request_orange_notify = OrangeNotify::findOrFail($id);
         return view('backend.orange.show_request',compact('show_request_orange_notify'));
     }
-
-    public function response_id($id)
-    {
-        $show_response_orange_notify = OrangeNotify::findOrFail($id);
-        return view('backend.orange.show_response',compact('show_response_orange_notify'));
-    }
-
-
 }
