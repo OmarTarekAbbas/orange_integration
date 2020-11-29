@@ -55,17 +55,63 @@ class OrangeController extends Controller
 
     public function provision_curl(Request $request)
     {
+        /*  Provision request sample
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sen="http://eaidev.mobinil.com/MEAI_OnlineServices/webServices/ESchool/sendProvisionMsg_WSDL">
+   <soapenv:Header>
+      <v2:RequestSOAPHeader>
+         <v2:spId>000201</v2:spId>
+         <v2:spPassword>e6434ef249df55c7a21a0b45758a39bb</v2:spPassword>
+         <v2:timeStamp>20100731064245</v2:timeStamp>
+      </v2:RequestSOAPHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <sen:sendProvisionMsg>
+         <transactionId>350000012014032909253000001</transactionId>
+         <sourceId>bob</sourceId>
+         <msisdn>1234567</msisdn>
+         <serviceId>12231314</serviceId>
+         <operationType>setUserInfo</operationType>
+         <createdTime>20150116103330</createdTime>
+         <msg><![CDATA[<?xml version="1.0" encoding="UTF-8"?><userInfo> <userType>1</userType>  <areaCode>23</areaCode>  <nickName>Terry</nickName>  <name>    <firstName>xx</firstName>    <middleName>yy</middleName>    <lastName>zz</lastName>  </name></userInfo>]]></msg>
+         <callBackData>abc</callBackData>
+         <extensionInfo>
+            <item>
+               <key>k1</key>
+               <value>value0</value>
+            </item>
+            <item>
+               <key>k2</key>
+               <value>value1</value>
+            </item>
+         </extensionInfo>
+      </sen:sendProvisionMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+        */
+        date_default_timezone_set("UTC") ;
         $spId = spId;
         $time_stamp = date('YmdHis');
         $sp_password = MD5($spId.password.$time_stamp);
 
         $partnerId = partnerId;
-        $transactionId = $partnerId.password.rand(10000 , 99999);
+        /*
+                Transaction identifier of a session. It must be unique among the requests from the partner.
+                the formula suggested: partnerId+timestamp+sequence
+                partnerId is the identifier of the partner allocated by SDP.
+                timeStamp is generated according the current UTC time and format as yyyyMMddHHmmss
+                sequence is the serial number,  the range is from 00000 to 99999
+
+                Example:
+                35000001 20140329092530 00001
+
+        */
+        $transactionId = $partnerId.$time_stamp.rand(10000 , 99999);
 
         $service = service;
         $msisdn = '201208138169';
 
-        $message = 'SMS';
+        $message = 'setUserInfo';
 
         $msg = "<![CDATA[<?xml version='1.0' encoding='UTF-8'?><userInfo> <userType>1</userType>  <areaCode>23</areaCode>  <nickName>Terry</nickName>  <name>    <firstName>xx</firstName>    <middleName>yy</middleName>    <lastName>zz</lastName>  </name></userInfo>]]>";
 
@@ -75,8 +121,8 @@ class OrangeController extends Controller
    <soapenv:Header>
       <v2:RequestSOAPHeader>
          <v2:spId>$spId</v2:spId>
-         <v2:spPassword>$time_stamp</v2:spPassword>
-         <v2:timeStamp>$sp_password</v2:timeStamp>
+         <v2:spPassword>$sp_password</v2:spPassword>
+         <v2:timeStamp>$time_stamp</v2:timeStamp>
       </v2:RequestSOAPHeader>
    </soapenv:Header>
    <soapenv:Body>
@@ -166,19 +212,54 @@ class OrangeController extends Controller
 
         $Provision = $this->orange_provisions_store($orange_provisions);
 
-        return $post_array['result_code'];
+        return  $output;
 
     }
 
     public function subscription_curl(Request $request)
     {
+
+            /*      Subscription Request Sample
+
+            POST /smsgwws/ASP/ HTTP/1.1
+            Content-Type: text/xml; charset=utf-8
+            Host: 10.240.22.40:8310
+            Content-Length: 671
+            Expect: 100-continue
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <soap:Envelope
+                xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+                xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+                <soap:Header>
+                    <RequestSOAPHeader
+                        xmlns="http://www.huawei.com.cn/schema/common/v2_1">
+                        <spId>000812</spId>
+                        <spPassword>90ee4516894a1f0dae7e7c2c13e4c423</spPassword>
+                        <timeStamp>20191128150121</timeStamp>
+                    </RequestSOAPHeader>
+                </soap:Header>
+                <soap:Body>
+                    <asp:AspActionRequest>
+                        <CC_Service_Number>2142</CC_Service_Number>
+                        <CC_Calling_Party_Id>201208138169</CC_Calling_Party_Id>
+                        <ON_Selfcare_Command>BILLINGSUBSCRIBE</ON_Selfcare_Command>
+                        <ON_Bearer_Type>SMS</ON_Bearer_Type>
+                    </asp:AspActionRequest>
+                </soap:Body>
+            </soap:Envelope>
+
+            */
+
+        date_default_timezone_set("UTC") ;
+
         $spId = spId;
         $time_stamp = date('YmdHis');
-        $sp_password = MD5($spId.password.$time_stamp);
+        $sp_password = MD5($spId.password.$time_stamp);  // spPassword = MD5(spId + Password + timeStamp)
 
         $service = service;
         $msisdn = '201208138169';
-        // $command = 'Subscribe';
+       //  $command = 'Subscribe';
         $command = 'Unsubscribe';
         $bearer = 'SMS';
 
@@ -269,45 +350,80 @@ class OrangeController extends Controller
             $orange_subscribe->msisdn = $msisdn;
             $orange_subscribe->orange_notify_id = $OrangeWeb->id;
             $orange_subscribe->table_name = 'orange_webs';
-            if($command = 'Subscribe'){
+            if($command == 'Subscribe'){
                 $orange_subscribe->active = 1;
-            }elseif('Unsubscribe'){
+            }elseif($command == 'Unsubscribe'){
                 $orange_subscribe->active = 0;
             }
 
             $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
         }
 
-        return $post_array['result_code'];
+        // return $post_array['result_code'];
+        return $output;
 
     }
 
     public function subscription()
     {
+
+    /*      Subscription Request Sample
+
+    POST /smsgwws/ASP/ HTTP/1.1
+    Content-Type: text/xml; charset=utf-8
+    Host: 10.240.22.40:8310
+    Content-Length: 671
+    Expect: 100-continue
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <soap:Envelope
+        xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+        xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+        <soap:Header>
+            <RequestSOAPHeader
+                xmlns="http://www.huawei.com.cn/schema/common/v2_1">
+                <spId>000812</spId>
+                <spPassword>90ee4516894a1f0dae7e7c2c13e4c423</spPassword>
+                <timeStamp>20191128150121</timeStamp>
+            </RequestSOAPHeader>
+        </soap:Header>
+        <soap:Body>
+            <asp:AspActionRequest>
+                <CC_Service_Number>2142</CC_Service_Number>
+                <CC_Calling_Party_Id>201208138169</CC_Calling_Party_Id>
+                <ON_Selfcare_Command>BILLINGSUBSCRIBE</ON_Selfcare_Command>
+                <ON_Bearer_Type>SMS</ON_Bearer_Type>
+            </asp:AspActionRequest>
+        </soap:Body>
+    </soap:Envelope>
+
+    */
+        date_default_timezone_set("UTC") ;
         $client = new \nusoap_client('http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl', 'wsdl');
         $client->soap_defencoding = 'UTF-8';
         $client->decode_utf8 = false;
 
-        $spId = "000812";
-        $spPassword = "90ee4516894a1f0dae7e7c2c13e4c423";
-        $timeStamp = date('YmdHis');
+            $spId = spId;
+            $timeStamp = date('YmdHis');
+            $spPassword = MD5($spId.password.$timeStamp);
 
-        $client->setHeaders('<spId>000812</spId>
-        <spPassword>90ee4516894a1f0dae7e7c2c13e4c423</spPassword>
-        <timeStamp>20191128150121</timeStamp>');
 
-        $error = $client->getError();
+        $client->setHeaders('<spId>'.$spId .'</spId>
+        <spPassword>'.$spPassword.'</spPassword>
+        <timeStamp>'.$timeStamp.'</timeStamp>');
+
+        // $error = $client->getError();
 
         $soapBody = array(
-            "CC_Service_Number" => 2142,
+            "CC_Service_Number" => service,
             "CC_Calling_Party_Id" => "201208138169",
-            "ON_Selfcare_Command" => "BILLINGSUBSCRIBE",
+            "ON_Selfcare_Command" => "Subscribe",   // Subscribe     Unsubscribe
             "ON_Bearer_Type" => "SMS",
         );
 
-        if ($error) {
-            echo "<h2>Constructor error</h2><pre>" . $error . "</pre>";
-        }
+        // if ($error) {
+        //     echo "<h2>Constructor error</h2><pre>" . $error . "</pre>";
+        // }
 
         $result = $client->call("AspActionRequest", $soapBody);
 
@@ -373,6 +489,32 @@ class OrangeController extends Controller
 
     public function notify(Request $request)
     {
+
+    /*
+    //    Notify request sample //
+
+    POST /BillingEngine/RenewalService HTTP/1.1
+    SOAPAction: ""
+    Content-Type: text/xml; charset=UTF-8
+    Host: 10.57.221.2:80
+    Connection: close
+    Content-Length: 406
+
+    <?xml version="1.0" encoding="utf-8" ?>
+    <soapenv:Envelope
+        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <soapenv:Body>
+            <ns1:Notification
+                xmlns:ns1="http://tempuri.org/">
+                <ns1:Action>OPERATORSUBSCRIBE</ns1:Action>
+                <ns1:MSISDN>201272033505</ns1:MSISDN>
+                <ns1:ServiceID>1000003886</ns1:ServiceID>
+            </ns1:Notification>
+        </soapenv:Body>
+    </soapenv:Envelope>
+    */
+
         $request_xml = file_get_contents('php://input');
 
         $request_array = array(
