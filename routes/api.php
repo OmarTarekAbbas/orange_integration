@@ -17,7 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 /************* Start config Timwe******************/
+/*
 define('PartnerId', '2534');
 define('partnerRoleId', '2614');
 define('serviceId', '2724');
@@ -33,8 +35,10 @@ define('presharedkeysendMt', 'SkU0gO1lSHR7wdfP');
 
 define('apikeysubscription', '8086e440d80847a6b534c88a6c33a172');
 define('presharedkeysubscription', 'cutfvCPZrlzMo6t8');
-/************* end config Timwe******************/
+*/
+//************* end config Timwe******************/
 
+/*
 //Timwe Api
 Route::get('generateKey', 'TimeweController@generateKey');
 Route::get('{channel}/mt/{partnerRoleId}', 'TimeweController@sendMt');
@@ -44,9 +48,6 @@ Route::get('subscription/optout/{partnerRoleId}', 'TimeweController@subscription
 Route::get('subscription/success', 'TimeweController@subscriptionSuccess');
 Route::get('unsubscribe/success', 'TimeweController@unsubscribeSuccess');
 Route::get('rotana_flatter_get_link', 'TimeweController@rotana_flatter_get_link');
-/********************end ********************/
-
-//notification Api
 Route::post('notification/mo/{partnerRole}', 'TimeweController@notificationMo');
 Route::post('notification/mt/dn/{partnerRole}', 'TimeweController@notificationMtDn');
 Route::post('notification/user-optin/{partnerRole}', 'TimeweController@notificationUserOptin');
@@ -54,16 +55,16 @@ Route::post('notification/user-optout/{partnerRole}', 'TimeweController@notifica
 Route::post('notification/user-renewed/{partnerRole}', 'TimeweController@notificationUserRenewed');
 Route::post('notification/user_first-charging/{partnerRole}', 'TimeweController@userFirstCharging');
 Route::post('notification/first-charge/{partnerRole}', 'TimeweController@userFirstCharging');
-
-
+Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link_per_each_service');
+*/
 
 /********************end ******************* */
-Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link_per_each_service');
 
 
 
-/**************Start Orange************* */
 
+
+/**************Start Orange**************/
 define('spId', '000812');
 define('password', 'ivas');
 define('service', '2142');
