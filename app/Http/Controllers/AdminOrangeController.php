@@ -9,6 +9,7 @@ use App\OrangeUssd;
 use App\OrangeWeb;
 use App\Provision;
 use Illuminate\Http\Request;
+use Validator;
 
 class AdminOrangeController extends Controller
 {
@@ -19,6 +20,16 @@ class AdminOrangeController extends Controller
 
     public function orange_notifie(Request $request)
     {
+        if ($request->has('to_date') && $request->to_date != '') {
+            $validator = Validator::make($request->all(), [
+                'from_date' => '',
+                'to_date' => 'required|after_or_equal:from_date',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+        }
+
         $orange_notify = OrangeNotify::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('msisdn') && $request->msisdn != '') {
@@ -72,6 +83,15 @@ class AdminOrangeController extends Controller
 
     public function orange_ussds(Request $request)
     {
+        if ($request->has('to_date') && $request->to_date != '') {
+            $validator = Validator::make($request->all(), [
+                'from_date' => '',
+                'to_date' => 'required|after_or_equal:from_date',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+        }
         $orange_ussds = OrangeUssd::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('msisdn') && $request->msisdn != '') {
@@ -119,6 +139,15 @@ class AdminOrangeController extends Controller
 
     public function orange_webs(Request $request)
     {
+        if ($request->has('to_date') && $request->to_date != '') {
+            $validator = Validator::make($request->all(), [
+                'from_date' => '',
+                'to_date' => 'required|after_or_equal:from_date',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+        }
         $orange_webs = OrangeWeb::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('calling_party_id') && $request->calling_party_id != '') {
@@ -185,6 +214,15 @@ class AdminOrangeController extends Controller
 
     public function orange_subscribes(Request $request)
     {
+        if ($request->has('to_date') && $request->to_date != '') {
+            $validator = Validator::make($request->all(), [
+                'from_date' => '',
+                'to_date' => 'required|after_or_equal:from_date',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+        }
         $orange_subscribes = OrangeSubscribe::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('msisdn') && $request->msisdn != '') {
@@ -227,6 +265,15 @@ class AdminOrangeController extends Controller
 
     public function orange_provisions(Request $request)
     {
+        if ($request->has('to_date') && $request->to_date != '') {
+            $validator = Validator::make($request->all(), [
+                'from_date' => '',
+                'to_date' => 'required|after_or_equal:from_date',
+            ]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+        }
         $orange_provisions = Provision::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('spId') && $request->spId != '') {

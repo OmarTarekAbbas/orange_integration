@@ -184,7 +184,7 @@
                             <th>Service Id</th>
                             <th>OperationType</th>
                             <th>Created Time</th>
-                            <th>Msg</th>
+                            
                             <th>ResultCode</th>
                             <th>Date Time</th>
                             <th>Result</th>
@@ -202,7 +202,7 @@
                             <td> {{ $item->serviceId }} </td>
                             <td> {{ $item->operationType }} </td>
                             <td> {{ $item->createdTime }} </td>
-                            <td> {{ $item->msg }} </td>
+
                             <td>
                                 @if($item->resultCode == 00000000)
                                 Success
