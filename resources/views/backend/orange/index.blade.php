@@ -91,7 +91,7 @@
 
         <div class="col-md-1">
             <br>
-            <button class="btn btn-labeled btn-info filter" type="submit"><span class="btn-label"><i
+            <button class="btn btn-labeled btn-info filter" id="my_form" type="submit"><span class="btn-label"><i
                         class="glyphicon glyphicon-search"></i></span>Filter</button>
         </div>
 
@@ -137,7 +137,7 @@
                             <td> {{ $item->action }}</td>
                             <td> {{ $item->service_id }} </td>
                             <td> {{ $item->notification_result }} </td>
-                            <td> {{ $item->created_at->format('Y-m-d') }} </td>
+                            <td> {{ $item->created_at->format('Y-m-d h:i:s') }} </td>
                             <td>
                             <a href="{{url('admin/orange_notifie/request_and_response/'.$item->id)}}" target="_blank">
                                     <button class="btn btn-warning borderRadius">Request&Response</button>
@@ -162,11 +162,24 @@
 
 @include('backend.footer')
 <script type="text/javascript">
-$('#orange_notifie').addClass('active').siblings().removeClass('active');
+    $('#sub-item-5').addClass('collapse in');
+    $('#sub-item-5').parent().addClass('active').siblings().removeClass('active');
 $('#datetimepicker').datepicker({
     format: "yyyy-mm-dd"
 });
 $('#datetimepicker1').datepicker({
     format: "yyyy-mm-dd"
+});
+
+$(".").submit(function (event) {
+    console.log('Invalid 1');
+    alert('Invalid');
+    var date_ini = parseDate($('#from_date').val()).getTime();
+    var date_end = parseDate($('#to_date').val()).getTime();
+    console.log(date_ini, date_end)
+    if (date_ini > date_end) {
+        console.log('Invalid 1');
+        alert('Invalid');
+    }
 });
 </script>

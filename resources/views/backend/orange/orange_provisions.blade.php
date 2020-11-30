@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        <div class="col-md-2">
+        <!-- <div class="col-md-2">
             {!! Form::label('resultCode', 'resultCode:') !!}
             <div class='input-group date'>
                 <input type='text' id="resultCode" class="form-control" value="{{request()->get('resultCode')}}"
@@ -112,6 +112,15 @@
                     <button type="button" id="search-btn" class="btn"><i
                             class="glyphicon glyphicon-search"></i></button>
                 </span>
+            </div>
+        </div> -->
+
+        <div class="col-md-2">
+            {!! Form::label('resultCode', 'resultCode:') !!}
+            <div class=''>
+                {!! Form::select('resultCode', ['00000000'=>'Success' , '0' => 'Failed'] ,
+                request()->get('resultCode'),
+                ['class'=>'form-control','id'=>'notification_result','placeholder'=>'Select resultCode']) !!}
             </div>
         </div>
 
@@ -201,7 +210,7 @@
                                 Failed
                                 @endif
                             </td>
-                            <td> {{ $item->created_at->format('Y-m-d') }} </td>
+                            <td> {{ $item->created_at->format('Y-m-d h:i:s') }} </td>
                             <td>
                                 <a href="{{url('admin/orange_provisions/request_and_response/'.$item->id)}}"
                                     target="_blank">
@@ -227,8 +236,8 @@
 
 @include('backend.footer')
 <script type="text/javascript">
-$('#orange_notifie').addClass('active').siblings().removeClass('active');
-$('#datetimepicker').datepicker({
+$('#sub-item-5').addClass('collapse in');
+    $('#sub-item-5').parent().addClass('active').siblings().removeClass('active');$('#datetimepicker').datepicker({
     format: "yyyy-mm-dd"
 });
 $('#datetimepicker1').datepicker({

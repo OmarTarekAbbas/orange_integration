@@ -99,6 +99,14 @@
             </div>
         </div>
 
+        <div class="col-md-2">
+            {!! Form::label('on_result_code', 'Result Code:') !!}
+            <div class=''>
+                {!! Form::select('on_result_code', ['0'=>'Success' , '1' => 'Failed'] ,
+                request()->get('on_result_code'),
+                ['class'=>'form-control','id'=>'on_result_code','placeholder'=>'Select Result Code']) !!}
+            </div>
+        </div>
 
         <div class="col-md-2">
             {!! Form::label('from_date', 'Select Form Date :') !!}
@@ -159,6 +167,7 @@
                             <th>Calling Party</th>
                             <th>Selfcare Command</th>
                             <th>Bearer Type</th>
+                            <th>Result Code</th>
                             <th>Date Time</th>
                             <th>Result</th>
                         </tr>
@@ -174,7 +183,15 @@
                             <td> {{ $item->calling_party_id }} </td>
                             <td> {{ $item->selfcare_command }} </td>
                             <td> {{ $item->on_bearer_type }} </td>
-                            <td> {{ $item->created_at->format('Y-m-d') }} </td>
+                            <td>
+                            @if($item->on_result_code == 0)
+                                Success
+                                @else
+                                Failed
+                                @endif
+
+                            </td>
+                            <td> {{ $item->created_at->format('Y-m-d h:i:s') }} </td>
                             <td>
                                 <a href="{{url('admin/orange_webs/request_and_response/'.$item->id)}}" target="_blank">
                                     <button class="btn btn-warning borderRadius">Request&Response</button>
@@ -199,7 +216,8 @@
 
 @include('backend.footer')
 <script type="text/javascript">
-$('#orange_notifie').addClass('active').siblings().removeClass('active');
+$('#sub-item-5').addClass('collapse in');
+$('#sub-item-5').parent().addClass('active').siblings().removeClass('active');
 $('#datetimepicker').datepicker({
     format: "yyyy-mm-dd"
 });

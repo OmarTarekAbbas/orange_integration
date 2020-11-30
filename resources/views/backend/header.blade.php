@@ -48,12 +48,13 @@
 </nav>
 
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-    {!! Form::open(['url'=>'admin/mt/search','role'=>'search','method'=>'get']) !!}
+    <!-- {!! Form::open(['url'=>'admin/mt/search','role'=>'search','method'=>'get']) !!}
         <div class="form-group">
             {!! Form::text('search', null, ['class'=>'form-control','placeholder'=>'Search Messages']) !!}
         </div>
-    {!! Form::close() !!}
+    {!! Form::close() !!} -->
     @include('backend/nav')
-</div><!--/.sidebar-->
+</div>
+<!--/.sidebar-->
 
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
