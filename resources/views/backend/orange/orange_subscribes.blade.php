@@ -138,7 +138,7 @@
                             </td>
                             <td> {{ $item->orange_notify_id }}</td>
                             <td> {{ $item->table_name }}</td>
-                            <td> {{ $item->created_at->format('Y-m-d') }} </td>
+                            <td> {{ $item->created_at->format('Y-m-d h:i:s') }} </td>
 
                         </tr>
                         @endforeach
@@ -159,8 +159,8 @@
 
 @include('backend.footer')
 <script type="text/javascript">
-$('#orange_notifie').addClass('active').siblings().removeClass('active');
-$('#datetimepicker').datepicker({
+$('#sub-item-5').addClass('collapse in');
+    $('#sub-item-5').parent().addClass('active').siblings().removeClass('active');$('#datetimepicker').datepicker({
     format: "yyyy-mm-dd"
 });
 $('#datetimepicker1').datepicker({

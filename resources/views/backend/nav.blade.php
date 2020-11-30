@@ -1,6 +1,6 @@
 <ul class="nav menu">
     <li class="active"><a href="{{ url('admin') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-    <li class="parent">
+    <!-- <li class="parent">
         <a href="#sub-item-1"  data-toggle="collapse">
             <span class="glyphicon glyphicon-list"></span> Messages <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
         </a>
@@ -16,8 +16,8 @@
                 </a>
             </li>
         </ul>
-    </li>
-    <li class="parent">
+    </li> -->
+    <!-- <li class="parent">
         <a href="#sub-item-2"  data-toggle="collapse">
             <span class="glyphicon glyphicon-list-alt"></span> Services <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
         </a>
@@ -35,7 +35,7 @@
                 </a>
             </li>
         </ul>
-    </li>
+    </li> -->
     @if(Auth::user()->admin == true)
     <li class="parent">
         <a href="#sub-item-3"  data-toggle="collapse">
@@ -111,7 +111,7 @@
 
     @endif
     <li role="presentation" class="divider"></li>
-    <li><a href="{{ url('service') }}"><span class="glyphicon glyphicon-random"></span> Change service</a></li>
+    <!-- <li><a href="{{ url('service') }}"><span class="glyphicon glyphicon-random"></span> Change service</a></li> -->
     @if(Auth::user()->admin == true)
         <li><a href="{{ url('admin/user/create') }}"><span class="glyphicon glyphicon-user"></span> Add User</a></li>
         <li><a href="{{ url('admin/user') }}"><span class="glyphicon glyphicon-list"></span> Users list</a></li>
