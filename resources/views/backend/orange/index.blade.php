@@ -82,9 +82,6 @@
     <div class="col-md-12">
       <button class="btn btn-labeled btn-primary filter" id="my_form" type="submit"><span class="btn-label"><i class="glyphicon glyphicon-search"></i></span>Filter</button>
     </div>
-
-
-
     {!! Form::close() !!}
   </div>
 
