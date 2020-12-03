@@ -159,7 +159,7 @@
         </div>
       </div>
 
-      <div class="col-xs-6 col-sm-12 col-md-12" style="padding: 0;">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
         <div class="box-body table-responsive no-padding">
           <table class="table table-hover table-striped mt-table">
             <thead>
