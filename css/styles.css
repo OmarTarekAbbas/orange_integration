@@ -956,10 +956,11 @@ a.todo-list-item:focus {
 .mt-table .form-inline .btn-sm {}
 
 .all_form {
+  display: table;
   background-color: rgb(255 255 255 / 0.5);
-  ;
   width: 80%;
-  height: 25vh;
+  height: 100%;
+  min-height: 100%;
   margin: 0 auto;
   padding: 1.5% 0.5%;
   border-radius: 0.5rem;
@@ -997,4 +998,238 @@ a.todo-list-item:focus {
 .box {
   width: 95%;
   margin: 0 auto;
+}
+
+@media (min-width: 320px) and (max-width: 359.9px) {
+  .main {
+    padding-bottom: 8%;
+  }
+
+  h1.page-header {
+    font-size: 20px;
+  }
+
+  .all_form {
+    width: 100%;
+    padding: 4% 0.5%;
+  }
+
+  .all_form label {
+    margin-top: 3%;
+  }
+
+  .all_form select {
+    margin-bottom: 3%;
+  }
+
+  .all_form .filter {
+    width: 45%;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .box .box-title h3 {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 374.9px) {
+  .main {
+    padding-bottom: 8%;
+  }
+
+  h1.page-header {
+    font-size: 20px;
+  }
+
+  .all_form {
+    width: 100%;
+    padding: 4% 0.5%;
+  }
+
+  .all_form label {
+    margin-top: 3%;
+  }
+
+  .all_form select {
+    margin-bottom: 3%;
+  }
+
+  .all_form .filter {
+    width: 45%;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .box .box-title h3 {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 410.9px) {
+  .main {
+    padding-bottom: 8%;
+  }
+
+  h1.page-header {
+    font-size: 20px;
+  }
+
+  .all_form {
+    width: 100%;
+    padding: 4% 0.5%;
+  }
+
+  .all_form label {
+    margin-top: 3%;
+  }
+
+  .all_form select {
+    margin-bottom: 3%;
+  }
+
+  .all_form .filter {
+    width: 45%;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .box .box-title h3 {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 411px) and (max-width: 415px) {
+  .main {
+    padding-bottom: 8%;
+  }
+
+  h1.page-header {
+    font-size: 20px;
+  }
+
+  .all_form {
+    width: 100%;
+    padding: 4% 0.5%;
+  }
+
+  .all_form label {
+    margin-top: 3%;
+  }
+
+  .all_form select {
+    margin-bottom: 3%;
+  }
+
+  .all_form .filter {
+    width: 45%;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .box .box-title h3 {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023.9px) {
+  .main {
+    padding-bottom: 8%;
+    /* float: right; */
+  }
+
+  h1.page-header {
+    font-size: 20px;
+  }
+
+  .all_form {
+    width: 100%;
+    padding: 4% 0.5%;
+  }
+
+  .all_form label {
+    margin-top: 3%;
+  }
+
+  .all_form select {
+    margin-bottom: 3%;
+  }
+
+  .all_form .filter {
+    width: 45%;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .box .box-title h3 {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .box .box-body {
+    overflow-y: scroll;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1030px) {
+  .main {
+    padding-bottom: 8%;
+    /* float: right; */
+  }
+
+  h1.page-header {
+    font-size: 20px;
+  }
+
+  .all_form {
+    width: 100%;
+    padding: 4% 0.5%;
+  }
+
+  .all_form label {
+    margin-top: 3%;
+  }
+
+  .all_form select {
+    margin-bottom: 3%;
+  }
+
+  .all_form .filter {
+    width: 45%;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .box .box-title h3 {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .box .box-body {
+    overflow-y: scroll;
+    width: 100%;
+  }
 }

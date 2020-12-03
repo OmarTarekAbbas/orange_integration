@@ -17,7 +17,7 @@
   </div>
   @endif
 
-  <div class="form-group w-75">
+  <div class="form-group">
     {!! Form::open(['url' => url('admin/orange_ussds'),'method'=>'get', 'class'=>'all_form']) !!}
 
     <div class="col-md-4">
@@ -50,8 +50,6 @@
       </div>
     </div>
 
-
-
     <div class="col-md-4">
       {!! Form::label('host', 'Host:') !!}
       <div class='input-group date'>
@@ -61,7 +59,6 @@
         </span>
       </div>
     </div>
-
 
     <div class="col-md-4">
       {!! Form::label('from_date', 'Select Form Date :') !!}
@@ -145,7 +142,6 @@
           @endif
         </tbody>
       </table>
-
     </div>
   </div>
 
