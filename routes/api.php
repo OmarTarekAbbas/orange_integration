@@ -65,6 +65,7 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 
 
 /**************Start Orange**************/
+
 define('spId', '000812');
 define('password', 'ivas');
 define('service', '2142');
@@ -82,4 +83,5 @@ Route::post('notify', 'OrangeController@notify');
 
 Route::get('ussd_notify', 'OrangeController@ussd_notify');
 
-/************************************** */
+Route::post('checkStatus', 'Api\OrangeApiController@checkStatus');
+/***************************************/
