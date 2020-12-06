@@ -84,4 +84,5 @@ Route::post('notify', 'OrangeController@notify');
 Route::get('ussd_notify', 'OrangeController@ussd_notify');
 
 Route::post('checkStatus', 'Api\OrangeApiController@checkStatus');
+Route::post('createSubscription', 'Api\OrangeApiController@createSubscription');
 /***************************************/
