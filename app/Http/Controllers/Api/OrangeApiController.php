@@ -13,6 +13,15 @@ class OrangeApiController extends Controller
 
       $subscriber = OrangeSubscribe::where('msisdn', $msisdn)->where('active', 1)->first();
 
+      $action = 'CheckStatus';
+
+      $url = url()->full();
+
+      $log['msisdn'] = $msisdn;
+      $log['subscriber'] = $subscriber;
+
+      $this->log_action($action, $url, $log);
+
       if($subscriber){
         return 1;
       }
