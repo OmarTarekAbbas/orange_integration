@@ -30,7 +30,7 @@ class OrangeApiController extends Controller
         return 0;
     }
 
-    public function createSubscription(Request $request)
+    public function orangeWeb(Request $request)
     {
         date_default_timezone_set("UTC");
 
