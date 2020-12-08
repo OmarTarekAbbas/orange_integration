@@ -165,6 +165,78 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "check sub",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [],
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost/orange_integration/api/checkStatus?msisdn=201112598314",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"orange_integration",
+						"api",
+						"checkStatus"
+					],
+					"query": [
+						{
+							"key": "msisdn",
+							"value": "201112598314"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "orangeWeb",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [],
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost/orange_integration/api/orangeWeb?msisdn=201112598314&command=Subscribe",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"orange_integration",
+						"api",
+						"orangeWeb"
+					],
+					"query": [
+						{
+							"key": "msisdn",
+							"value": "201112598314"
+						},
+						{
+							"key": "command",
+							"value": "Subscribe"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
