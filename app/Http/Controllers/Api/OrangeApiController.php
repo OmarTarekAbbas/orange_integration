@@ -128,17 +128,27 @@ class OrangeApiController extends Controller
         $OrangeWeb = $orange_web->save();
 
         if ($post_array['result_code'] == 0) {
-            $orange_subscribe = new OrangeSubscribe;
-            $orange_subscribe->msisdn = $msisdn;
-            $orange_subscribe->orange_notify_id = $orange_web->id;
-            $orange_subscribe->table_name = 'orange_webs';
+
             if ($command == 'Subscribe') {
-                $orange_subscribe->active = 1;
+                $commandActive = 1;
             } elseif ($command == 'Unsubscribe') {
-                $orange_subscribe->active = 0;
+                $commandActive = 0;
             }
 
-            $OrangeSubscribe = $orange_subscribe->save();
+            $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->first();
+            if ($orange_subscribe) {
+                $orange_subscribe->active = $commandActive;
+                $orange_subscribe->orange_notify_id = $orange_web->id;
+                $orange_subscribe->table_name = 'orange_webs';
+                $orange_subscribe->save();
+            } else {
+                $orange_subscribe = new OrangeSubscribe;
+                $orange_subscribe->msisdn = $msisdn;
+                $orange_subscribe->active = $commandActive;
+                $orange_subscribe->orange_notify_id = $orange_web->id;
+                $orange_subscribe->table_name = 'orange_webs';
+                $orange_subscribe->save();
+            }
         }
 
         return $post_array['result_code'];
