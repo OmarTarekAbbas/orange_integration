@@ -45,8 +45,8 @@ class OrangeApiController extends Controller
 
         $bearer = 'SMS';
 
-        $soap_request =
-            "<?xml version='1.0' encoding='UTF-8'?>
+$soap_request =
+"<?xml version='1.0' encoding='UTF-8'?>
 <soap:Envelope xmlns:soap='http://www.w3.org/2003/05/soap-envelope' xmlns:asp='http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl'>
 <soap:Header>
 <RequestSOAPHeader xmlns='http://www.huawei.com.cn/schema/common/v2_1'>
