@@ -19,7 +19,12 @@ class OrangeApiController extends Controller
         $url = url()->full();
 
         $log['msisdn'] = $msisdn;
-        $log['subscriber'] = $subscriber->toArray();
+
+        if($subscriber){
+          $log['subscriber'] = $subscriber->toArray();
+        }else{
+          $log['subscriber'] = $subscriber;
+        }
 
         $this->log_action($action, $url, $log);
 
