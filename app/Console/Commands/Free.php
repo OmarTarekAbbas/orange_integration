@@ -30,6 +30,7 @@ class Free extends Command
     {
       $orange_subscribes = OrangeSubscribe::where('subscribe_due_date', date("Y-m-d"))->where('free', 1)->get();
       foreach($orange_subscribes as $subscriber){
+        // should make subscription request on orange as free 2 days is ended
         $subscriber->free = 0;
         $subscriber->save();
       }
