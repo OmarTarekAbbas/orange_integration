@@ -45,7 +45,7 @@ class OrangeApiController extends Controller
         $time_stamp = date('YmdHis');
         $sp_password = MD5($spId . password . $time_stamp); // spPassword = MD5(spId + Password + timeStamp)
 
-        $service = $request->service;
+        $service = $request->service_id;
         $msisdn = $request->msisdn;
         $command = $request->command;
         $bearer = $request->bearer_type;
@@ -137,7 +137,7 @@ class OrangeApiController extends Controller
             if ($command == 'Subscribe') {
                 $commandActive = 1;
             } elseif ($command == 'Unsubscribe') {
-                $commandActive = 0;
+                $commandActive = 2;
             }
 
             $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->first();
@@ -145,6 +145,7 @@ class OrangeApiController extends Controller
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_webs';
+                $orange_subscribe->type = "web";
                 $orange_subscribe->save();
             } else {
                 $orange_subscribe = new OrangeSubscribe;
@@ -152,6 +153,11 @@ class OrangeApiController extends Controller
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_webs';
+                $orange_subscribe->free = 1;
+                $orange_subscribe->active = 1;
+                $orange_subscribe->type = "web";
+                $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
+                $orange_subscribe->service_id = $request->service_id;
                 $orange_subscribe->save();
             }
         }
