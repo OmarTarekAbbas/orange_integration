@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Inspire::class,
+        \App\Console\Commands\Free::class,
     ];
 
     /**
@@ -24,16 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspire')
-        ->hourly();
-        $schedule->call('App\Http\Controllers\TimeweController@send_today_link_per_each_service')->dailyAt('08:00');
-        $schedule->call('App\Http\Controllers\TimeweController@send_failed_MtMsisdn')->dailyAt('10:00');
-
-
-
-
-
-
+        $schedule->command('subscribe_free')->hourly();
 
     }
 
