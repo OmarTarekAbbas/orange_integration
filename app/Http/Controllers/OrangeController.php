@@ -7,6 +7,8 @@ use App\Http\Requests\Request as RequestsRequest;
 use App\OrangeCharging;
 use App\OrangeSubscribe;
 use App\OrangeUssd;
+use App\OrangeSms;
+use App\OrangeWeb;
 use App\OrangeSubUnsub;
 use Illuminate\Http\Request;
 use App\Provision;
