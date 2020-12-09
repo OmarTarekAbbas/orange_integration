@@ -83,8 +83,9 @@ Route::post('charging_notify', 'OrangeController@charging_notify');
 
 Route::get('ussd_notify', 'OrangeController@ussd_notify');
 Route::get('sms_notify', 'OrangeController@sms_notify');
-Route::get('web_notify', 'OrangeController@web_notify');
+Route::post('web_notify', 'OrangeController@web_notify');
 
 Route::post('checkStatus', 'Api\OrangeApiController@checkStatus');
 Route::post('orangeWeb', 'Api\OrangeApiController@orangeWeb');
+
 /***************************************/
