@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\OrangeNotify;
+use App\OrangeCharging;
 use App\OrangeSubscribe;
 use App\OrangeUssd;
-use App\OrangeWeb;
+use App\OrangeSubUnsub;
 use Illuminate\Http\Request;
 use App\Provision;
 
@@ -348,7 +348,7 @@ class OrangeController extends Controller
         if($post_array['result_code'] == 0){
             $orange_subscribe = new Request();
             $orange_subscribe->msisdn = $msisdn;
-            $orange_subscribe->orange_notify_id = $OrangeWeb->id;
+            $orange_subscribe->orange_channel_id = $OrangeWeb->id;
             $orange_subscribe->table_name = 'orange_webs';
             if($command == 'Subscribe'){
                 $orange_subscribe->active = 1;
@@ -477,7 +477,7 @@ class OrangeController extends Controller
 
         $orange_subscribe = new Request();
         $orange_subscribe->msisdn = $request_array['User-MSISDN'];
-        $orange_subscribe->orange_notify_id = $OrangeUssd->id;
+        $orange_subscribe->orange_channel_id = $OrangeUssd->id;
         $orange_subscribe->table_name = 'orange_ussds';
         $orange_subscribe->active = 1;
 
@@ -565,7 +565,7 @@ class OrangeController extends Controller
 
         $orange_subscribe = new Request();
         $orange_subscribe->msisdn = $post_array['msisdn'];
-        $orange_subscribe->orange_notify_id = $OrangeNotify->id;
+        $orange_subscribe->orange_channel_id = $OrangeNotify->id;
         $orange_subscribe->table_name = 'orange_notifies';
 
         if ($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE") {
@@ -582,7 +582,7 @@ class OrangeController extends Controller
 
     public function orange_notify_store(Request $request)
     {
-        $orange_notify = new OrangeNotify;
+        $orange_notify = new OrangeCharging;
         $orange_notify->req = $request->req;
         $orange_notify->response = $request->response;
         $orange_notify->action = $request->action;
@@ -595,7 +595,7 @@ class OrangeController extends Controller
 
     public function orange_web_store(Request $request)
     {
-        $orange_web = new OrangeWeb;
+        $orange_web = new OrangeSubUnsub;
         $orange_web->req = $request->req;
         $orange_web->response = $request->response;
         $orange_web->spId = $request->spId;
@@ -615,14 +615,14 @@ class OrangeController extends Controller
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->first();
         if ($orange_subscribe) {
             $orange_subscribe->active = $request->active;
-            $orange_subscribe->orange_notify_id = $request->orange_notify_id;
+            $orange_subscribe->orange_channel_id = $request->orange_channel_id;
             $orange_subscribe->table_name = $request->table_name;
             $orange_subscribe->save();
         } else {
             $orange_subscribe = new OrangeSubscribe;
             $orange_subscribe->msisdn = $request->msisdn;
             $orange_subscribe->active = $request->active;
-            $orange_subscribe->orange_notify_id = $request->orange_notify_id;
+            $orange_subscribe->orange_channel_id = $request->orange_channel_id;
             $orange_subscribe->table_name = $request->table_name;
             $orange_subscribe->save();
         }

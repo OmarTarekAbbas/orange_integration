@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\OrangeWeb;
+use App\OrangeSubUnsub;
 use App\OrangeSubscribe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
@@ -118,7 +118,7 @@ $soap_request =
             }
         }
 
-        $orange_web = new OrangeWeb;
+        $orange_web = new OrangeSubUnsub;
         $orange_web->req = $soap_request;
         $orange_web->response = $output;
         $orange_web->spId = $spId;
@@ -143,14 +143,14 @@ $soap_request =
             $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->first();
             if ($orange_subscribe) {
                 $orange_subscribe->active = $commandActive;
-                $orange_subscribe->orange_notify_id = $orange_web->id;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_webs';
                 $orange_subscribe->save();
             } else {
                 $orange_subscribe = new OrangeSubscribe;
                 $orange_subscribe->msisdn = $msisdn;
                 $orange_subscribe->active = $commandActive;
-                $orange_subscribe->orange_notify_id = $orange_web->id;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_webs';
                 $orange_subscribe->save();
             }
