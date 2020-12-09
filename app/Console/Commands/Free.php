@@ -2,24 +2,25 @@
 
 namespace App\Console\Commands;
 
+use App\OrangeSubscribe;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;
 
-class Inspire extends Command
+class Free extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'inspire';
+    protected $signature = 'free';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Display an inspiring quote';
+    protected $description = 'ending free trial';
 
     /**
      * Execute the console command.
@@ -28,6 +29,11 @@ class Inspire extends Command
      */
     public function handle()
     {
-        $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
+      $orange_subscribes = OrangeSubscribe::where('subscribe_due_date', date("Y-m-d"))->where('free', 1)->get();
+      foreach($orange_subscribes as $subscriber){
+        $subscriber->free = 0;
+        $subscriber->save;
+      }
+      return 'done!';
     }
 }

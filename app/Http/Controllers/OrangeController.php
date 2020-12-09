@@ -741,14 +741,4 @@ class OrangeController extends Controller
         return $orange_provisions;
     }
 
-    public function endFreeTrial()
-    {
-      $orange_subscribes = OrangeSubscribe::where('subscribe_due_date', date("Y-m-d"))->where('free', 1)->get();
-      foreach($orange_subscribes as $subscriber){
-        $subscriber->free = 0;
-        $subscriber->save;
-      }
-      return 'done!';
-    }
-
 }
