@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\OrangeSubscribe;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Inspiring;
 
 class Free extends Command
 {
@@ -13,7 +12,7 @@ class Free extends Command
      *
      * @var string
      */
-    protected $signature = 'free';
+    protected $signature = 'subscribe_free';
 
     /**
      * The console command description.
@@ -32,7 +31,7 @@ class Free extends Command
       $orange_subscribes = OrangeSubscribe::where('subscribe_due_date', date("Y-m-d"))->where('free', 1)->get();
       foreach($orange_subscribes as $subscriber){
         $subscriber->free = 0;
-        $subscriber->save;
+        $subscriber->save();
       }
       return 'done!';
     }
