@@ -661,6 +661,7 @@ class OrangeController extends Controller
 
     public function orange_subscribe_store(Request $request)
     {
+        $response = "";
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
 
         if ($orange_subscribe) {
