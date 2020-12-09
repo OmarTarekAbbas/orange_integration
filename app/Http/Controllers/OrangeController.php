@@ -528,6 +528,7 @@ class OrangeController extends Controller
         $orange_subscribe->service_id = $request->service_id;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+        return  $OrangeSubscribe ;
 
     }
 
@@ -696,7 +697,7 @@ class OrangeController extends Controller
             $orange_subscribe->service_id = $request->service_id;
             $orange_subscribe->save();
         }
-        return $orange_subscribe;
+        return $response;
     }
 
     public function directSubscribe($request)
