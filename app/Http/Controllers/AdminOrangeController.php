@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\OrangeNotify;
+use App\OrangeCharging;
 use App\OrangeSubscribe;
 use App\OrangeUssd;
-use App\OrangeWeb;
+use App\OrangeSubUnsub;
 use App\Provision;
 use Illuminate\Http\Request;
 use Validator;
@@ -30,7 +30,7 @@ class AdminOrangeController extends Controller
             }
         }
 
-        $orange_notify = OrangeNotify::query()->orderBy('id', 'DESC');
+        $orange_notify = OrangeCharging::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('msisdn') && $request->msisdn != '') {
             $orange_notify = $orange_notify->where('orange_notifies.msisdn', $request->msisdn);
@@ -77,7 +77,7 @@ class AdminOrangeController extends Controller
 
     public function orange_notifie_request_and_response($id)
     {
-        $show_request_orange_notify = OrangeNotify::findOrFail($id);
+        $show_request_orange_notify = OrangeCharging::findOrFail($id);
         return view('backend.orange.show_request', compact('show_request_orange_notify'));
     }
 
@@ -148,7 +148,7 @@ class AdminOrangeController extends Controller
                 return back()->withErrors($validator)->withInput();
             }
         }
-        $orange_webs = OrangeWeb::query()->orderBy('id', 'DESC');
+        $orange_webs = OrangeSubUnsub::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('calling_party_id') && $request->calling_party_id != '') {
             $orange_webs = $orange_webs->where('orange_webs.calling_party_id', $request->calling_party_id);
@@ -208,7 +208,7 @@ class AdminOrangeController extends Controller
 
     public function orange_webs_request_and_response($id)
     {
-        $show_request_orange_webs = OrangeWeb::findOrFail($id);
+        $show_request_orange_webs = OrangeSubUnsub::findOrFail($id);
         return view('backend.orange.show_request_orange_webs', compact('show_request_orange_webs'));
     }
 
@@ -235,8 +235,8 @@ class AdminOrangeController extends Controller
             $without_paginate = 1;
         }
 
-        if ($request->has('orange_notify_id') && $request->orange_notify_id != '') {
-            $orange_subscribes = $orange_subscribes->where('orange_subscribes.orange_notify_id', $request->orange_notify_id);
+        if ($request->has('orange_channel_id') && $request->orange_channel_id != '') {
+            $orange_subscribes = $orange_subscribes->where('orange_subscribes.orange_channel_id', $request->orange_channel_id);
             $without_paginate = 1;
         }
 

@@ -40,9 +40,9 @@
     </div>
 
     <div class="col-md-4">
-      {!! Form::label('orange_notify_id', 'Orange Notify Id:') !!}
+      {!! Form::label('orange_channel_id', 'Orange Notify Id:') !!}
       <div class='input-group date'>
-        <input type='text' id="orange_notify_id" class="form-control" value="{{request()->get('orange_notify_id')}}" name="orange_notify_id" placeholder="Orange Notify Id" />
+        <input type='text' id="orange_channel_id" class="form-control" value="{{request()->get('orange_channel_id')}}" name="orange_channel_id" placeholder="Orange Notify Id" />
         <span class="input-group-btn">
           <button type="button" id="search-btn" class="btn"><i class="glyphicon glyphicon-search"></i></button>
         </span>
@@ -133,7 +133,7 @@
                 Not active
                 @endif
               </td>
-              <td> {{ $item->orange_notify_id }}</td>
+              <td> {{ $item->orange_channel_id }}</td>
               <td> {{ $item->table_name }}</td>
               <td> {{ $item->created_at->format('Y-m-d h:i:s') }} </td>
 

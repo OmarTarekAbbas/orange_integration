@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\OrangeWeb;
+use App\OrangeSubUnsub;
 use App\OrangeSubscribe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
@@ -43,32 +43,30 @@ class OrangeApiController extends Controller
         $time_stamp = date('YmdHis');
         $sp_password = MD5($spId . password . $time_stamp); // spPassword = MD5(spId + Password + timeStamp)
 
-        $service = service;
-
+        $service = $request->service;
         $msisdn = $request->msisdn;
         $command = $request->command;
-
-        $bearer = 'SMS';
+        $bearer = $request->bearer_type;
 
         $soap_request =
-            "<?xml version='1.0' encoding='UTF-8'?>
-<soap:Envelope xmlns:soap='http://www.w3.org/2003/05/soap-envelope' xmlns:asp='http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl'>
-<soap:Header>
-<RequestSOAPHeader xmlns='http://www.huawei.com.cn/schema/common/v2_1'>
-<spId>$spId</spId>
-<spPassword>$sp_password</spPassword>
-<timeStamp>$time_stamp</timeStamp>
-</RequestSOAPHeader>
-</soap:Header>
-<soap:Body>
-<asp:AspActionRequest>
-<CC_Service_Number>$service</CC_Service_Number>
-<CC_Calling_Party_Id>$msisdn</CC_Calling_Party_Id>
-<ON_Selfcare_Command>$command</ON_Selfcare_Command>
-<ON_Bearer_Type>$bearer</ON_Bearer_Type>
-</asp:AspActionRequest>
-</soap:Body>
-</soap:Envelope>";
+        "<?xml version='1.0' encoding='UTF-8'?>
+        <soap:Envelope xmlns:soap='http://www.w3.org/2003/05/soap-envelope' xmlns:asp='http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl'>
+        <soap:Header>
+        <RequestSOAPHeader xmlns='http://www.huawei.com.cn/schema/common/v2_1'>
+        <spId>$spId</spId>
+        <spPassword>$sp_password</spPassword>
+        <timeStamp>$time_stamp</timeStamp>
+        </RequestSOAPHeader>
+        </soap:Header>
+        <soap:Body>
+        <asp:AspActionRequest>
+        <CC_Service_Number>$service</CC_Service_Number>
+        <CC_Calling_Party_Id>$msisdn</CC_Calling_Party_Id>
+        <ON_Selfcare_Command>$command</ON_Selfcare_Command>
+        <ON_Bearer_Type>$bearer</ON_Bearer_Type>
+        </asp:AspActionRequest>
+        </soap:Body>
+        </soap:Envelope>";
 
         $header = array(
             "Content-type: text/xml;charset=\"utf-8\"",
@@ -118,7 +116,7 @@ class OrangeApiController extends Controller
             }
         }
 
-        $orange_web = new OrangeWeb;
+        $orange_web = new OrangeSubUnsub;
         $orange_web->req = $soap_request;
         $orange_web->response = $output;
         $orange_web->spId = $spId;
@@ -143,14 +141,14 @@ class OrangeApiController extends Controller
             $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->first();
             if ($orange_subscribe) {
                 $orange_subscribe->active = $commandActive;
-                $orange_subscribe->orange_notify_id = $orange_web->id;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_webs';
                 $orange_subscribe->save();
             } else {
                 $orange_subscribe = new OrangeSubscribe;
                 $orange_subscribe->msisdn = $msisdn;
                 $orange_subscribe->active = $commandActive;
-                $orange_subscribe->orange_notify_id = $orange_web->id;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_webs';
                 $orange_subscribe->save();
             }
