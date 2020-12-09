@@ -29,7 +29,7 @@ class OrangeApiController extends Controller
         $this->log_action($action, $url, $log);
 
         if ($subscriber) {
-            return 1;
+            return $subscriber;
         }
 
         return 0;
