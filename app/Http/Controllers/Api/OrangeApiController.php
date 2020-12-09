@@ -11,14 +11,16 @@ class OrangeApiController extends Controller
     public function checkStatus(Request $request)
     {
         $msisdn = $request->msisdn;
+        $service_id = $request->service_id;
 
-        $subscriber = OrangeSubscribe::where('msisdn', $msisdn)->where('active', 1)->first();
+        $subscriber = OrangeSubscribe::where('msisdn', $msisdn)->where('service_id', $service_id)->where('active', 1)->first();
 
         $action = 'CheckStatus';
 
         $url = url()->full();
 
         $log['msisdn'] = $msisdn;
+        $log['service_id'] = $service_id;
 
         if($subscriber){
           $log['subscriber'] = $subscriber->toArray();
