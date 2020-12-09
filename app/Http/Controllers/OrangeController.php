@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Api\OrangeApiController;
+use App\Http\Requests\Request as RequestsRequest;
 use App\OrangeCharging;
 use App\OrangeSubscribe;
 use App\OrangeUssd;
@@ -479,7 +481,9 @@ class OrangeController extends Controller
         $orange_subscribe->msisdn = $request_array['User-MSISDN'];
         $orange_subscribe->orange_channel_id = $OrangeUssd->id;
         $orange_subscribe->table_name = 'orange_ussds';
-        $orange_subscribe->active = 1;
+        $orange_subscribe->type = 'ussd';
+        $orange_subscribe->bearer_type = 'USSD';
+        $orange_subscribe->service_id = $request_array['Service-Id'];
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
@@ -487,33 +491,70 @@ class OrangeController extends Controller
 
     }
 
-    public function notify(Request $request)
+    public function sms_notify(Request $request)
+    {
+         $orangeSms = new OrangeSms();
+         $orangeSms->msisdn      = $request->msisdn;
+         $orangeSms->message     = $request->message;
+         $orangeSms->service_id  = $request->message;
+         $orangeSms->save();
+
+        $orange_subscribe = new Request();
+        $orange_subscribe->msisdn = $request->msisdn;
+        $orange_subscribe->table_name = 'orange_sms';
+        $orange_subscribe->orange_channel_id = $orangeSms->id;
+        $orange_subscribe->type = 'sms';
+        $orange_subscribe->bearer_type = 'SMS';
+        $orange_subscribe->service_id = $request->message;
+
+        $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+    }
+
+    public function web_notify(Request $request)
+    {
+         $orangeWeb = new orangeWeb();
+         $orangeWeb->msisdn      = $request->msisdn;
+         $orangeWeb->service_id  = $request->service_id;
+         $orangeWeb->save();
+
+        $orange_subscribe = new Request();
+        $orange_subscribe->msisdn = $request->msisdn;
+        $orange_subscribe->table_name = 'orange_web';
+        $orange_subscribe->orange_channel_id = $orangeWeb->id;
+        $orange_subscribe->type = 'web';
+        $orange_subscribe->bearer_type = 'WEB';
+        $orange_subscribe->service_id = $request->service_id;
+
+        $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+    }
+
+    public function charging_notify(Request $request)
     {
 
-    /*
-    //    Notify request sample //
+      /*
+      //    Notify request sample //
 
-    POST /BillingEngine/RenewalService HTTP/1.1
-    SOAPAction: ""
-    Content-Type: text/xml; charset=UTF-8
-    Host: 10.57.221.2:80
-    Connection: close
-    Content-Length: 406
+      POST /BillingEngine/RenewalService HTTP/1.1
+      SOAPAction: ""
+      Content-Type: text/xml; charset=UTF-8
+      Host: 10.57.221.2:80
+      Connection: close
+      Content-Length: 406
 
-    <?xml version="1.0" encoding="utf-8" ?>
-    <soapenv:Envelope
-        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <soapenv:Body>
-            <ns1:Notification
-                xmlns:ns1="http://tempuri.org/">
-                <ns1:Action>OPERATORSUBSCRIBE</ns1:Action>
-                <ns1:MSISDN>201272033505</ns1:MSISDN>
-                <ns1:ServiceID>1000003886</ns1:ServiceID>
-            </ns1:Notification>
-        </soapenv:Body>
-    </soapenv:Envelope>
-    */
+      <?xml version="1.0" encoding="utf-8" ?>
+      <soapenv:Envelope
+          xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <soapenv:Body>
+              <ns1:Notification
+                  xmlns:ns1="http://tempuri.org/">
+                  <ns1:Action>OPERATORSUBSCRIBE</ns1:Action>
+                  <ns1:MSISDN>201272033505</ns1:MSISDN>
+                  <ns1:ServiceID>1000003886</ns1:ServiceID>
+              </ns1:Notification>
+          </soapenv:Body>
+      </soapenv:Envelope>
+      */
 
         $request_xml = file_get_contents('php://input');
 
@@ -566,12 +607,16 @@ class OrangeController extends Controller
         $orange_subscribe = new Request();
         $orange_subscribe->msisdn = $post_array['msisdn'];
         $orange_subscribe->orange_channel_id = $OrangeNotify->id;
-        $orange_subscribe->table_name = 'orange_notifies';
+        $orange_subscribe->table_name = 'orange_chargings';
+        $orange_subscribe->service_id = $post_array['service_id'];
+        $orange_subscribe->type = "charging";
 
         if ($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE") {
             $orange_subscribe->active = 1;
-        } elseif ($post_array['action'] == "OPERATORUNSUBSCRIBE" || $post_array['action'] == "GRACE2" || $post_array['action'] == "TERMINATE") {
+        } elseif ($post_array['action'] == "GRACE2") {
             $orange_subscribe->active = 0;
+        } elseif ($post_array['action'] == "TERMINATE" || $post_array['action'] == "OPERATORUNSUBSCRIBE") {
+            $orange_subscribe->active = 2;
         }
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
@@ -612,21 +657,56 @@ class OrangeController extends Controller
 
     public function orange_subscribe_store(Request $request)
     {
-        $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->first();
+        $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
+
         if ($orange_subscribe) {
-            $orange_subscribe->active = $request->active;
+          if($request->type != 'charging') {
             $orange_subscribe->orange_channel_id = $request->orange_channel_id;
             $orange_subscribe->table_name = $request->table_name;
+            $orange_subscribe->type = $request->type;
+          }
+
+          if($orange_subscribe->active  == 2) { // unsub and needed to charge again
+            $response = $this->directSubscribe($request);
+
+            if($response == 0) {
+              $orange_subscribe->active = 1;
+            } else {
+              $orange_subscribe->active = 0;
+            }
+
             $orange_subscribe->save();
+          }
         } else {
             $orange_subscribe = new OrangeSubscribe;
             $orange_subscribe->msisdn = $request->msisdn;
-            $orange_subscribe->active = $request->active;
+            $orange_subscribe->active = 1;
             $orange_subscribe->orange_channel_id = $request->orange_channel_id;
             $orange_subscribe->table_name = $request->table_name;
+            $orange_subscribe->type = $request->type;
+            if($request->type == "charging"){
+              $orange_subscribe->subscribe_due_date = date("Y-m-d");
+              $orange_subscribe->free = 0;
+            } else {
+              $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
+              $orange_subscribe->free = 1;
+            }
+            $orange_subscribe->service_id = $request->service_id;
             $orange_subscribe->save();
         }
         return $orange_subscribe;
+    }
+
+    public function directSubscribe($request)
+    {
+      $orange_sub = new Request();
+      $orange_sub->msisdn     = $request->msisdn;
+      $orange_sub->command    =  'Subscribe';
+      $orange_sub->service_id =  $request->service_id;
+      $orange_sub->bearer_type=  $request->bearer_type ;
+
+      $orandControl = new OrangeApiController();
+      return $orandControl->orangeWeb($orange_sub);
     }
 
     public function orange_ussd_store(Request $request)

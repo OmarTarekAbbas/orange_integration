@@ -79,9 +79,11 @@ Route::post('subscription_test', 'OrangeController@subscription_response_test');
 Route::post('provision_curl', 'OrangeController@provision_curl');
 Route::post('provision_test', 'OrangeController@provision_response_test');
 
-Route::post('notify', 'OrangeController@notify');
+Route::post('charging_notify', 'OrangeController@charging_notify');
 
 Route::get('ussd_notify', 'OrangeController@ussd_notify');
+Route::get('sms_notify', 'OrangeController@sms_notify');
+Route::get('web_notify', 'OrangeController@web_notify');
 
 Route::post('checkStatus', 'Api\OrangeApiController@checkStatus');
 Route::post('orangeWeb', 'Api\OrangeApiController@orangeWeb');

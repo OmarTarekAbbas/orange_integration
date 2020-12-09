@@ -43,32 +43,30 @@ class OrangeApiController extends Controller
         $time_stamp = date('YmdHis');
         $sp_password = MD5($spId . password . $time_stamp); // spPassword = MD5(spId + Password + timeStamp)
 
-        $service = service;
-
+        $service = $request->service;
         $msisdn = $request->msisdn;
         $command = $request->command;
+        $bearer = $request->bearer_type;
 
-        $bearer = 'SMS';
-
-$soap_request =
-"<?xml version='1.0' encoding='UTF-8'?>
-<soap:Envelope xmlns:soap='http://www.w3.org/2003/05/soap-envelope' xmlns:asp='http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl'>
-<soap:Header>
-<RequestSOAPHeader xmlns='http://www.huawei.com.cn/schema/common/v2_1'>
-<spId>$spId</spId>
-<spPassword>$sp_password</spPassword>
-<timeStamp>$time_stamp</timeStamp>
-</RequestSOAPHeader>
-</soap:Header>
-<soap:Body>
-<asp:AspActionRequest>
-<CC_Service_Number>$service</CC_Service_Number>
-<CC_Calling_Party_Id>$msisdn</CC_Calling_Party_Id>
-<ON_Selfcare_Command>$command</ON_Selfcare_Command>
-<ON_Bearer_Type>$bearer</ON_Bearer_Type>
-</asp:AspActionRequest>
-</soap:Body>
-</soap:Envelope>";
+        $soap_request =
+        "<?xml version='1.0' encoding='UTF-8'?>
+        <soap:Envelope xmlns:soap='http://www.w3.org/2003/05/soap-envelope' xmlns:asp='http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl'>
+        <soap:Header>
+        <RequestSOAPHeader xmlns='http://www.huawei.com.cn/schema/common/v2_1'>
+        <spId>$spId</spId>
+        <spPassword>$sp_password</spPassword>
+        <timeStamp>$time_stamp</timeStamp>
+        </RequestSOAPHeader>
+        </soap:Header>
+        <soap:Body>
+        <asp:AspActionRequest>
+        <CC_Service_Number>$service</CC_Service_Number>
+        <CC_Calling_Party_Id>$msisdn</CC_Calling_Party_Id>
+        <ON_Selfcare_Command>$command</ON_Selfcare_Command>
+        <ON_Bearer_Type>$bearer</ON_Bearer_Type>
+        </asp:AspActionRequest>
+        </soap:Body>
+        </soap:Envelope>";
 
         $header = array(
             "Content-type: text/xml;charset=\"utf-8\"",

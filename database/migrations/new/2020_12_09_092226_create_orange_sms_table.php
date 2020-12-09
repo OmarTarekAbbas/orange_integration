@@ -16,6 +16,7 @@ class CreateOrangeSmsTable extends Migration
         Schema::create('orange_sms', function (Blueprint $table) {
             $table->increments('id');
             $table->string('msisdn');
+            $table->text('message');
             $table->integer("service_id");
             $table->timestamps();
         });
