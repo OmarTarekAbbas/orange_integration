@@ -20,7 +20,7 @@ class UpdateDataInOrangeSubscribesTable extends Migration
             $table->date("subscribe_due_date")->nullable();
             $table->integer("last_charge_id")->nullable();
             $table->integer('active')->comment('0-pending | 1-active | 2- unsub')->change();
-            $table->string("type")->nullable()->comment("ussd | web | sms");
+            $table->string("type")->nullable()->comment("ussd | web | sms | charging");
         });
     }
 

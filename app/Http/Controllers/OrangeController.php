@@ -660,11 +660,10 @@ class OrangeController extends Controller
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
 
         if ($orange_subscribe) {
-          if($request->type != 'charging') {
             $orange_subscribe->orange_channel_id = $request->orange_channel_id;
             $orange_subscribe->table_name = $request->table_name;
             $orange_subscribe->type = $request->type;
-          }
+
 
           if($orange_subscribe->active  == 2) { // unsub and needed to charge again
             $response = $this->directSubscribe($request);
