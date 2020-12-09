@@ -526,6 +526,7 @@ class OrangeController extends Controller
         $orange_subscribe->service_id = $request->service_id;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+
     }
 
     public function charging_notify(Request $request)
