@@ -490,7 +490,7 @@ class OrangeController extends Controller
         $orange_subscribe->table_name = 'orange_ussds';
         $orange_subscribe->type = 'ussd';
         $orange_subscribe->bearer_type = 'USSD';
-        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:"";
+        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:0;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
