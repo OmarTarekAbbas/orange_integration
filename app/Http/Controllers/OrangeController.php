@@ -463,6 +463,8 @@ class OrangeController extends Controller
             $request_array[$headers] = $value;
         }
 
+        print_r($request_array); die;
+
         if(isset($request_array['User-MSISDN'])){
           $request_array['User-MSISDN'] = ltrim($request_array['User-MSISDN'], 'tel:+');
         }else{
