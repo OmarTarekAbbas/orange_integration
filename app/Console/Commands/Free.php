@@ -42,10 +42,10 @@ class Free extends Command
         $orange_subscription_code = app('App\Http\Controllers\Api\OrangeApiController')->orangeWeb($orangeWeb);
 
         $subscriber->free = 0;
-        $subscriber->active = $orange_subscription_code;
+        $subscriber->active = $orange_subscription_code == "0"?1:0;
         $subscriber->save();
 
       }
-      return 'done!';
+      echo 'subscribe_free done!';
     }
 }
