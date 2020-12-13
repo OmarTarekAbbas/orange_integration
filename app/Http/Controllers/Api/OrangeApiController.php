@@ -79,7 +79,8 @@ class OrangeApiController extends Controller
             "Content-length: " . strlen($soap_request),
         );
 
-        $URL = url('api/subscription_test');
+       // $URL = url('api/subscription_test');
+        $URL = "https://dev.digizone.com.kw/orange_integration/api/subscription_test"  ; // https://dev.digizone.com.kw/orange_integration
 
         $soap_do = curl_init();
         curl_setopt($soap_do, CURLOPT_URL, $URL);
