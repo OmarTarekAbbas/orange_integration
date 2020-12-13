@@ -477,20 +477,20 @@ class OrangeController extends Controller
         $orange_ussd = new Request();
         $orange_ussd->req = json_encode($header);
         $orange_ussd->response = $response_xml;
-        $orange_ussd->language = $request_array['User-Language']?$request_array['User-Language']:"";
-        $orange_ussd->msisdn = $request_array['User-MSISDN']?$request_array['User-MSISDN']:"";
-        $orange_ussd->session_id = $request_array['User-SessionId']?$request_array['User-SessionId']:"";
-        $orange_ussd->host = $request_array['Host']? $request_array['Host']:"";
+        $orange_ussd->language = isset($request_array['User-Language'])?$request_array['User-Language']:"";
+        $orange_ussd->msisdn = isset($request_array['User-MSISDN'])?$request_array['User-MSISDN']:"";
+        $orange_ussd->session_id = isset($request_array['User-SessionId'])?$request_array['User-SessionId']:"";
+        $orange_ussd->host =isset( $request_array['Host'])? $request_array['Host']:"";
 
         $OrangeUssd = $this->orange_ussd_store($orange_ussd);
 
         $orange_subscribe = new Request();
-        $orange_subscribe->msisdn = $request_array['User-MSISDN']?$request_array['User-MSISDN']:"";
+        $orange_subscribe->msisdn = isset($request_array['User-MSISDN'])?$request_array['User-MSISDN']:"";
         $orange_subscribe->orange_channel_id = $OrangeUssd->id;
         $orange_subscribe->table_name = 'orange_ussds';
         $orange_subscribe->type = 'ussd';
         $orange_subscribe->bearer_type = 'USSD';
-        $orange_subscribe->service_id = $request_array['Service-Id']?$request_array['Service-Id']:"";
+        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:"";
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
