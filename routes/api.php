@@ -64,7 +64,7 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 
 
 
-/**************Start Orange new**************/
+/**************Start Orange new vpn**************/
 
 define('spId', '000812');
 define('password', 'ivas');
