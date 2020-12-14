@@ -699,8 +699,9 @@ class OrangeController extends Controller
               $orange_subscribe->active = 0;
             }
 
-            $orange_subscribe->save();
+
           }
+          $orange_subscribe->save();
         } else {
             $orange_subscribe = new OrangeSubscribe;
             $orange_subscribe->msisdn = $request->msisdn;
