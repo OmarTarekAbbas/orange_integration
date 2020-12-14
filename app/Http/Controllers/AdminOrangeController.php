@@ -33,36 +33,36 @@ class AdminOrangeController extends Controller
         $orange_notify = OrangeCharging::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('msisdn') && $request->msisdn != '') {
-            $orange_notify = $orange_notify->where('orange_notifies.msisdn', $request->msisdn);
+            $orange_notify = $orange_notify->where('orange_chargings.msisdn', $request->msisdn);
             $without_paginate = 1;
         }
 
         if ($request->has('service_id') && $request->service_id != '') {
-            $orange_notify = $orange_notify->where('orange_notifies.service_id', $request->service_id);
+            $orange_notify = $orange_notify->where('orange_chargings.service_id', $request->service_id);
             $without_paginate = 1;
         }
 
         if ($request->has('action') && $request->action != '') {
-            $orange_notify = $orange_notify->where('orange_notifies.action', $request->action);
+            $orange_notify = $orange_notify->where('orange_chargings.action', $request->action);
             $without_paginate = 1;
         }
 
         if ($request->has('notification_result') && $request->notification_result != '') {
             if ($request->notification_result == 200) {
-                $orange_notify = $orange_notify->where('orange_notifies.notification_result', $request->notification_result);
+                $orange_notify = $orange_notify->where('orange_chargings.notification_result', $request->notification_result);
             } else {
-                $orange_notify = $orange_notify->where('orange_notifies.notification_result', '!=', 200);
+                $orange_notify = $orange_notify->where('orange_chargings.notification_result', '!=', 200);
             }
             $without_paginate = 1;
         }
 
         if ($request->has('from_date') && $request->from_date != '') {
-            $orange_notify = $orange_notify->whereDate('orange_notifies.created_at', '>=', $request->from_date);
+            $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '>=', $request->from_date);
             $without_paginate = 1;
         }
 
         if ($request->has('to_date') && $request->to_date != '') {
-            $orange_notify = $orange_notify->whereDate('orange_notifies.created_at', '<=', $request->to_date);
+            $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '<=', $request->to_date);
             $without_paginate = 1;
         }
 
@@ -151,50 +151,50 @@ class AdminOrangeController extends Controller
         $orange_webs = OrangeSubUnsub::query()->orderBy('id', 'DESC');
         $without_paginate = 0;
         if ($request->has('calling_party_id') && $request->calling_party_id != '') {
-            $orange_webs = $orange_webs->where('orange_webs.calling_party_id', $request->calling_party_id);
+            $orange_webs = $orange_webs->where('orange_sub_unsubs.calling_party_id', $request->calling_party_id);
             $without_paginate = 1;
         }
 
         if ($request->has('spId') && $request->spId != '') {
-            $orange_webs = $orange_webs->where('orange_webs.spId', $request->spId);
+            $orange_webs = $orange_webs->where('orange_sub_unsubs.spId', $request->spId);
             $without_paginate = 1;
         }
 
         if ($request->has('service_number') && $request->service_number != '') {
-            $orange_webs = $orange_webs->where('orange_webs.service_number', $request->service_number);
+            $orange_webs = $orange_webs->where('orange_sub_unsubs.service_number', $request->service_number);
             $without_paginate = 1;
         }
 
         if ($request->has('selfcare_command') && $request->selfcare_command != '') {
-            $orange_webs = $orange_webs->where('orange_webs.selfcare_command', $request->selfcare_command);
+            $orange_webs = $orange_webs->where('orange_sub_unsubs.selfcare_command', $request->selfcare_command);
             $without_paginate = 1;
         }
 
         if ($request->has('time_stamp') && $request->time_stamp != '') {
-            $orange_webs = $orange_webs->where('orange_webs.time_stamp', $request->time_stamp);
+            $orange_webs = $orange_webs->where('orange_sub_unsubs.time_stamp', $request->time_stamp);
             $without_paginate = 1;
         }
 
         if ($request->has('on_bearer_type') && $request->on_bearer_type != '') {
-            $orange_webs = $orange_webs->where('orange_webs.on_bearer_type', $request->on_bearer_type);
+            $orange_webs = $orange_webs->where('orange_sub_unsubs.on_bearer_type', $request->on_bearer_type);
             $without_paginate = 1;
         }
 
         if ($request->has('on_result_code') && $request->on_result_code != '') {
             if ($request->on_result_code == 0) {
-                $orange_webs = $orange_webs->where('orange_webs.on_result_code', $request->on_result_code);
+                $orange_webs = $orange_webs->where('orange_sub_unsubs.on_result_code', $request->on_result_code);
             } else {
-                $orange_webs = $orange_webs->where('orange_webs.on_result_code', '!=', 0);
+                $orange_webs = $orange_webs->where('orange_sub_unsubs.on_result_code', '!=', 0);
             }
         }
 
         if ($request->has('from_date') && $request->from_date != '') {
-            $orange_webs = $orange_webs->whereDate('orange_webs.created_at', '>=', $request->from_date);
+            $orange_webs = $orange_webs->whereDate('orange_sub_unsubs.created_at', '>=', $request->from_date);
             $without_paginate = 1;
         }
 
         if ($request->has('to_date') && $request->to_date != '') {
-            $orange_webs = $orange_webs->whereDate('orange_webs.created_at', '<=', $request->to_date);
+            $orange_webs = $orange_webs->whereDate('orange_sub_unsubs.created_at', '<=', $request->to_date);
             $without_paginate = 1;
         }
 
