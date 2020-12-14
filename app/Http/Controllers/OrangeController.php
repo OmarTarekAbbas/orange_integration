@@ -463,7 +463,7 @@ class OrangeController extends Controller
             $request_array[$headers] = $value;
         }
 
-       print_r($request_array); die;
+     //  print_r($request_array); die;
 
         if(isset($request_array['User-MSISDN'])){
           $msisdn=   ltrim($request_array['User-MSISDN'], 'tel:+');
@@ -471,6 +471,15 @@ class OrangeController extends Controller
           $msisdn=   ltrim($request_array['User-Msisdn'], 'tel:+');
         }else{
           $msisdn= "" ;
+        }
+
+
+        if(isset($request_array['User-SessionId'])){
+          $User_SessionId =  $request_array['User-SessionId'];
+        }elseif(isset($request_array['User-Sessionid'])){
+          $User_SessionId =  $request_array['User-Sessionid'];
+        }else{
+          $User_SessionId = "" ;
         }
 
 
@@ -485,7 +494,7 @@ class OrangeController extends Controller
         $orange_ussd->response = $response_xml;
         $orange_ussd->language = isset($request_array['User-Language'])?$request_array['User-Language']:"";
         $orange_ussd->msisdn = $msisdn;
-        $orange_ussd->session_id = isset($request_array['User-SessionId'])?$request_array['User-SessionId']:"";
+        $orange_ussd->session_id = $User_SessionId;
         $orange_ussd->host =isset( $request_array['Host'])? $request_array['Host']:"";
 
         $OrangeUssd = $this->orange_ussd_store($orange_ussd);
