@@ -64,7 +64,7 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 
 
 
-/**************Start Orange new vpn**************/
+/**************Start Orange new vp 7n**************/
 
 define('spId', '000812');
 define('password', 'ivas');
@@ -81,6 +81,7 @@ Route::post('provision_test', 'OrangeController@provision_response_test');
 
 Route::post('charging_notify', 'OrangeController@charging_notify');
 Route::get('ussd_notify', 'OrangeController@ussd_notify');
+
 Route::get('sms_notify', 'OrangeController@sms_notify');
 Route::post('web_notify', 'OrangeController@web_notify');
 
