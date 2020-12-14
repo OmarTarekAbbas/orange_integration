@@ -463,13 +463,17 @@ class OrangeController extends Controller
             $request_array[$headers] = $value;
         }
 
-        print_r($request_array); die;
+     //   print_r($request_array); die;
 
         if(isset($request_array['User-MSISDN'])){
-          $request_array['User-MSISDN'] = ltrim($request_array['User-MSISDN'], 'tel:+');
+          $msisdn=   ltrim($request_array['User-MSISDN'], 'tel:+');
+        }elseif(isset($request_array['User-Msisdn'])){
+          $msisdn=   ltrim($request_array['User-Msisdn'], 'tel:+');
         }else{
-          $request_array['User-MSISDN'] = "";
+          $msisdn= "" ;
         }
+
+
 
 
         $response_msg = 'سوف يتم الاشتراك قريبا';
@@ -480,14 +484,14 @@ class OrangeController extends Controller
         $orange_ussd->req = json_encode($header);
         $orange_ussd->response = $response_xml;
         $orange_ussd->language = isset($request_array['User-Language'])?$request_array['User-Language']:"";
-        $orange_ussd->msisdn = isset($request_array['User-MSISDN'])?$request_array['User-MSISDN']:"";
+        $orange_ussd->msisdn = $msisdn;
         $orange_ussd->session_id = isset($request_array['User-SessionId'])?$request_array['User-SessionId']:"";
         $orange_ussd->host =isset( $request_array['Host'])? $request_array['Host']:"";
 
         $OrangeUssd = $this->orange_ussd_store($orange_ussd);
 
         $orange_subscribe = new Request();
-        $orange_subscribe->msisdn = isset($request_array['User-MSISDN'])?$request_array['User-MSISDN']:"";
+        $orange_subscribe->msisdn = $msisdn;
         $orange_subscribe->orange_channel_id = $OrangeUssd->id;
         $orange_subscribe->table_name = 'orange_ussds';
         $orange_subscribe->type = 'ussd';
