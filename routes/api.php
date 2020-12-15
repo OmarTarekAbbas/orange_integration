@@ -66,10 +66,10 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 
 /**************Start Orange**************/
 
-define('spId', '000812');
-define('password', 'ivas');
-define('service', '2142');
-define('partnerId', '35000001');
+define('spId', '002401');
+define('password', '3uKc3f1W');
+define('service', '0024010001');
+define('partnerId', '1000000577');
 
 Route::post('subscription', 'OrangeController@subscription');
 
