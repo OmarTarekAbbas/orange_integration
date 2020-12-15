@@ -312,28 +312,12 @@ class OrangeController extends Controller
         $output = curl_exec($soap_do);
 
         // test Orange link by curl
-        $http_respond = trim( strip_tags( $output) );
-        $http_code = curl_getinfo( $soap_do, CURLINFO_HTTP_CODE );
-
-        echo $http_respond ;
-        echo "<hr>" ;
-        echo  $http_code ;
-        die;
-
-        // if ( ( $http_code == "200" ) || ( $http_code == "302" ) ) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        if (curl_errno($soap_do)) {
+          $error_msg = curl_error($soap_do);
+      }
+      echo $error_msg ; die;
 
         curl_close($soap_do);
-
-
-
-
-
-
-
 
 
         $request_array = array(
