@@ -296,7 +296,7 @@ class OrangeController extends Controller
             "Content-length: " . strlen($soap_request),
         );
 
-        $URL = url('api/subscription_test');
+        $URL = "http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl";
 
         $soap_do = curl_init();
         curl_setopt($soap_do, CURLOPT_URL, $URL);
