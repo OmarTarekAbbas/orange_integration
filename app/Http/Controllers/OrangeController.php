@@ -349,7 +349,7 @@ class OrangeController extends Controller
 
         $OrangeWeb = $this->orange_web_store($orange_web);
 
-        if($post_array['result_code'] == 0){
+        if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
             $orange_subscribe = new Request();
             $orange_subscribe->msisdn = $msisdn;
             $orange_subscribe->orange_channel_id = $OrangeWeb->id;
