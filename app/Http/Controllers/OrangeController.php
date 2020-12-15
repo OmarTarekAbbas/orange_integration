@@ -345,7 +345,7 @@ class OrangeController extends Controller
         $orange_web->calling_party_id = $msisdn;
         $orange_web->selfcare_command = $command;
         $orange_web->on_bearer_type = $bearer;
-        $orange_web->on_result_code = $post_array['result_code'];
+        $orange_web->on_result_code = isset($post_array['result_code'])?$post_array['result_code']:"";
 
         $OrangeWeb = $this->orange_web_store($orange_web);
 
