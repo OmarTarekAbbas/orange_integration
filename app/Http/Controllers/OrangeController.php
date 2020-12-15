@@ -314,8 +314,17 @@ class OrangeController extends Controller
         // test Orange link by curl
         if (curl_errno($soap_do)) {
           $error_msg = curl_error($soap_do);
+          $output =  $error_msg ;
       }
-      echo $error_msg ; die;
+     // echo $error_msg ; die;
+      //  Could not resolve host: smsgwpusms
+      /*
+      Yousef error :
+wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: Couldn't open socket connection to server http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl prior to connect().  This is often a problem looking up the hostname.
+
+
+*/
+
 
         curl_close($soap_do);
 
