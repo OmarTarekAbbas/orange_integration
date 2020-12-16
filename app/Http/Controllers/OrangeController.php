@@ -443,10 +443,63 @@ curl_setopt_array($curl, array(
   ),
 ));
 
-$response = curl_exec($curl);
+$output = curl_exec($curl);
 
 curl_close($curl);
-echo $response;
+//  echo $response;
+
+$request_array = array(
+  'result_code' => ['start' => '<ON_Result_Code>', 'end' => '</ON_Result_Code>'],
+  'bearer_type' => ['start' => '<ON_Bearer_Type>', 'end' => '</ON_Bearer_Type>']
+);
+
+$string = $output;
+
+foreach ($request_array as $key => $value) {
+  $start = $value['start'];
+  $end = $value['end'];
+
+  $startpos = strpos($string, $start) + strlen($start);
+  if (strpos($string, $start) !== false) {
+      $endpos = strpos($string, $end, $startpos);
+      if (strpos($string, $end, $startpos) !== false) {
+          $post_array[$key] = substr($string, $startpos, $endpos - $startpos);
+      } else {
+          $post_array[$key] = "";
+      }
+  }
+}
+
+$orange_web = new request;
+$orange_web->req = $soap_request;
+$orange_web->response = $output;
+$orange_web->spId = $spId;
+$orange_web->sp_password = $sp_password;
+$orange_web->time_stamp = $time_stamp;
+$orange_web->service_number = $service;
+$orange_web->calling_party_id = $msisdn;
+$orange_web->selfcare_command = $command;
+$orange_web->on_bearer_type = $bearer;
+$orange_web->on_result_code = isset($post_array['result_code'])?$post_array['result_code']:"";
+
+$OrangeWeb = $this->orange_web_store($orange_web);
+
+if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
+  $orange_subscribe = new Request();
+  $orange_subscribe->msisdn = $msisdn;
+  $orange_subscribe->orange_channel_id = $OrangeWeb->id;
+  $orange_subscribe->table_name = 'orange_webs';
+  if($command == 'Subscribe'){
+      $orange_subscribe->active = 1;
+  }elseif($command == 'Unsubscribe'){
+      $orange_subscribe->active = 0;
+  }
+
+  $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+}
+
+// return $post_array['result_code'];
+return $output;
 
 
 
