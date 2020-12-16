@@ -298,7 +298,6 @@ class OrangeController extends Controller
 
         $URL = "http://10.240.22.41:8310/smsgwws/ASP";
 
-        $f = fopen('request.txt', 'w');
 
         $soap_do = curl_init();
         curl_setopt($soap_do, CURLOPT_URL, $URL);
@@ -311,7 +310,6 @@ class OrangeController extends Controller
         curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
         curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
         curl_setopt($soap_do, CURLOPT_VERBOSE, 1);
-        curl_setopt($soap_do, CURLOPT_STDERR, $f );
 
 
         // to dump request
@@ -537,6 +535,46 @@ if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
 
 // return $post_array['result_code'];
 var_dump($output) ;
+
+
+
+    }
+
+    public function subscription_curl_emad2(Request $request)
+    {
+
+
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://www.dataaccess.com/webservicesserver/NumberConversion.wso',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_VERBOSE => TRUE,
+      CURLOPT_STDERR => $verbose = fopen('php://temp', 'rw+'),
+      CURLOPT_FILETIME => TRUE,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS =>'<?xml version="1.0" encoding="utf-8"?>
+    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+        <NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">
+          <ubiNum>500</ubiNum>
+        </NumberToWords>
+      </soap:Body>
+    </soap:Envelope>',
+      CURLOPT_HTTPHEADER => array(
+        'Content-Type: text/xml'
+      ),
+    ));
+
+
+$response = curl_exec($curl);
+echo "Verbose information:\n", !rewind($verbose), stream_get_contents($verbose), "\n";
+curl_close($curl);
+echo $response;
 
 
 
