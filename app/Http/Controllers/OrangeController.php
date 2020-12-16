@@ -445,43 +445,73 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
 </soap:Envelope>";
 
 
-      $curl = curl_init();
+    // $curl = curl_init();
       $URL = "http://10.240.22.41:8310/smsgwws/ASP" ;
 
+// curl_setopt_array($curl, array(
+//   CURLOPT_URL => $URL ,
+//   CURLOPT_RETURNTRANSFER => true,
+//   CURLOPT_ENCODING => '',
+//   CURLOPT_MAXREDIRS => 10,
+//   CURLOPT_TIMEOUT => 0,
+//   CURLOPT_FOLLOWLOCATION => true,
+//   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//   CURLOPT_CUSTOMREQUEST => 'POST',
+//   CURLOPT_POSTFIELDS => $soap_request,
+//   CURLOPT_HTTPHEADER => array(
+//    // 'Content-Type: text/xml' ,
+//     "Content-type: text/xml;charset=\"utf-8\"",
+//     "Content-length: " . strlen($soap_request),
+
+//   ),
+// ));
+
+
+   // to dump request
+  //  $f = fopen('request.txt', 'w');
+  //  curl_setopt_array( $soap_request, array(
+  //      CURLOPT_URL => $URL,
+  //      CURLOPT_RETURNTRANSFER => 1,
+  //      CURLOPT_FOLLOWLOCATION => 1,
+  //      CURLOPT_VERBOSE => 1,
+  //      CURLOPT_STDERR => $f,
+  //  ));
+
+
+////$output = curl_exec($curl);
+
+//curl_close($curl);
+//  echo $response;
+
+
+
+
+$curl = curl_init();
 curl_setopt_array($curl, array(
-  CURLOPT_URL => $URL ,
+  CURLOPT_URL => $URL,
   CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_VERBOSE => TRUE,
+  CURLOPT_STDERR => $verbose = fopen('php://temp', 'rw+'),
+  CURLOPT_FILETIME => TRUE,
   CURLOPT_ENCODING => '',
   CURLOPT_MAXREDIRS => 10,
   CURLOPT_TIMEOUT => 0,
   CURLOPT_FOLLOWLOCATION => true,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS => $soap_request,
+  CURLOPT_POSTFIELDS =>$soap_request,
   CURLOPT_HTTPHEADER => array(
-   // 'Content-Type: text/xml' ,
-    "Content-type: text/xml;charset=\"utf-8\"",
+    "Content-type: text/xml;charset=utf-8",
     "Content-length: " . strlen($soap_request),
-
   ),
 ));
 
 
-   // to dump request
-   $f = fopen('request.txt', 'w');
-   curl_setopt_array( $soap_request, array(
-       CURLOPT_URL => $URL,
-       CURLOPT_RETURNTRANSFER => 1,
-       CURLOPT_FOLLOWLOCATION => 1,
-       CURLOPT_VERBOSE => 1,
-       CURLOPT_STDERR => $f,
-   ));
-
-
 $output = curl_exec($curl);
-
+echo "Verbose information:\n", !rewind($verbose), stream_get_contents($verbose), "\n";
 curl_close($curl);
-//  echo $response;
+//echo $output;
+
 
 $request_array = array(
   'result_code' => ['start' => '<ON_Result_Code>', 'end' => '</ON_Result_Code>'],
