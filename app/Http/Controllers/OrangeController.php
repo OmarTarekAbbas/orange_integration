@@ -298,6 +298,8 @@ class OrangeController extends Controller
 
         $URL = "http://10.240.22.41:8310/smsgwws/ASP";
 
+        $f = fopen('request.txt', 'w');
+
         $soap_do = curl_init();
         curl_setopt($soap_do, CURLOPT_URL, $URL);
         curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
@@ -308,22 +310,30 @@ class OrangeController extends Controller
         curl_setopt($soap_do, CURLOPT_POST, true);
         curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
         curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
-
-
+        curl_setopt($soap_do, CURLOPT_VERBOSE, 1);
+        curl_setopt($soap_do, CURLOPT_STDERR, $f );
 
 
         // to dump request
-      $f = fopen('request.txt', 'w');
+      //$f = fopen('request.txt', 'w');
       curl_setopt_array($soap_do, array(
           CURLOPT_URL => $URL,
-          CURLOPT_RETURNTRANSFER => 1,
-          CURLOPT_FOLLOWLOCATION => 1,
-          CURLOPT_VERBOSE => 1,
-          CURLOPT_STDERR => $f,
+          // CURLOPT_RETURNTRANSFER => 1,
+          // CURLOPT_FOLLOWLOCATION => 1,
+          // CURLOPT_VERBOSE => 1,
+          // CURLOPT_STDERR => $f,
+
+          CURLOPT_RETURNTRANSFER => TRUE,
+          CURLOPT_FOLLOWLOCATION => TRUE,
+          CURLOPT_VERBOSE => TRUE,
+          CURLOPT_STDERR => $verbose = fopen('php://temp', 'rw+'),
+          CURLOPT_FILETIME => TRUE,
       ));
 
 
         $output = curl_exec($soap_do);
+
+        echo "Verbose information:\n", !rewind($f ), stream_get_contents($f), "\n";
 
       //  var_dump($output) ;die;
 
