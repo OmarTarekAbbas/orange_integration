@@ -296,7 +296,7 @@ class OrangeController extends Controller
             "Content-length: " . strlen($soap_request),
         );
 
-        $URL = "http://10.240.22.41:8310/smsgwws/ASP";
+        $URL = "https://10.240.22.41:8310/smsgwws/ASP";
 
         $soap_do = curl_init();
         curl_setopt($soap_do, CURLOPT_URL, $URL);
