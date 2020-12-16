@@ -289,9 +289,9 @@ class OrangeController extends Controller
 
         $header = array(
             "Content-type: text/xml;charset=\"utf-8\"",
-            "Accept: text/xml",
-            "Cache-Control: no-cache",
-            "Pragma: no-cache",
+        //    "Accept: text/xml",
+          //  "Cache-Control: no-cache",
+          //  "Pragma: no-cache",
         //   "SOAPAction: 'http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl/AspActionRequest'",    // AspActionRequest
             "Content-length: " . strlen($soap_request),
         );
