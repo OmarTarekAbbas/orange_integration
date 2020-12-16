@@ -490,6 +490,7 @@ $curl = curl_init();
 curl_setopt_array($curl, array(
   CURLOPT_URL => $URL,
   CURLOPT_RETURNTRANSFER => true,
+  CURLINFO_HEADER_OUT  => TRUE,
   CURLOPT_VERBOSE => TRUE,
   CURLOPT_STDERR => $verbose = fopen('php://temp', 'rw+'),
   CURLOPT_FILETIME => TRUE,
@@ -506,9 +507,10 @@ curl_setopt_array($curl, array(
   ),
 ));
 
-
 $output = curl_exec($curl);
 echo "Verbose information:\n", !rewind($verbose), stream_get_contents($verbose), "\n";
+echo "<hr>";
+echo "headerSent:\n",$headerSent = curl_getinfo($curl, CURLINFO_HEADER_OUT ); // request headers
 curl_close($curl);
 //echo $output;
 
@@ -570,45 +572,6 @@ var_dump($output) ;
 
     }
 
-    public function subscription_curl_emad2(Request $request)
-    {
-
-
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://www.dataaccess.com/webservicesserver/NumberConversion.wso',
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_VERBOSE => TRUE,
-      CURLOPT_STDERR => $verbose = fopen('php://temp', 'rw+'),
-      CURLOPT_FILETIME => TRUE,
-      CURLOPT_ENCODING => '',
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 0,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS =>'<?xml version="1.0" encoding="utf-8"?>
-    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-      <soap:Body>
-        <NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">
-          <ubiNum>500</ubiNum>
-        </NumberToWords>
-      </soap:Body>
-    </soap:Envelope>',
-      CURLOPT_HTTPHEADER => array(
-        'Content-Type: text/xml'
-      ),
-    ));
-
-
-$response = curl_exec($curl);
-echo "Verbose information:\n", !rewind($verbose), stream_get_contents($verbose), "\n";
-curl_close($curl);
-echo $response;
-
-
-
-    }
 
     public function subscription()
     {
