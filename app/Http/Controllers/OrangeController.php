@@ -316,7 +316,7 @@ class OrangeController extends Controller
         // test Orange link by curl
         if (curl_errno($soap_do)) {
           $error_msg = curl_error($soap_do);
-          echo $error_msg ; die;
+         // echo $error_msg ; die;
           $output =  $error_msg ;
       }
      // echo $error_msg ; die;
@@ -391,6 +391,37 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
 
     public function subscription_curl_emad(Request $request)
     {
+
+      $curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://www.dataaccess.com/webservicesserver/NumberConversion.wso',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">
+      <ubiNum>500</ubiNum>
+    </NumberToWords>
+  </soap:Body>
+</soap:Envelope>',
+  CURLOPT_HTTPHEADER => array(
+    'Content-Type: text/xml'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+
+
 
     }
 
