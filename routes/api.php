@@ -69,13 +69,13 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 define('spId', '002401');
 define('password', '3uKc3f1W');
 define('service', '0024010001');
+define('productId', '1000000577');
 define('partnerId', '1000000577');
 
 Route::post('subscription', 'OrangeController@subscription');
 
 Route::post('subscription_curl', 'OrangeController@subscription_curl');
 Route::post('subscription_curl_emad', 'OrangeController@subscription_curl_emad');
-Route::post('subscription_curl_emad2', 'OrangeController@subscription_curl_emad2');
 Route::post('subscription_test', 'OrangeController@subscription_response_test');
 
 Route::post('provision_curl', 'OrangeController@provision_curl');

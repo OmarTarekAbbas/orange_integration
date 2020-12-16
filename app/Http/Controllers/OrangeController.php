@@ -261,7 +261,7 @@ class OrangeController extends Controller
         $time_stamp = date('YmdHis');
         $sp_password = MD5($spId.password.$time_stamp);  // spPassword = MD5(spId + Password + timeStamp)
 
-        $service = service;
+        $productId = productId;
         $msisdn = '201208138169';
         $command = 'Subscribe';
        // $command = 'Unsubscribe';
@@ -279,7 +279,7 @@ class OrangeController extends Controller
 </soap:Header>
 <soap:Body>
 <asp:AspActionRequest>
-<CC_Service_Number>$service</CC_Service_Number>
+<CC_Service_Number>$productId</CC_Service_Number>
 <CC_Calling_Party_Id>$msisdn</CC_Calling_Party_Id>
 <ON_Selfcare_Command>$command</ON_Selfcare_Command>
 <ON_Bearer_Type>$bearer</ON_Bearer_Type>
@@ -402,7 +402,7 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
         $orange_web->spId = $spId;
         $orange_web->sp_password = $sp_password;
         $orange_web->time_stamp = $time_stamp;
-        $orange_web->service_number = $service;
+        $orange_web->service_number = $productId;
         $orange_web->calling_party_id = $msisdn;
         $orange_web->selfcare_command = $command;
         $orange_web->on_bearer_type = $bearer;
