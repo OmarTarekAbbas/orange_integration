@@ -453,14 +453,17 @@ curl_setopt_array($curl, array(
   CURLOPT_CUSTOMREQUEST => 'POST',
   CURLOPT_POSTFIELDS => $soap_request,
   CURLOPT_HTTPHEADER => array(
-    'Content-Type: text/xml'
+   // 'Content-Type: text/xml' ,
+    "Content-type: text/xml;charset=\"utf-8\"",
+    "Content-length: " . strlen($soap_request),
+
   ),
 ));
 
 
    // to dump request
    $f = fopen('request.txt', 'w');
-   curl_setopt_array($soap_do, array(
+   curl_setopt_array( $soap_request, array(
        CURLOPT_URL => $URL,
        CURLOPT_RETURNTRANSFER => 1,
        CURLOPT_FOLLOWLOCATION => 1,
