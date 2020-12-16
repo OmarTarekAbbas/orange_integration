@@ -292,11 +292,11 @@ class OrangeController extends Controller
             "Accept: text/xml",
             "Cache-Control: no-cache",
             "Pragma: no-cache",
-            "SOAPAction: 'AspActionRequest'",
+            "SOAPAction: 'AspActionRequest'",    // AspActionRequest
             "Content-length: " . strlen($soap_request),
         );
 
-        $URL = "http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl";
+        $URL = "http://10.240.22.41:8310/smsgwws/ASP";
 
         $soap_do = curl_init();
         curl_setopt($soap_do, CURLOPT_URL, $URL);
