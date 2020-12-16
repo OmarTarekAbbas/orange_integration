@@ -296,7 +296,7 @@ class OrangeController extends Controller
             "Content-length: " . strlen($soap_request),
         );
 
-        $URL = "https://10.240.22.41:8310/smsgwws/ASP";
+        $URL = "http://10.240.22.41:8310/smsgwws/ASP";
 
         $soap_do = curl_init();
         curl_setopt($soap_do, CURLOPT_URL, $URL);
@@ -392,10 +392,44 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
     public function subscription_curl_emad(Request $request)
     {
 
+
+      date_default_timezone_set("UTC") ;
+
+      $spId = spId;
+      $time_stamp = date('YmdHis');
+      $sp_password = MD5($spId.password.$time_stamp);  // spPassword = MD5(spId + Password + timeStamp)
+
+      $service = service;
+      $msisdn = '201208138169';
+      $command = 'Subscribe';
+     // $command = 'Unsubscribe';
+      $bearer = 'SMS';
+
+      $soap_request =
+"<?xml version='1.0' encoding='UTF-8'?>
+<soap:Envelope xmlns:soap='http://www.w3.org/2003/05/soap-envelope' xmlns:asp='http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl'>
+<soap:Header>
+<RequestSOAPHeader xmlns='http://www.huawei.com.cn/schema/common/v2_1'>
+<spId>$spId</spId>
+<spPassword>$sp_password</spPassword>
+<timeStamp>$time_stamp</timeStamp>
+</RequestSOAPHeader>
+</soap:Header>
+<soap:Body>
+<asp:AspActionRequest>
+<CC_Service_Number>$service</CC_Service_Number>
+<CC_Calling_Party_Id>$msisdn</CC_Calling_Party_Id>
+<ON_Selfcare_Command>$command</ON_Selfcare_Command>
+<ON_Bearer_Type>$bearer</ON_Bearer_Type>
+</asp:AspActionRequest>
+</soap:Body>
+</soap:Envelope>";
+
+
       $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://www.dataaccess.com/webservicesserver/NumberConversion.wso',
+  CURLOPT_URL => 'http://10.240.22.41:8310/smsgwws/ASP',
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => '',
   CURLOPT_MAXREDIRS => 10,
@@ -403,14 +437,7 @@ curl_setopt_array($curl, array(
   CURLOPT_FOLLOWLOCATION => true,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS =>'<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap:Body>
-    <NumberToWords xmlns="http://www.dataaccess.com/webservicesserver/">
-      <ubiNum>500</ubiNum>
-    </NumberToWords>
-  </soap:Body>
-</soap:Envelope>',
+  CURLOPT_POSTFIELDS => $soap_request,
   CURLOPT_HTTPHEADER => array(
     'Content-Type: text/xml'
   ),
