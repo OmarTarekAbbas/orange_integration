@@ -311,6 +311,8 @@ class OrangeController extends Controller
 
         $output = curl_exec($soap_do);
 
+        var_dump($output) ;die;
+
         // test Orange link by curl
         if (curl_errno($soap_do)) {
           $error_msg = curl_error($soap_do);
