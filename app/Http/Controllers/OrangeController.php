@@ -315,25 +315,22 @@ class OrangeController extends Controller
 
 
         // to dump request
-      //$f = fopen('request.txt', 'w');
+      $f2 = fopen('request2.txt', 'w');
       curl_setopt_array($soap_do, array(
           CURLOPT_URL => $URL,
-          // CURLOPT_RETURNTRANSFER => 1,
-          // CURLOPT_FOLLOWLOCATION => 1,
-          // CURLOPT_VERBOSE => 1,
-          // CURLOPT_STDERR => $f,
-
-          CURLOPT_RETURNTRANSFER => TRUE,
-          CURLOPT_FOLLOWLOCATION => TRUE,
-          CURLOPT_VERBOSE => TRUE,
-          CURLOPT_STDERR => $verbose = fopen('php://temp', 'rw+'),
+          CURLOPT_RETURNTRANSFER => 1,
+          CURLOPT_FOLLOWLOCATION => 1,
+          CURLOPT_VERBOSE => 1,
+          CURLOPT_STDERR => $f2,
           CURLOPT_FILETIME => TRUE,
+
+
+
       ));
 
 
         $output = curl_exec($soap_do);
 
-        echo "Verbose information:\n", !rewind($f ), stream_get_contents($f), "\n";
 
       //  var_dump($output) ;die;
 
