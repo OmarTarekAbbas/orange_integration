@@ -292,7 +292,7 @@ class OrangeController extends Controller
             "Accept: text/xml",
             "Cache-Control: no-cache",
             "Pragma: no-cache",
-            "SOAPAction: 'AspActionRequest'",    // AspActionRequest
+         //   "SOAPAction: 'AspActionRequest'",    // AspActionRequest
             "Content-length: " . strlen($soap_request),
         );
 
