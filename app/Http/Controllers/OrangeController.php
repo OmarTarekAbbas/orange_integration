@@ -441,9 +441,10 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
 
 
       $curl = curl_init();
+      $URL = "http://10.240.22.41:8310/smsgwws/ASP" ;
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => 'http://10.240.22.41:8310/smsgwws/ASP',
+  CURLOPT_URL => $URL ,
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => '',
   CURLOPT_MAXREDIRS => 10,
