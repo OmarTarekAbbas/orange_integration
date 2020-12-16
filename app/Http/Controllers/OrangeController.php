@@ -499,7 +499,7 @@ if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
 }
 
 // return $post_array['result_code'];
-return $output;
+var_dump($output) ;
 
 
 
