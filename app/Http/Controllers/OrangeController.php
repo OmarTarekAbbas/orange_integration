@@ -288,7 +288,7 @@ class OrangeController extends Controller
 </soap:Envelope>";
 
         $header = array(
-            "Content-type: text/xml;charset=\"utf-8\"",
+            "Content-type: text/xml;charset=utf-8",
         //    "Accept: text/xml",
           //  "Cache-Control: no-cache",
           //  "Pragma: no-cache",
@@ -312,18 +312,41 @@ class OrangeController extends Controller
         curl_setopt($soap_do, CURLOPT_VERBOSE, 1);
 
 
-        // to dump request
-      $f2 = fopen('request2.txt', 'w');
-      curl_setopt_array($soap_do, array(
-          CURLOPT_URL => $URL,
-          CURLOPT_RETURNTRANSFER => 1,
-          CURLOPT_FOLLOWLOCATION => 1,
-          CURLOPT_VERBOSE => 1,
-          CURLOPT_STDERR => $f2,
-          CURLOPT_FILETIME => TRUE,
+      //   // to dump request
+      // $f = fopen('request.txt', 'w');
+      // curl_setopt_array($soap_do, array(
+      //     CURLOPT_URL => $URL,
+      //     CURLOPT_RETURNTRANSFER => 1,
+      //     CURLOPT_FOLLOWLOCATION => 1,
+      //     CURLOPT_VERBOSE => 1,
+      //     CURLOPT_STDERR => $f,
+      //     CURLOPT_FILETIME => TRUE,
 
 
 
+      // ));
+
+
+   // to dump request
+      $f = fopen('request.txt', 'w');
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => $URL,
+        CURLOPT_RETURNTRANSFER => true,
+        //CURLINFO_HEADER_OUT  => TRUE,
+        CURLOPT_VERBOSE => TRUE,
+        CURLOPT_STDERR => $f,
+        CURLOPT_FILETIME => TRUE,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>$soap_request,
+        CURLOPT_HTTPHEADER => array(
+          "Content-type: text/xml;charset=utf-8",
+          "Content-length: " . strlen($soap_request),
+        ),
       ));
 
 
@@ -490,7 +513,7 @@ $curl = curl_init();
 curl_setopt_array($curl, array(
   CURLOPT_URL => $URL,
   CURLOPT_RETURNTRANSFER => true,
-  CURLINFO_HEADER_OUT  => TRUE,
+  //CURLINFO_HEADER_OUT  => TRUE,
   CURLOPT_VERBOSE => TRUE,
   CURLOPT_STDERR => $verbose = fopen('php://temp', 'rw+'),
   CURLOPT_FILETIME => TRUE,
@@ -510,7 +533,7 @@ curl_setopt_array($curl, array(
 $output = curl_exec($curl);
 echo "Verbose information:\n", !rewind($verbose), stream_get_contents($verbose), "\n";
 echo "<hr>";
-echo "headerSent:\n",$headerSent = curl_getinfo($curl, CURLINFO_HEADER_OUT ); // request headers
+//echo "headerSent:\n",$headerSent = curl_getinfo($curl, CURLINFO_HEADER_OUT ); // request headers
 curl_close($curl);
 //echo $output;
 
