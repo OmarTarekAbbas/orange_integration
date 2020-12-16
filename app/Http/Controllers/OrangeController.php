@@ -292,7 +292,7 @@ class OrangeController extends Controller
             "Accept: text/xml",
             "Cache-Control: no-cache",
             "Pragma: no-cache",
-           "SOAPAction: 'http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl/AspActionRequest'",    // AspActionRequest
+        //   "SOAPAction: 'http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl/AspActionRequest'",    // AspActionRequest
             "Content-length: " . strlen($soap_request),
         );
 
@@ -456,6 +456,18 @@ curl_setopt_array($curl, array(
     'Content-Type: text/xml'
   ),
 ));
+
+
+   // to dump request
+   $f = fopen('request.txt', 'w');
+   curl_setopt_array($soap_do, array(
+       CURLOPT_URL => $URL,
+       CURLOPT_RETURNTRANSFER => 1,
+       CURLOPT_FOLLOWLOCATION => 1,
+       CURLOPT_VERBOSE => 1,
+       CURLOPT_STDERR => $f,
+   ));
+
 
 $output = curl_exec($curl);
 
