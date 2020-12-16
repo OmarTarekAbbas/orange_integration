@@ -309,6 +309,20 @@ class OrangeController extends Controller
         curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
         curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
 
+
+
+
+        // to dump request
+      $f = fopen('request.txt', 'w');
+      curl_setopt_array($soap_do, array(
+          CURLOPT_URL => $URL,
+          CURLOPT_RETURNTRANSFER => 1,
+          CURLOPT_FOLLOWLOCATION => 1,
+          CURLOPT_VERBOSE => 1,
+          CURLOPT_STDERR => $f,
+      ));
+
+
         $output = curl_exec($soap_do);
 
       //  var_dump($output) ;die;
