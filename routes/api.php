@@ -74,6 +74,7 @@ define('partnerId', '1000000577');
 Route::post('subscription', 'OrangeController@subscription');
 
 Route::post('subscription_curl', 'OrangeController@subscription_curl');
+Route::post('subscription_curl_emad', 'OrangeController@subscription_curl_emad');
 Route::post('subscription_test', 'OrangeController@subscription_response_test');
 
 Route::post('provision_curl', 'OrangeController@provision_curl');

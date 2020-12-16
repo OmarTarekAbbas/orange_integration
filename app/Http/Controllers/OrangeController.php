@@ -311,11 +311,12 @@ class OrangeController extends Controller
 
         $output = curl_exec($soap_do);
 
-        var_dump($output) ;die;
+      //  var_dump($output) ;die;
 
         // test Orange link by curl
         if (curl_errno($soap_do)) {
           $error_msg = curl_error($soap_do);
+          echo $error_msg ; die;
           $output =  $error_msg ;
       }
      // echo $error_msg ; die;
@@ -383,6 +384,13 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
 
         // return $post_array['result_code'];
         return $output;
+
+    }
+
+
+
+    public function subscription_curl_emad(Request $request)
+    {
 
     }
 
