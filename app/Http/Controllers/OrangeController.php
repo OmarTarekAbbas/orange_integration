@@ -223,6 +223,8 @@ class OrangeController extends Controller
     public function subscription_curl(Request $request)
     {
 
+      set_time_limit(1000000);
+
             /*      Subscription Request Sample
 
             POST /smsgwws/ASP/ HTTP/1.1
