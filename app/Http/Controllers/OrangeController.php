@@ -482,7 +482,7 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
       </soap:Envelope>';
 
 
-      $header  = "POST HTTP/1.0 \r\n";
+      $header  = "POST HTTP/1.1 \r\n";
       $header .= "Content-type: text/xml \r\n";
       $header .= "Content-length: ".strlen($post_string)." \r\n";
       $header .= "Content-transfer-encoding: text \r\n";
