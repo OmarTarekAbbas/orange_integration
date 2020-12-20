@@ -333,7 +333,7 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Enve
         curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
         curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
         curl_setopt($soap_do, CURLOPT_VERBOSE, 1);
-        curl_setopt($soap_do, CURLOPT_STDERR, $f);
+      //  curl_setopt($soap_do, CURLOPT_STDERR, $f);
 
 
       //   // to dump request
@@ -399,7 +399,7 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
 
       //  curl_close($soap_do);
 
-        if(curl_errno($soap_do))
+        if(curl_errno($soap_do)){}
         print curl_error($soap_do);
     else
         curl_close($soap_do);
