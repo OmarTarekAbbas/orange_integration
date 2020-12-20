@@ -270,10 +270,7 @@ class OrangeController extends Controller
         $bearer = 'IVR';
 
 /*
-$soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl"><soap:Header><RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1"><spId>'.$spId.'</spId><spPassword>'.$sp_password.'</spPassword><timeStamp>'.$time_stamp.'</timeStamp></RequestSOAPHeader></soap:Header><soap:Body><asp:AspActionRequest><CC_Service_Number>'.$productId.'</CC_Service_Number><CC_Calling_Party_Id>'.$msisdn.'</CC_Calling_Party_Id><ON_Selfcare_Command>'.$command.'</ON_Selfcare_Command><ON_Bearer_Type>'.$bearer.'</ON_Bearer_Type></asp:AspActionRequest></soap:Body></soap:Envelope>';
-*/
-
-$soap_request='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+        $soap_request='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
 <soap:Header>
 <RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1">
 <spId>002402</spId>
@@ -291,6 +288,30 @@ $soap_request='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envel
 </soap:Body>
 </soap:Envelope>
 ';
+
+*/
+
+
+$soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+<soap:Header>
+<RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1">
+<spId>'.$spId.'</spId>
+<spPassword>'.$sp_password.'</spPassword>
+<timeStamp>'.$time_stamp.'</timeStamp>
+</RequestSOAPHeader>
+</soap:Header>
+<soap:Body>
+<asp:AspActionRequest>
+<CC_Service_Number>'.$productId.'</CC_Service_Number>
+<CC_Calling_Party_Id>'.$msisdn.'</CC_Calling_Party_Id>
+<ON_Selfcare_Command>'.$command.'</ON_Selfcare_Command>
+<ON_Bearer_Type>'.$bearer.'</ON_Bearer_Type>
+</asp:AspActionRequest>
+</soap:Body>
+</soap:Envelope>';
+
+
+
 
         $header = array(
             "Content-Type: text/xml",
