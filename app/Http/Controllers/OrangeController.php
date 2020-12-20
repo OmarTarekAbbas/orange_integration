@@ -315,11 +315,7 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Enve
 
         $header = array(
             "Content-Type: text/xml",
-        //    "Accept: text/xml",
-          //  "Cache-Control: no-cache",
-          //  "Pragma: no-cache",
-        //   "SOAPAction: 'http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl/AspActionRequest'",    // AspActionRequest
-            "Content-Length: " . strlen($soap_request),
+            "Content-Length: ".strlen($soap_request),
         );
 
         $URL = "http://10.240.22.41:8310/smsgwws/ASP";
@@ -330,8 +326,8 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Enve
         curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
         curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+      //  curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+     //   curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($soap_do, CURLOPT_POST, true);
         curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
         curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
