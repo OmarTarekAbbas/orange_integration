@@ -402,7 +402,7 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
         if(curl_errno($soap_do))
         print curl_error($soap_do);
     else
-        curl_close($ch);
+        curl_close($soap_do);
 
 
         $request_array = array(
