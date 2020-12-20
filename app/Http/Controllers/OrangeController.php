@@ -397,7 +397,12 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
 */
 
 
-        curl_close($soap_do);
+      //  curl_close($soap_do);
+
+        if(curl_errno($soap_do))
+        print curl_error($soap_do);
+    else
+        curl_close($ch);
 
 
         $request_array = array(
@@ -495,6 +500,9 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       curl_setopt($ch, CURLOPT_TIMEOUT, 4);
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $header);
+
+
+
 
       $data = curl_exec($ch);
 
