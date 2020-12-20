@@ -269,29 +269,6 @@ class OrangeController extends Controller
        // $command = 'Unsubscribe';
         $bearer = 'IVR';
 
-/*
-        $soap_request='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
-<soap:Header>
-<RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1">
-<spId>002402</spId>
-<spPassword>55c105417d6029695a7a0f24a018f2f6</spPassword>
-<timeStamp>20201210125050</timeStamp>
-</RequestSOAPHeader>
-</soap:Header>
-<soap:Body>
-<asp:AspActionRequest>
-<CC_Service_Number>1000000556</CC_Service_Number>
-<CC_Calling_Party_Id>201278338989</CC_Calling_Party_Id>
-<ON_Selfcare_Command>SUBSCRIBE</ON_Selfcare_Command>
-<ON_Bearer_Type>IVR</ON_Bearer_Type>
-</asp:AspActionRequest>
-</soap:Body>
-</soap:Envelope>
-';
-
-*/
-
-
 $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
 <soap:Header>
 <RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1">
@@ -319,7 +296,6 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Enve
         );
 
        $URL = "http://10.240.22.41:8310/smsgwws/ASP/";
-       // $URL = "http://10.53.127.245:8310/smsgwws/ASP/";
 
       //  $f = fopen('request.txt', 'w');
         $soap_do = curl_init();
@@ -346,58 +322,10 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Enve
       //     CURLOPT_STDERR => $f,
       //     CURLOPT_FILETIME => TRUE,
 
-
-
       // ));
-
-/*
-   // to dump request
-      $f = fopen('request.txt', 'w');
-      curl_setopt_array( $soap_do, array(
-        CURLOPT_URL => $URL,
-        CURLOPT_RETURNTRANSFER => true,
-        //CURLINFO_HEADER_OUT  => TRUE,
-        CURLOPT_VERBOSE => TRUE,
-        CURLOPT_STDERR => $f,
-        CURLOPT_FILETIME => TRUE,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS =>$soap_request,
-        CURLOPT_HTTPHEADER => array(
-          "Content-Type: text/xml",
-          "Content-Length: " . strlen($soap_request),
-        ),
-      ));
-
-      */
 
 
         $output = curl_exec($soap_do);
-
-
-      //  var_dump($output) ;die;
-
-        // test Orange link by curl
-      //   if (curl_errno($soap_do)) {
-      //     $error_msg = curl_error($soap_do);
-      //  //  echo "error = ".$error_msg ; die;
-      //     $output =  $error_msg ;
-      // }
-     // echo $error_msg ; die;
-      //  Could not resolve host: smsgwpusms
-      /*
-      Yousef error :
-wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: Couldn't open socket connection to server http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl prior to connect().  This is often a problem looking up the hostname.
-
-
-*/
-
-
-      //  curl_close($soap_do);
 
         if(curl_errno($soap_do))
         print curl_error($soap_do);
