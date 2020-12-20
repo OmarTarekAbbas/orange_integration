@@ -459,7 +459,7 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
 
     public function subscription_curl_emad(Request $request)
     {
-
+      set_time_limit(1000000);
 
       $url = "http://10.240.22.41:8310/smsgwws/ASP/";
 
