@@ -461,6 +461,58 @@ wsdl error: Getting http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl - HTTP ERROR: C
     {
 
 
+      $url = "http://10.240.22.41:8310/smsgwws/ASP/";
+
+      $post_string = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+      <soap:Header>
+      <RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1">
+      <spId>002402</spId>
+      <spPassword>55c105417d6029695a7a0f24a018f2f6</spPassword>
+      <timeStamp>20201210125050</timeStamp>
+      </RequestSOAPHeader>
+      </soap:Header>
+      <soap:Body>
+      <asp:AspActionRequest>
+      <CC_Service_Number>1000000556</CC_Service_Number>
+      <CC_Calling_Party_Id>201278338989</CC_Calling_Party_Id>
+      <ON_Selfcare_Command>SUBSCRIBE</ON_Selfcare_Command>
+      <ON_Bearer_Type>IVR</ON_Bearer_Type>
+      </asp:AspActionRequest>
+      </soap:Body>
+      </soap:Envelope>';
+
+
+      $header  = "POST HTTP/1.0 \r\n";
+      $header .= "Content-type: text/xml \r\n";
+      $header .= "Content-length: ".strlen($post_string)." \r\n";
+      $header .= "Content-transfer-encoding: text \r\n";
+      $header .= "Connection: close \r\n\r\n";
+      $header .= $post_string;
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+      curl_setopt($ch, CURLOPT_URL,$url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $header);
+
+      $data = curl_exec($ch);
+
+      if(curl_errno($ch))
+          print curl_error($ch);
+      else
+          curl_close($ch);
+
+
+          var_dump(   $data );
+
+
+
+
+
+
+/*
+
       date_default_timezone_set("UTC") ;
 
       $spId = spId;
@@ -617,7 +669,7 @@ if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
 // return $post_array['result_code'];
 var_dump($output) ;
 
-
+*/
 
     }
 
