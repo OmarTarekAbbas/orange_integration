@@ -300,8 +300,8 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Enve
       //  $f = fopen('request.txt', 'w');
         $soap_do = curl_init();
         curl_setopt($soap_do, CURLOPT_URL, $URL);
-        curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
+        curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 1000000000000000000);
+        curl_setopt($soap_do, CURLOPT_TIMEOUT, 1000000000000000000);
         curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
       //  curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
      //   curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
