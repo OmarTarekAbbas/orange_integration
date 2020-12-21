@@ -295,7 +295,8 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Enve
             "Content-Length: ".strlen($soap_request),
         );
 
-       $URL = "http://10.240.22.41:8310/smsgwws/ASP/";
+      // $URL = "http://10.240.22.41:8310/smsgwws/ASP/";  // testing
+       $URL = "http://10.240.22.62:8310/smsgwws/ASP/";  // production
 
       //  $f = fopen('request.txt', 'w');
         $soap_do = curl_init();

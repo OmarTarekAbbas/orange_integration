@@ -65,12 +65,25 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 
 
 /**************Start Orange**************/
-
+/*  //testing
 define('spId', '002401');
 define('password', '3uKc3f1W');
 define('service', '0024010001');
 define('productId', '1000000577');
 define('partnerId', '1000000577');
+*/
+
+
+// production //
+define('spId', '006738');
+define('password', '3sJ4YiK4');
+define('service', '0067380001');
+define('productId', '1000000577');
+define('partnerId', '1000000577');
+
+
+
+
 
 Route::post('subscription', 'OrangeController@subscription');
 
