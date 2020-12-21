@@ -249,7 +249,7 @@ class OrangeController extends Controller
                     <asp:AspActionRequest>
                         <CC_Service_Number>2142</CC_Service_Number>
                         <CC_Calling_Party_Id>201208138169</CC_Calling_Party_Id>
-                        <ON_Selfcare_Command>BILLINGSUBSCRIBE</ON_Selfcare_Command>
+                        <ON_Selfcare_Command>SUBSCRIBE</ON_Selfcare_Command>
                         <ON_Bearer_Type>SMS</ON_Bearer_Type>
                     </asp:AspActionRequest>
                 </soap:Body>
@@ -266,7 +266,7 @@ class OrangeController extends Controller
         $productId = productId;
         $msisdn = '201278338989';
         $command = 'SUBSCRIBE';
-       // $command = 'Unsubscribe';
+       // $command = 'UNSUBSCRIBE';
         $bearer = 'IVR';
 
 $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">

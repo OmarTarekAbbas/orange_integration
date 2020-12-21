@@ -39,63 +39,69 @@ class OrangeApiController extends Controller
 
     public function orangeWeb(Request $request)
     {
+
+      set_time_limit(1000000000000000000);
+
         date_default_timezone_set("UTC");
 
         $spId = spId;
         $time_stamp = date('YmdHis');
-        $sp_password = MD5($spId . password . $time_stamp); // spPassword = MD5(spId + Password + timeStamp)
+        $sp_password = MD5($spId.password.$time_stamp);  // spPassword = MD5(spId + Password + timeStamp)
+        $productId = productId;
 
-        $service = $request->service_id;
         $msisdn = $request->msisdn;
         $command = $request->command;
         $bearer = $request->bearer_type;
 
-        $soap_request =
-        "<?xml version='1.0' encoding='UTF-8'?>
-        <soap:Envelope xmlns:soap='http://www.w3.org/2003/05/soap-envelope' xmlns:asp='http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl'>
+        $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
         <soap:Header>
-        <RequestSOAPHeader xmlns='http://www.huawei.com.cn/schema/common/v2_1'>
-        <spId>$spId</spId>
-        <spPassword>$sp_password</spPassword>
-        <timeStamp>$time_stamp</timeStamp>
+        <RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1">
+        <spId>'.$spId.'</spId>
+        <spPassword>'.$sp_password.'</spPassword>
+        <timeStamp>'.$time_stamp.'</timeStamp>
         </RequestSOAPHeader>
         </soap:Header>
         <soap:Body>
         <asp:AspActionRequest>
-        <CC_Service_Number>$service</CC_Service_Number>
-        <CC_Calling_Party_Id>$msisdn</CC_Calling_Party_Id>
-        <ON_Selfcare_Command>$command</ON_Selfcare_Command>
-        <ON_Bearer_Type>$bearer</ON_Bearer_Type>
+        <CC_Service_Number>'.$productId.'</CC_Service_Number>
+        <CC_Calling_Party_Id>'.$msisdn.'</CC_Calling_Party_Id>
+        <ON_Selfcare_Command>'.$command.'</ON_Selfcare_Command>
+        <ON_Bearer_Type>'.$bearer.'</ON_Bearer_Type>
         </asp:AspActionRequest>
         </soap:Body>
-        </soap:Envelope>";
+        </soap:Envelope>';
+
+
+
 
         $header = array(
-            "Content-type: text/xml;charset=\"utf-8\"",
-            "Accept: text/xml",
-            "Cache-Control: no-cache",
-            "Pragma: no-cache",
-            "SOAPAction: 'AspActionRequest'",
-            "Content-length: " . strlen($soap_request),
-        );
+          "Content-Type: text/xml",
+          "Content-Length: ".strlen($soap_request),
+      );
 
-       // $URL = url('api/subscription_test');
-        $URL = "https://dev.digizone.com.kw/orange_integration/api/subscription_test"  ; // https://dev.digizone.com.kw/orange_integration
+    // $URL = "http://10.240.22.41:8310/smsgwws/ASP/";  // testing
+     $URL = "http://10.240.22.62:8310/smsgwws/ASP/";  // production
 
-        $soap_do = curl_init();
-        curl_setopt($soap_do, CURLOPT_URL, $URL);
-        curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($soap_do, CURLOPT_TIMEOUT, 10);
-        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($soap_do, CURLOPT_POST, true);
-        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
-        curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+    //  $f = fopen('request.txt', 'w');
+      $soap_do = curl_init();
+      curl_setopt($soap_do, CURLOPT_URL, $URL);
+      curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 1000000000000000000);
+      curl_setopt($soap_do, CURLOPT_TIMEOUT, 1000000000000000000);
+      curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+    //  curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+   //   curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+      curl_setopt($soap_do, CURLOPT_POST, true);
+      curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
+      curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+      curl_setopt($soap_do, CURLOPT_VERBOSE, 1);
+    //  curl_setopt($soap_do, CURLOPT_STDERR, $f);
 
-        $output = curl_exec($soap_do);
+      $output = curl_exec($soap_do);
 
-        curl_close($soap_do);
+      if(curl_errno($soap_do))
+      print curl_error($soap_do);
+  else
+      curl_close($soap_do);
 
         $request_array = array(
             'result_code' => ['start' => '<ON_Result_Code>', 'end' => '</ON_Result_Code>'],
@@ -125,7 +131,7 @@ class OrangeApiController extends Controller
         $orange_web->spId = $spId;
         $orange_web->sp_password = $sp_password;
         $orange_web->time_stamp = $time_stamp;
-        $orange_web->service_number = $service;
+        $orange_web->service_number = $productId;
         $orange_web->calling_party_id = $msisdn;
         $orange_web->selfcare_command = $command;
         $orange_web->on_bearer_type = $bearer;
@@ -135,9 +141,9 @@ class OrangeApiController extends Controller
 
         if ($post_array['result_code'] == 0) {
 
-            if ($command == 'Subscribe') {
+            if ($command == 'SUBSCRIBE') {
                 $commandActive = 1;
-            } elseif ($command == 'Unsubscribe') {
+            } elseif ($command == 'UNSUBSCRIBE') {
                 $commandActive = 2;
             }
 
@@ -146,17 +152,16 @@ class OrangeApiController extends Controller
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_webs';
-                $orange_subscribe->type = "web";
+                $orange_subscribe->type = "WEB";
                 $orange_subscribe->save();
             } else {
                 $orange_subscribe = new OrangeSubscribe;
                 $orange_subscribe->msisdn = $msisdn;
-                $orange_subscribe->active = $commandActive;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_webs';
                 $orange_subscribe->free = 1;
                 $orange_subscribe->active = 1;
-                $orange_subscribe->type = "web";
+                $orange_subscribe->type = "WEB";
                 $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
                 $orange_subscribe->service_id = $request->service_id;
                 $orange_subscribe->save();

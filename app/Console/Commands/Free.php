@@ -36,7 +36,7 @@ class Free extends Command
         $orangeWeb = new Request;
         $orangeWeb->service_id = service;
         $orangeWeb->msisdn = $subscriber->msisdn;
-        $orangeWeb->command = 'Subscribe';
+        $orangeWeb->command = 'SUBSCRIBE';
         $orangeWeb->bearer_type = 'WEB';
 
         $orange_subscription_code = app('App\Http\Controllers\Api\OrangeApiController')->orangeWeb($orangeWeb);
