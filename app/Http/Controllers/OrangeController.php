@@ -264,7 +264,7 @@ class OrangeController extends Controller
         $sp_password = MD5($spId.password.$time_stamp);  // spPassword = MD5(spId + Password + timeStamp)
 
         $productId = productId;
-        $msisdn = '201278338989';
+        $msisdn = '201277433337';  //    201278338989
         $command = 'SUBSCRIBE';
        // $command = 'UNSUBSCRIBE';
         $bearer = 'IVR';
@@ -924,7 +924,7 @@ var_dump($output) ;
 
     public function orange_subscribe_store(Request $request)
     {
-        $response = "";
+        $response = 0;
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
 
         if ($orange_subscribe) {
@@ -938,8 +938,10 @@ var_dump($output) ;
 
             if($response == 0) {
               $orange_subscribe->active = 1;
+              $response = 1;
             } else {
               $orange_subscribe->active = 0;
+              $response = 0;
             }
 
 
@@ -961,6 +963,7 @@ var_dump($output) ;
             }
             $orange_subscribe->service_id = $request->service_id;
             $orange_subscribe->save();
+            $response = 1;
         }
         return $response;
     }
