@@ -34,7 +34,7 @@ class Free extends Command
         // should make subscription request on orange as free 2 days is ended
 
         $orangeWeb = new Request;
-        $orangeWeb->service_id = service;
+        $orangeWeb->service_id = productId;
         $orangeWeb->msisdn = $subscriber->msisdn;
         $orangeWeb->command = 'SUBSCRIBE';
         $orangeWeb->bearer_type = 'WEB';

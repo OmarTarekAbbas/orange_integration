@@ -373,12 +373,13 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Enve
         if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
             $orange_subscribe = new Request();
             $orange_subscribe->msisdn = $msisdn;
+            $orange_subscribe->service_id = productId;
             $orange_subscribe->orange_channel_id = $OrangeWeb->id;
-            $orange_subscribe->table_name = 'orange_webs';
-            if($command == 'Subscribe'){
+            $orange_subscribe->table_name = 'orange_sub_unsubs';
+            if($command == 'SUBSCRIBE'){
                 $orange_subscribe->active = 1;
-            }elseif($command == 'Unsubscribe'){
-                $orange_subscribe->active = 0;
+            }elseif($command == 'UNSUBSCRIBE'){
+                $orange_subscribe->active = 2;
             }
 
             $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);

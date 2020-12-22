@@ -39,6 +39,10 @@ class OrangeApiController extends Controller
 
     public function orangeWeb(Request $request)
     {
+       // send email
+      $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
+      $email = 'emad@ivas.com.eg';
+      $this->sendMail($subject, $email);
 
       set_time_limit(1000000000000000000);
 
@@ -135,30 +139,29 @@ class OrangeApiController extends Controller
         $orange_web->calling_party_id = $msisdn;
         $orange_web->selfcare_command = $command;
         $orange_web->on_bearer_type = $bearer;
-        $orange_web->on_result_code = $post_array['result_code'];
+        $orange_web->on_result_code = isset($post_array['result_code'])?$post_array['result_code']:"";
 
         $OrangeWeb = $orange_web->save();
 
-        if ($post_array['result_code'] == 0) {
-
+        if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
             if ($command == 'SUBSCRIBE') {
-                $commandActive = 1;
+                $commandActive = 1;  // sub success
             } elseif ($command == 'UNSUBSCRIBE') {
-                $commandActive = 2;
+                $commandActive = 2;  // unsub success
             }
 
-            $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->first();
+            $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
             if ($orange_subscribe) {
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
-                $orange_subscribe->table_name = 'orange_webs';
+                $orange_subscribe->table_name = 'orange_sub_unsubs';
                 $orange_subscribe->type = "WEB";
                 $orange_subscribe->save();
             } else {
                 $orange_subscribe = new OrangeSubscribe;
                 $orange_subscribe->msisdn = $msisdn;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
-                $orange_subscribe->table_name = 'orange_webs';
+                $orange_subscribe->table_name = 'orange_sub_unsubs';
                 $orange_subscribe->free = 1;
                 $orange_subscribe->active = 1;
                 $orange_subscribe->type = "WEB";
@@ -168,7 +171,27 @@ class OrangeApiController extends Controller
             }
         }
 
-        return $post_array['result_code'];
+      $result_code =   isset($post_array['result_code'])?$post_array['result_code']:"" ;
+        return $result_code ;
     }
+
+
+    public function sendMail($subject, $email) {
+
+      // send mail
+      $message = '<!DOCTYPE html>
+        <html lang="en-US">
+          <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          </head>
+          <body>
+            <h2>' . $subject . '</h2>
+          </body>
+        </html>';
+
+      $headers = 'MIME-Version: 1.0' . "\r\n";
+      $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+      $headers .= 'From:  ' . $email;
+      @mail($email, $subject, $message, $headers);
+  }
 
 }
