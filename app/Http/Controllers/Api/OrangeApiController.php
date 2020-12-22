@@ -97,7 +97,7 @@ class OrangeApiController extends Controller
       curl_setopt($soap_do, CURLOPT_POST, true);
       curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
       curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
-      curl_setopt($soap_do, CURLOPT_VERBOSE, 1);
+    //  curl_setopt($soap_do, CURLOPT_VERBOSE, 1);
     //  curl_setopt($soap_do, CURLOPT_STDERR, $f);
 
       $output = curl_exec($soap_do);
