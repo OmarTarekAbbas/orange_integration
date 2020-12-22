@@ -934,7 +934,7 @@ var_dump($output) ;
             $orange_subscribe->type = $request->type;
 
 
-          if($orange_subscribe->active  == 2 ) { // 2= unsub and needed to charge again
+          if($orange_subscribe->active  == 2 ||  $orange_subscribe->active  == 0 ) { // 2= unsub and needed to charge again
             $response = $this->directSubscribe($request);
 
             if($response == 0) {
@@ -945,9 +945,6 @@ var_dump($output) ;
               $result = 0;
             }
 
-
-          }elseif($orange_subscribe->active  == 0){ //  0= Grace2
-            $result = 2 ;
 
           }
           $orange_subscribe->save();
