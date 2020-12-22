@@ -924,7 +924,7 @@ var_dump($output) ;
 
     public function orange_subscribe_store(Request $request)
     {
-        $response = 0;
+        $result = 0;   // 0 = sub not success  ,  1= sub success   , 2= not have enough balance
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
 
         if ($orange_subscribe) {
@@ -933,17 +933,20 @@ var_dump($output) ;
             $orange_subscribe->type = $request->type;
 
 
-          if($orange_subscribe->active  == 2) { // unsub and needed to charge again
+          if($orange_subscribe->active  == 2 ) { // 2= unsub and needed to charge again
             $response = $this->directSubscribe($request);
 
             if($response == 0) {
               $orange_subscribe->active = 1;
-              $response = 1;
+              $result = 1 ;
             } else {
               $orange_subscribe->active = 0;
-              $response = 0;
+              $result = 0;
             }
 
+
+          }elseif($orange_subscribe->active  == 0){ //  0= Grace2
+            $result = 2 ;
 
           }
           $orange_subscribe->save();
@@ -963,9 +966,9 @@ var_dump($output) ;
             }
             $orange_subscribe->service_id = $request->service_id;
             $orange_subscribe->save();
-            $response = 1;
+            $result = 1;
         }
-        return $response;
+        return $result;
     }
 
     public function directSubscribe($request)
