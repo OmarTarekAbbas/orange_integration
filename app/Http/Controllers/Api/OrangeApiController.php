@@ -30,11 +30,13 @@ class OrangeApiController extends Controller
 
         $this->log_action($action, $url, $log);
 
-        if ($subscriber) {
-            return $subscriber;
+        if($subscriber && $subscriber->active == 0 ) {
+          return "2";
+        }elseif($subscriber){
+          return $subscriber;
         }
 
-        return 0;
+        return "0";
     }
 
     public function orangeWeb(Request $request)
