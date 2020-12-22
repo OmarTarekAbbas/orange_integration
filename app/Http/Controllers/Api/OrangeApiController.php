@@ -143,6 +143,16 @@ class OrangeApiController extends Controller
 
         $OrangeWeb = $orange_web->save();
 
+
+
+     /* =================  Orange result_code for sub / unsub api ===================
+      0	success
+      1	already subscribed
+      2	not subscribed
+      5	not allowed
+      6	account problem
+      31	Technical problem
+      */
         if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
             if ($command == 'SUBSCRIBE') {
                 $commandActive = 1;  // sub success
