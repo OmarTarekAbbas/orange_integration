@@ -976,7 +976,7 @@ var_dump($output) ;
     {
       $orange_sub = new Request();
       $orange_sub->msisdn     = $request->msisdn;
-      $orange_sub->command    =  'Subscribe';
+      $orange_sub->command    =  'SUBSCRIBE';
       $orange_sub->service_id =  $request->service_id;
       $orange_sub->bearer_type=  $request->bearer_type ;
 
