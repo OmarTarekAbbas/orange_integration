@@ -41,6 +41,15 @@ class Free extends Command
 
         $orange_subscription_code = app('App\Http\Controllers\Api\OrangeApiController')->orangeWeb($orangeWeb);
 
+      /* =================  Orange status code for sub / unsub api ===================
+      0	success
+      1	already subscribed
+      2	not subscribed
+      5	not allowed
+      6	account problem
+      31	Technical problem
+      */
+
         $subscriber->free = 0;
         $subscriber->active = $orange_subscription_code == "0"?1:0;
         $subscriber->save();
