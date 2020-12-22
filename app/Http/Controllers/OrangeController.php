@@ -956,7 +956,7 @@ var_dump($output) ;
               $orange_subscribe->subscribe_due_date = date("Y-m-d");
               $orange_subscribe->free = 0;
             } else {
-              $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
+              $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +6 days"));
               $orange_subscribe->free = 1;
             }
             $orange_subscribe->service_id = $request->service_id;
