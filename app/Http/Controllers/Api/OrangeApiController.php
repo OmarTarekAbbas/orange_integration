@@ -37,15 +37,12 @@ class OrangeApiController extends Controller
         return "0";
     }
 
+
+    // Orange Api to sub or unsub according to command
     public function orangeWeb(Request $request)
     {
-       // send email
-      $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
-      $email = 'emad@ivas.com.eg';
-      $this->sendMail($subject, $email);
 
-      set_time_limit(1000000000000000000);
-
+        set_time_limit(1000000000000000000);
         date_default_timezone_set("UTC");
 
         $spId = spId;
@@ -150,7 +147,7 @@ class OrangeApiController extends Controller
       1	already subscribed
       2	not subscribed
       5	not allowed
-      6	account problem
+      6	account problem = no balance
       31	Technical problem
       */
         if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
@@ -168,7 +165,7 @@ class OrangeApiController extends Controller
                 $orange_subscribe->table_name = 'orange_sub_unsubs';
                 $orange_subscribe->type = "WEB";
                 $orange_subscribe->save();
-            } else {
+            } else { // will not accured
                 $orange_subscribe = new OrangeSubscribe;
                 $orange_subscribe->msisdn = $msisdn;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
@@ -186,23 +183,5 @@ class OrangeApiController extends Controller
         return $result_code ;
     }
 
-
-    public function sendMail($subject, $email) {
-
-      // send mail
-      $message = '<!DOCTYPE html>
-        <html lang="en-US">
-          <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-          </head>
-          <body>
-            <h2>' . $subject . '</h2>
-          </body>
-        </html>';
-
-      $headers = 'MIME-Version: 1.0' . "\r\n";
-      $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-      $headers .= 'From:  ' . $email;
-      @mail($email, $subject, $message, $headers);
-  }
 
 }

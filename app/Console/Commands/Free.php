@@ -29,6 +29,12 @@ class Free extends Command
      */
     public function handle()
     {
+
+          // send email
+          $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
+          $email = 'emad@ivas.com.eg';
+          $this->sendMail($subject, $email);
+
       $orange_subscribes = OrangeSubscribe::where('subscribe_due_date', date("Y-m-d"))->where('free', 1)->get();
       foreach($orange_subscribes as $subscriber){
         // should make subscription request on orange as free 2 days is ended
@@ -51,10 +57,30 @@ class Free extends Command
       */
 
         $subscriber->free = 0;
-        $subscriber->active = $orange_subscription_code == "0"?1:0;
+        $subscriber->active = ( $orange_subscription_code == "0" || $orange_subscription_code == "1" ) ? 1:0;  // need to be handle  ( 0 or 1  =>active = 1)
         $subscriber->save();
 
       }
       echo 'subscribe_free done!';
     }
+
+
+    public function sendMail($subject, $email) {
+
+      // send mail
+      $message = '<!DOCTYPE html>
+        <html lang="en-US">
+          <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          </head>
+          <body>
+            <h2>' . $subject . '</h2>
+          </body>
+        </html>';
+
+      $headers = 'MIME-Version: 1.0' . "\r\n";
+      $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+      $headers .= 'From:  ' . $email;
+      @mail($email, $subject, $message, $headers);
+  }
+
 }

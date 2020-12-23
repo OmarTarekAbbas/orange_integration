@@ -778,6 +778,7 @@ var_dump($output) ;
 
     public function web_notify(Request $request)
     {
+      // log on orange web table
          $orangeWeb = new orangeWeb();
          $orangeWeb->msisdn      = $request->msisdn;
          $orangeWeb->service_id  = $request->service_id;
@@ -925,7 +926,7 @@ var_dump($output) ;
 
     public function orange_subscribe_store(Request $request)
     {
-        $result = 0;   // 0 = sub not success  ,  1= sub success   , 2= not have enough balance
+       $response = "";
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
 
         if ($orange_subscribe) {
@@ -934,24 +935,30 @@ var_dump($output) ;
             $orange_subscribe->type = $request->type;
 
 
-          if($orange_subscribe->active  == 2 ||  $orange_subscribe->active  == 0 ) { // 2= unsub and needed to charge again
+     if($orange_subscribe->active  == 2 ||  $orange_subscribe->active  == 0 ) { // 2= unsub and needed to charge again or 0 = pending (no balance)
             $response = $this->directSubscribe($request);
+              /* =================  Orange result_code for sub / unsub api ===================
+              0	success
+              1	already subscribed
+              2	not subscribed
+              5	not allowed
+              6	account problem = no balance
+              31	Technical problem
+              */
 
             if($response == 0) {
               $orange_subscribe->active = 1;
-              $result = 1 ;
             } else {
               $orange_subscribe->active = 0;
-              $result = 0;
             }
 
 
           }
           $orange_subscribe->save();
-        } else {
+        } else {  // take first time as free
             $orange_subscribe = new OrangeSubscribe;
             $orange_subscribe->msisdn = $request->msisdn;
-            $orange_subscribe->active = 1;
+            $orange_subscribe->active = 1;  // charging modify
             $orange_subscribe->orange_channel_id = $request->orange_channel_id;
             $orange_subscribe->table_name = $request->table_name;
             $orange_subscribe->type = $request->type;
@@ -964,9 +971,9 @@ var_dump($output) ;
             }
             $orange_subscribe->service_id = $request->service_id;
             $orange_subscribe->save();
-            $result = 1;
+            $response = 0;
         }
-        return $result;
+        return  $response;
     }
 
     public function directSubscribe($request)
