@@ -186,7 +186,6 @@ class OrangeApiController extends Controller
 
     public function testemail()
     {
-
           // send email
           $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
           $email = 'ahmed333555777@gmail.com';
@@ -216,8 +215,8 @@ else
     echo "Error: Message not accepted";
 }
 
-
-
     }
+
+
 
 }
