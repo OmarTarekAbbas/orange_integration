@@ -103,7 +103,7 @@ Route::post('web_notify', 'OrangeController@web_notify');
 Route::post('checkStatus', 'Api\OrangeApiController@checkStatus');
 Route::post('orangeWeb', 'Api\OrangeApiController@orangeWeb');
 
-Route::post('testemail', 'Api\OrangeApiController@testemail');
+Route::get('testemail', 'Api\OrangeApiController@testemail');
 
 
 /***************************************/
