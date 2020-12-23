@@ -12,6 +12,10 @@ use App\OrangeWeb;
 use App\OrangeSubUnsub;
 use Illuminate\Http\Request;
 use App\Provision;
+use Carbon\Carbon;
+use Monolog\Logger;
+use Illuminate\Support\Facades\File;
+use Monolog\Handler\StreamHandler;
 
 class OrangeController extends Controller
 {
@@ -947,6 +951,13 @@ var_dump($output) ;
                 31	Technical problem
                 */
 
+                // orange send message log
+                $actionName = "Orange Direct Sub Result";
+                $URL = url("directSubscribe");
+                $result['response'] = $response;
+                $result['phone_number'] = $request->msisdn;
+                $this->log($actionName, $URL, $result);
+
               if($response == 0) {
                 $orange_subscribe->active = 1;
               } else {
@@ -1022,6 +1033,21 @@ var_dump($output) ;
         $orange_provisions->resultCode = $request->resultCode;
         $orange_provisions->save();
         return $orange_provisions;
+    }
+
+
+    public function log($actionName, $URL, $parameters_arr)
+    {
+      date_default_timezone_set("Africa/Cairo");
+      $date = date("Y-m-d");
+      $log = new Logger($actionName);
+
+      if (!File::exists(storage_path('logs/' . $date . '/' . $actionName))) {
+        File::makeDirectory(storage_path('logs/' . $date . '/' . $actionName), 0775, true, true);
+      }
+
+      $log->pushHandler(new StreamHandler(storage_path('logs/' . $date . '/' . $actionName . '/logFile.log', Logger::INFO)));
+      $log->addInfo($URL, $parameters_arr);
     }
 
 }
