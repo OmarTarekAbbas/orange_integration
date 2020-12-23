@@ -936,26 +936,30 @@ var_dump($output) ;
 
 
      if($orange_subscribe->active  == 2 ||  $orange_subscribe->active  == 0 ) { // 2= unsub and needed to charge again or 0 = pending (no balance)
-            $response = $this->directSubscribe($request);
-              /* =================  Orange result_code for sub / unsub api ===================
-              0	success
-              1	already subscribed
-              2	not subscribed
-              5	not allowed
-              6	account problem = no balance
-              31	Technical problem
-              */
+      if($request->type != "charging"){
+          $response = $this->directSubscribe($request);
+                /* =================  Orange result_code for sub / unsub api ===================
+                0	success
+                1	already subscribed
+                2	not subscribed
+                5	not allowed
+                6	account problem = no balance
+                31	Technical problem
+                */
 
-            if($response == 0) {
-              $orange_subscribe->active = 1;
-            } else {
-              $orange_subscribe->active = 0;
-            }
+              if($response == 0) {
+                $orange_subscribe->active = 1;
+              } else {
+                $orange_subscribe->active = 0;
+              }
+
+      }
+
 
 
           }
           $orange_subscribe->save();
-        } else {  // take first time as free
+        } else {  // take first time as free  or USSD  or charging and msidn not found
             $orange_subscribe = new OrangeSubscribe;
             $orange_subscribe->msisdn = $request->msisdn;
             $orange_subscribe->active = 1;  // charging modify
