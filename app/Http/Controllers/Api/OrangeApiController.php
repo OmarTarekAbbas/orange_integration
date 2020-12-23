@@ -184,4 +184,30 @@ class OrangeApiController extends Controller
     }
 
 
+    public function testemail()
+    {
+
+          // send email
+          $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
+          $email = 'emad@ivas.com.eg';
+
+       // send mail
+       $message = '<!DOCTYPE html>
+       <html lang="en-US">
+         <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+         </head>
+         <body>
+           <h2>' . $subject . '</h2>
+         </body>
+       </html>';
+
+     $headers = 'MIME-Version: 1.0' . "\r\n";
+     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+     $headers .= 'From:  ' . $email;
+     mail($email, $subject, $message, $headers);
+
+     echo "email send success";
+
+    }
+
 }

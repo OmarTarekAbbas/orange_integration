@@ -952,11 +952,7 @@ var_dump($output) ;
                 */
 
                 // orange send message log
-                $actionName = "Orange Direct Sub Result";
-                $URL = url("directSubscribe");
-                $result['response'] = $response;
-                $result['phone_number'] = $request->msisdn;
-                $this->log($actionName, $URL, $result);
+                $this->log_action( $actionName,  $URL, $result);
 
               if($response == 0) {
                 $orange_subscribe->active = 1;
