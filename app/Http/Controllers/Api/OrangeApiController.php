@@ -189,7 +189,7 @@ class OrangeApiController extends Controller
 
           // send email
           $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
-          $email = 'emad@ivas.com.eg';
+          $email = 'emad.mohamed@digizone.com.kw';
 
        // send mail
        $message = '<!DOCTYPE html>
@@ -206,7 +206,17 @@ class OrangeApiController extends Controller
      $headers .= 'From:  ' . $email;
      mail($email, $subject, $message, $headers);
 
-     echo "email send success";
+
+  if (mail($email, $subject, $message, $headers))
+{
+    echo "Message accepted";
+}
+else
+{
+    echo "Error: Message not accepted";
+}
+
+
 
     }
 
