@@ -189,7 +189,7 @@ class OrangeApiController extends Controller
 
           // send email
           $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
-          $email = 'emad.mohamed@digizone.com.kw';
+          $email = 'ahmed333555777@gmail.com';
 
        // send mail
        $message = '<!DOCTYPE html>
