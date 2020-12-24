@@ -766,7 +766,7 @@ var_dump($output) ;
          $orangeSms = new OrangeSms();
          $orangeSms->msisdn      = $request->msisdn;
          $orangeSms->message     = $request->message;
-         $orangeSms->service_id  = $request->message;
+         $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
          $orangeSms->save();
 
         $orange_subscribe = new Request();
@@ -775,7 +775,7 @@ var_dump($output) ;
         $orange_subscribe->orange_channel_id = $orangeSms->id;
         $orange_subscribe->type = 'sms';
         $orange_subscribe->bearer_type = 'SMS';
-        $orange_subscribe->service_id = $request->message;
+        $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
     }
