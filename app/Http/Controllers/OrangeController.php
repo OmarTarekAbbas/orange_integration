@@ -753,7 +753,7 @@ var_dump($output) ;
         $orange_subscribe->table_name = 'orange_ussds';
         $orange_subscribe->type = 'ussd';
         $orange_subscribe->bearer_type = 'USSD';
-        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:0;
+        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:productId;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
@@ -928,6 +928,15 @@ var_dump($output) ;
         return $orange_web;
     }
 
+
+    /*
+    // this function used on many cases :
+      1-charging_notify   // to update user status
+      2-ussd_notify   // to create new free sub or make direct sub again if subscriber exist
+      3-web_notify   // to create new free sub or make direct sub again if subscriber exist
+      4-sms_notify  // to create new free sub or make direct sub again if subscriber exist
+
+      */
     public function orange_subscribe_store(Request $request)
     {
        $response = "";
@@ -938,38 +947,39 @@ var_dump($output) ;
             $orange_subscribe->table_name = $request->table_name;
             $orange_subscribe->type = $request->type;
 
+            if($request->type == "charging"){// charging update status
+              $orange_subscribe->active = $request->active ;
+            }elseif($orange_subscribe->active  == 2 ||  $orange_subscribe->active  == 0){ // 2= unsub and needed to charge again or 0 = pending (no balance)
+               //subcribe by web after free expire
+                $response = $this->directSubscribe($request);
+                      /* =================  Orange result_code for sub / unsub api ===================
+                      0	success
+                      1	already subscribed
+                      2	not subscribed
+                      5	not allowed
+                      6	account problem = no balance
+                      31	Technical problem
+                      */
 
-     if($orange_subscribe->active  == 2 ||  $orange_subscribe->active  == 0 ) { // 2= unsub and needed to charge again or 0 = pending (no balance)
-      if($request->type != "charging"){
-          $response = $this->directSubscribe($request);
-                /* =================  Orange result_code for sub / unsub api ===================
-                0	success
-                1	already subscribed
-                2	not subscribed
-                5	not allowed
-                6	account problem = no balance
-                31	Technical problem
-                */
+                      // orange send message log
+                      $actionName = "Orange Direct Sub";
+                      $URL = url("directSubscribe");
+                      $result['response'] = $response;
+                      $result['phone_number'] = $request->msisdn;
+                      $this->log_action($actionName, $URL, $result);
 
-                // orange send message log
-                $actionName = "Orange Direct Sub";
-                $URL = url("directSubscribe");
-                $result['response'] = $response;
-                $result['phone_number'] = $request->msisdn;
-                $this->log_action($actionName, $URL, $result);
+                    if($response == 0) {
+                      $orange_subscribe->active = 1;
+                    } else {
+                      $orange_subscribe->active = 0;
+                    }
 
-              if($response == 0) {
-                $orange_subscribe->active = 1;
-              } else {
-                $orange_subscribe->active = 0;
-              }
+            }elseif($orange_subscribe->active  == 1){ // already active on my system
+              $response = 1;
+            }
 
-      }
+            $orange_subscribe->save();
 
-
-
-          }
-          $orange_subscribe->save();
         } else {  // take first time as free  or USSD  or charging and msidn not found
             $orange_subscribe = new OrangeSubscribe;
             $orange_subscribe->msisdn = $request->msisdn;

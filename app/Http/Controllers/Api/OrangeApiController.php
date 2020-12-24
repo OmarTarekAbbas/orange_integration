@@ -37,8 +37,12 @@ class OrangeApiController extends Controller
         return "0";
     }
 
-
+    /*
     // Orange Api to sub or unsub according to command
+     1-for cron : it make direct sub and expire free after user enjoy 6days from ivas and 1 day from orange side  => and so command = SUBSCRIBE
+     2-for Orange portal to make unsub direct to orange and update status according orange result       => and so command = UNSUBSCRIBE
+     3-for ussd_notify  ||  sms_notify  ||  web_notify   =>  when user expire free or unsub before      => and so command = SUBSCRIBE
+    */
     public function orangeWeb(Request $request)
     {
 
