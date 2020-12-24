@@ -778,6 +778,7 @@ var_dump($output) ;
         $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+        return  $OrangeSubscribe ;
     }
 
     public function web_notify(Request $request)
