@@ -804,7 +804,9 @@ var_dump($output) ;
         $orange_subscribe->service_id = $request->service_id;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
-        return  $OrangeSubscribe ;
+       // return  $OrangeSubscribe ;
+       $msg = "لقد تم اشتركك بنجاح" ;
+       return $msg ;
 
     }
 
