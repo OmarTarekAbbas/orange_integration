@@ -95,7 +95,7 @@ Route::post('provision_curl', 'OrangeController@provision_curl');
 Route::post('provision_test', 'OrangeController@provision_response_test');
 
 Route::post('charging_notify', 'OrangeController@charging_notify');
-Route::get('ussd_notify', 'OrangeController@ussd_notify');
+Route::get('ussd_notify', 'OrangeController@ussd_notify');   //  #215#
 
 Route::get('sms_notify', 'OrangeController@sms_notify');
 Route::post('web_notify', 'OrangeController@web_notify');
