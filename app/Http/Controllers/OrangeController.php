@@ -707,6 +707,12 @@ var_dump($output) ;
     {
         $header = apache_request_headers();
 
+        $actionName = "USSD Notify";
+
+        $URL = url()->current();
+
+        $this->log_action($actionName, $URL, $header);
+
         foreach ($header as $headers => $value) {
             $request_array[$headers] = $value;
         }
