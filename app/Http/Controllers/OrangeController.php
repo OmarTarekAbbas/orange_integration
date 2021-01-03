@@ -775,7 +775,7 @@ var_dump($output) ;
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
          $orangeSms->save();
 
-        if($request->message == "SUB" || $request->message == "sub" || $request->message == "1" || $request->message == " "){
+        if($request->message == "SUB" || $request->message == "Sub" ||  $request->message == "sub" || $request->message == "1" || $request->message == " "){
           $orange_subscribe = new Request();
           $orange_subscribe->msisdn = $request->msisdn;
           $orange_subscribe->table_name = 'orange_sms';
@@ -785,7 +785,11 @@ var_dump($output) ;
           $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
           $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
-          return "سوف يتم الاشتراك قريبا";
+
+          $welcome_message = "You have successfully subscribed to Orange El-Kheer service. To enter, click on this link ";
+          $welcome_message .= "https://orange-elkheer.com" ;
+
+          return     $welcome_message ;
         }
 
     }
