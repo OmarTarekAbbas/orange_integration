@@ -771,11 +771,11 @@ var_dump($output) ;
     {
          $orangeSms = new OrangeSms();
          $orangeSms->msisdn      = $request->msisdn;
-         $orangeSms->message     = $request->message;
+         $orangeSms->message     = $request->message ?? " ";
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
          $orangeSms->save();
 
-        if($request->message == "1-SUB"){
+        if($request->message == "SUB" || $request->message == "sub" || $request->message == "1" || $request->message == " "){
           $orange_subscribe = new Request();
           $orange_subscribe->msisdn = $request->msisdn;
           $orange_subscribe->table_name = 'orange_sms';
