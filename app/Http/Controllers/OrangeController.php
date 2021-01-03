@@ -792,6 +792,9 @@ var_dump($output) ;
           return     $welcome_message ;
         }
 
+        // need to adjust unsub by keyword
+        // adjust already sub
+
     }
 
     public function web_notify(Request $request)
