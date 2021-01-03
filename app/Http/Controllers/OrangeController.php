@@ -775,16 +775,19 @@ var_dump($output) ;
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
          $orangeSms->save();
 
-        $orange_subscribe = new Request();
-        $orange_subscribe->msisdn = $request->msisdn;
-        $orange_subscribe->table_name = 'orange_sms';
-        $orange_subscribe->orange_channel_id = $orangeSms->id;
-        $orange_subscribe->type = 'sms';
-        $orange_subscribe->bearer_type = 'SMS';
-        $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
+        if($request->message == "1-SUB"){
+          $orange_subscribe = new Request();
+          $orange_subscribe->msisdn = $request->msisdn;
+          $orange_subscribe->table_name = 'orange_sms';
+          $orange_subscribe->orange_channel_id = $orangeSms->id;
+          $orange_subscribe->type = 'sms';
+          $orange_subscribe->bearer_type = 'SMS';
+          $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
+          $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
-        $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
-        return  $OrangeSubscribe ;
+          return "سوف يتم الاشتراك قريبا";
+        }
+
     }
 
     public function web_notify(Request $request)
