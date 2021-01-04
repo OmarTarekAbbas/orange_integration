@@ -788,8 +788,8 @@ var_dump($output) ;
           $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
           $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
-          return  $message ;
-         // $this->sendMessageToUser($request->msisdn, $message);
+           $this->sendMessageToUser($request->msisdn, $message);
+           return  "";
         } elseif(strtolower($request->message) == "unsub1" || $request->message == "الغاء خير" ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
@@ -800,6 +800,9 @@ var_dump($output) ;
           $responseMessage = $orandControl->orangeWeb($orange_un_sub);
           $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
           $this->sendMessageToUser($request->msisdn, $message);
+          return  "";
+        }else{
+          return "to subscribe to orange Elkear You can send sub1 and to unsubscribe you can send unsub1" ;
         }
     }
 
