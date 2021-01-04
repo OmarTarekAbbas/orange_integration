@@ -46,7 +46,7 @@ class OrangeApiController extends Controller
     public function orangeWeb(Request $request)
     {
 
-        set_time_limit(1000000000000000000);
+        set_time_limit(100000);
         date_default_timezone_set("UTC");
 
         $spId = spId;

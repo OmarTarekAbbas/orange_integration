@@ -80,7 +80,7 @@ define('password', '3sJ4YiK4');
 define('service', '0067380001');
 define('productId', '1000000577');
 define('partnerId', '1000000577');
-
+define("sendKenelApi",'http://10.2.10.15:8310/~smsorange/api/orange_egypt_send_message');
 
 
 

@@ -10,6 +10,7 @@ use App\OrangeUssd;
 use App\OrangeSms;
 use App\OrangeWeb;
 use App\OrangeSubUnsub;
+use App\Constants\OrangeResponseStatus;
 use Illuminate\Http\Request;
 use App\Provision;
 use Carbon\Carbon;
@@ -774,12 +775,10 @@ var_dump($output) ;
          $orangeSms->message     = $request->message ?? " ";
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
          $orangeSms->save();
-
-
          // Elkheer   kheer   => sub
          // unsub1   unsub kheer  => unsub
          // all sub keyword arabic + english
-        if($request->message == "SUB1" || $request->message == "Sub1" ||  $request->message == "sub1" || $request->message == "1" ||$request->message == "خير" ){
+        if(strtolower($request->message) == "sub1" || $request->message == "1" ||$request->message == "خير" ){
           $orange_subscribe = new Request();
           $orange_subscribe->msisdn = $request->msisdn;
           $orange_subscribe->table_name = 'orange_sms';
@@ -788,22 +787,94 @@ var_dump($output) ;
           $orange_subscribe->bearer_type = 'SMS';
           $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
           $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
-          // 0 => success subscribe
-          // 1 => already subscribe
-
-
-          $welcome_message = "You have successfully subscribed to Orange El-Kheer service. To enter, click on this link ";
-          $welcome_message .= "https://orange-elkheer.com" ;
-
-         // return     $welcome_message ;
-        }elseif($request->message == "UnsUB" ){
-          //  0 =>
-
+          $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
+          $this->sendMessageToUser($request->msisdn, $message);
+        } elseif(strtolower($request->message) == "unsub1" || $request->message == "الغاء خير" ){
+          $orange_un_sub = new Request();
+          $orange_un_sub->msisdn     = $request->msisdn;
+          $orange_un_sub->command    = 'UNSUBSCRIBE';
+          $orange_un_sub->service_id =  productId;
+          $orange_un_sub->bearer_type=  'SMS' ;
+          $orandControl    = new OrangeApiController();
+          $responseMessage = $orandControl->orangeWeb($orange_un_sub);
+          $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
+          $this->sendMessageToUser($request->msisdn, $message);
         }
+    }
 
-        // need to adjust unsub by keyword
-        // adjust already sub
+    /**
+     * Method handleSubscribeSendMessage
+     *
+     * @param integer $responseStatus
+     * @param string $keyWord
+     *
+     * @return string
+     */
+    public function handleSubscribeSendMessage($responseStatus, $keyWord)
+    {
+      $message = '';
+      $url = "https://orange-elkheer.com" ;
 
+      if($responseStatus == OrangeResponseStatus::Success) {
+        $message = "You have successfully subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
+        if($this->is_arabic($keyWord)) {
+          $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
+        }
+      } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
+        $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
+        if($this->is_arabic($keyWord)) {
+          $message = " انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط". $url;
+        }
+      } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
+        $message = "Not Allowed";
+        if($this->is_arabic($keyWord)) {
+          $message = "Not Allowed";
+        }
+      } elseif($responseStatus == OrangeResponseStatus::NoBalance) {
+        $message = "No Balance";
+        if($this->is_arabic($keyWord)) {
+          $message = 'ليس لديك رصيد كافى';
+        }
+      } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
+        $message = "Technical problem";
+        if($this->is_arabic($keyWord)) {
+          $message = "Technical problem";
+        }
+      }
+      return $message;
+    }
+
+    /**
+     * Method handleUnSubscribeSendMessage
+     * @param integer $responseStatus
+     * @param string $keyWord
+     * @return void
+     */
+    public function handleUnSubscribeSendMessage ($responseStatus, $keyWord)
+    {
+      $message = '';
+      if($responseStatus == OrangeResponseStatus::Success) {
+        $message = "The subscription has been successfully canceled";
+        if($this->is_arabic($keyWord)) {
+          $message = "لقد تم الغاء الاشتراك بنجاح";
+        }
+      } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
+        $message = "You are already not subscribed to the service";
+        if($this->is_arabic($keyWord)) {
+          $message = "أنت بالفعل غير مشترك فى الخدمه";
+        }
+      } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
+        $message = "Not Allowed";
+        if($this->is_arabic($keyWord)) {
+          $message = "Not Allowed";
+        }
+      } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
+        $message = "Technical problem";
+        if($this->is_arabic($keyWord)) {
+          $message = "Technical problem";
+        }
+      }
+      return $message;
     }
 
     public function web_notify(Request $request)
@@ -1088,4 +1159,43 @@ var_dump($output) ;
       $log->addInfo($URL, $parameters_arr);
     }
 
+    /**
+     * Method is_arabic
+     *
+     * @param string $string
+     *
+     * @return Boolean
+     */
+    public function is_arabic($string)
+    {
+      if (strlen($string) != strlen(utf8_decode($string))) {
+        return 1;
+      }
+      return 0;
+    }
+
+    /**
+     * Method sendMessageToUser
+     *
+     * @param string $phone
+     * @param string $message
+     *
+     * @return Boolean
+     */
+    public function sendMessageToUser($phone, $message)
+    {
+          $URL_Api = sendKenelApi;
+          $param = "phone_number=$phone&message=$message";
+          $ch = curl_init();
+          curl_setopt($ch, CURLOPT_URL, $URL_Api);
+          curl_setopt($ch, CURLOPT_POST, 1);
+          curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          $response = curl_exec($ch);
+          curl_close($ch);
+          $param_array['phone'] = $phone;
+          $param_array['message'] = $message;
+          $this->log("sendMessageFromKenel",$URL_Api,$param_array);
+          // return $response; // 1 -success 0- fail
+    }
 }
