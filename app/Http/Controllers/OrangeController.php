@@ -808,7 +808,7 @@ var_dump($output) ;
         //  $this->sendMessageToUser($request->msisdn, $message);
           return   $message;
         }else{
-          return "to subscribe to orange Elkear You can send sub1 and to unsubscribe you can send unsub1" ;
+          return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1" ;
         }
     }
 
