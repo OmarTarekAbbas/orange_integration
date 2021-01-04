@@ -827,29 +827,29 @@ var_dump($output) ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
         $message = "You have successfully subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
-        if($this->is_arabic($keyWord)) {
-          $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
+        // }
       } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
         $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
-        if($this->is_arabic($keyWord)) {
-          $message = " انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط". $url;
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = " انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط". $url;
+        // }
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
         $message = "Not Allowed";
-        if($this->is_arabic($keyWord)) {
-          $message = "Not Allowed";
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = "Not Allowed";
+        // }
       } elseif($responseStatus == OrangeResponseStatus::NoBalance) {
         $message = "No Balance";
-        if($this->is_arabic($keyWord)) {
-          $message = 'ليس لديك رصيد كافى';
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = 'ليس لديك رصيد كافى';
+        // }
       } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
         $message = "Technical problem";
-        if($this->is_arabic($keyWord)) {
-          $message = "Technical problem";
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = "Technical problem";
+        // }
       }
       return $message;
     }
@@ -865,24 +865,24 @@ var_dump($output) ;
       $message = '';
       if($responseStatus == OrangeResponseStatus::Success) {
         $message = "The subscription has been successfully canceled";
-        if($this->is_arabic($keyWord)) {
-          $message = "لقد تم الغاء الاشتراك بنجاح";
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = "لقد تم الغاء الاشتراك بنجاح";
+        // }
       } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
         $message = "You are already not subscribed to the service";
-        if($this->is_arabic($keyWord)) {
-          $message = "أنت  غير مشترك فى الخدمه";
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = "أنت  غير مشترك فى الخدمه";
+        // }
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
         $message = "Not Allowed";
-        if($this->is_arabic($keyWord)) {
-          $message = "Not Allowed";
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = "Not Allowed";
+        // }
       } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
         $message = "Technical problem";
-        if($this->is_arabic($keyWord)) {
-          $message = "Technical problem";
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = "Technical problem";
+        // }
       }
       return $message;
     }
