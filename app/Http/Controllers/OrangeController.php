@@ -861,7 +861,7 @@ var_dump($output) ;
       } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
         $message = "You are already not subscribed to the service";
         if($this->is_arabic($keyWord)) {
-          $message = "أنت بالفعل غير مشترك فى الخدمه";
+          $message = "أنت  غير مشترك فى الخدمه";
         }
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
         $message = "Not Allowed";
