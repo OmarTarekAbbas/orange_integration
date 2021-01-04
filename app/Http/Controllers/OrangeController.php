@@ -775,7 +775,11 @@ var_dump($output) ;
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
          $orangeSms->save();
 
-        if($request->message == "SUB" || $request->message == "Sub" ||  $request->message == "sub" || $request->message == "1" || $request->message == " "){
+
+         // Elkheer   kheer   => sub
+         // unsub1   unsub kheer  => unsub
+         // all sub keyword arabic + english
+        if($request->message == "SUB1" || $request->message == "Sub1" ||  $request->message == "sub1" || $request->message == "1" ||$request->message == "خير" ){
           $orange_subscribe = new Request();
           $orange_subscribe->msisdn = $request->msisdn;
           $orange_subscribe->table_name = 'orange_sms';
@@ -784,12 +788,17 @@ var_dump($output) ;
           $orange_subscribe->bearer_type = 'SMS';
           $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
           $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+          // 0 => success subscribe
+          // 1 => already subscribe
 
 
           $welcome_message = "You have successfully subscribed to Orange El-Kheer service. To enter, click on this link ";
           $welcome_message .= "https://orange-elkheer.com" ;
 
-          return     $welcome_message ;
+         // return     $welcome_message ;
+        }elseif($request->message == "UnsUB" ){
+          //  0 =>
+
         }
 
         // need to adjust unsub by keyword
