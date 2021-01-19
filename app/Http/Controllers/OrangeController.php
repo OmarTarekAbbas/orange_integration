@@ -740,7 +740,7 @@ var_dump($output) ;
 
 
 
-        $response_msg = 'سوف يتم الاشتراك قريبا';
+        $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
 
         $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
 
@@ -763,6 +763,20 @@ var_dump($output) ;
         $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:productId;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
+
+        if( $OrangeSubscribe == 0 ){
+          $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
+
+        }elseif($OrangeSubscribe == 1 ){
+          $response_msg = 'انت مشترك بالفعل في خدمة اورانج الخير';
+
+        }
+        $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
+
+
+      $old_ussd =   OrangeUssd::where('id',$OrangeUssd->id)->first();
+      $old_ussd->response =     $response_xml  ;
+      $old_ussd->save();
 
         return $response_xml;
 
