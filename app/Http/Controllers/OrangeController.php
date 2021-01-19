@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Api\OrangeApiController;
-use App\Http\Requests\Request as RequestsRequest;
-use App\OrangeCharging;
-use App\OrangeSubscribe;
-use App\OrangeUssd;
 use App\OrangeSms;
 use App\OrangeWeb;
-use App\OrangeSubUnsub;
-use App\Constants\OrangeResponseStatus;
-use Illuminate\Http\Request;
 use App\Provision;
 use Carbon\Carbon;
+use App\OrangeUssd;
 use Monolog\Logger;
-use Illuminate\Support\Facades\File;
+use App\OrangeCharging;
+use App\OrangeSubUnsub;
+use App\OrangeSubscribe;
+use Illuminate\Http\Request;
 use Monolog\Handler\StreamHandler;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Constants\OrangeResponseStatus;
+use App\Http\Controllers\Api\OrangeApiController;
+use App\Http\Requests\Request as RequestsRequest;
 
 class OrangeController extends Controller
 {
@@ -1221,5 +1222,11 @@ var_dump($output) ;
           $param_array['message'] = $message;
           $this->log("sendMessageFromKenel",$URL_Api,$param_array);
           // return $response; // 1 -success 0- fail
+    }
+
+    public function import_orange_whitelist()
+    {
+      // $data = Excel::load(base_bath('Book4.xlsx'))->get();
+      // dd(url('Book4.xlsx'));
     }
 }

@@ -94,3 +94,4 @@ define('ENABLE', Helper::get_setting('approve_enable'));
 
 
 
+Route::get('import_orange_whitelist', 'OrangeController@import_orange_whitelist');
