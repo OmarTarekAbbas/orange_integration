@@ -167,7 +167,7 @@ class OrangeApiController extends Controller
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_sub_unsubs';
-                $orange_subscribe->type = "WEB";
+                $orange_subscribe->type = strtolower($bearer);
                 $orange_subscribe->save();
             } else { // will not accured
                 $orange_subscribe = new OrangeSubscribe;
@@ -176,7 +176,7 @@ class OrangeApiController extends Controller
                 $orange_subscribe->table_name = 'orange_sub_unsubs';
                 $orange_subscribe->free = 1;
                 $orange_subscribe->active = 1;
-                $orange_subscribe->type = "WEB";
+                $orange_subscribe->type = strtolower($bearer);
                 $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +6 days"));
                 $orange_subscribe->service_id = $request->service_id;
                 $orange_subscribe->save();
