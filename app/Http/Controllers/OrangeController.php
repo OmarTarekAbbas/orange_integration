@@ -1222,4 +1222,19 @@ var_dump($output) ;
           $this->log("sendMessageFromKenel",$URL_Api,$param_array);
           // return $response; // 1 -success 0- fail
     }
+
+    public function orange_whitelist()
+    {
+      $data = Excel::load($path)->get();
+      foreach ($data as $key => $value) {
+        if (!empty($data) && $data->count()) {
+          $orange = new OrangeWhitelist;
+          $orange->msisdn = $value;
+          $orange->save();
+        }
+      }
+    }
+
+
+
 }
