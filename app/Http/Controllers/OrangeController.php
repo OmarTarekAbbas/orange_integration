@@ -10,6 +10,7 @@ use App\OrangeUssd;
 use App\OrangeSms;
 use App\OrangeWeb;
 use App\OrangeSubUnsub;
+use App\OrangeWhitelist;
 use App\Constants\OrangeResponseStatus;
 use Illuminate\Http\Request;
 use App\Provision;
@@ -1225,15 +1226,28 @@ var_dump($output) ;
 
     public function orange_whitelist()
     {
+      set_time_limit(0);
+      $path= base_path(). "/OrangeWhitelist/OrangeWhitelist.xlsx";
 
-      $data = Excel::load($path)->get();
-      foreach ($data as $key => $value) {
+      $data = \Excel::load($path)->get();
+      foreach ($data as $value) {
+        //return $value; die;
         if (!empty($data) && $data->count()) {
           $orange = new OrangeWhitelist;
-          $orange->msisdn = $value;
+          $orange->msisdn = "2".$value->mob;
           $orange->save();
+            $orange_subscribe = new OrangeSubscribe;
+            $orange_subscribe->msisdn = $orange->msisdn;
+            $orange_subscribe->active = 1;  // charging modify
+            $orange_subscribe->orange_channel_id = $orange->id;
+            $orange_subscribe->table_name = "orange_whitelists";
+            $orange_subscribe->free = 1;
+            $orange_subscribe->service_id = productId;
+            $orange_subscribe->type = "whitelists";
+            $orange_subscribe->save();
         }
       }
+      echo "Ok";
     }
 
 
