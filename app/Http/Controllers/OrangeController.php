@@ -767,9 +767,13 @@ var_dump($output) ;
 
         if( $OrangeSubscribe == 0 ){
           $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
+          $welcome_message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط";
+          $welcome_message .= "https://orange-elkheer.com/orange_portal_login" ;
+          $send_message = $welcome_message ;
 
         }elseif($OrangeSubscribe == 1 ){
           $response_msg = 'انت مشترك بالفعل في خدمة اورانج الخير';
+          $send_message = $response_msg;
 
         }
         $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
@@ -778,6 +782,10 @@ var_dump($output) ;
       $old_ussd =   OrangeUssd::where('id',$OrangeUssd->id)->first();
       $old_ussd->response =     $response_xml  ;
       $old_ussd->save();
+
+
+      // send welcome message to the user
+        $this->sendMessageToUser($msisdn,  $send_message);
 
         return $response_xml;
 
