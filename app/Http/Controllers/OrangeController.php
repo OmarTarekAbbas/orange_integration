@@ -1018,6 +1018,10 @@ var_dump($output) ;
 
         if ($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE") {
             $orange_subscribe->active = 1;
+            // send today content from orange portal to this user
+             // $orange_today_link    // will get by ip from mondia orange portal
+          // $this->sendMessageToUser($post_array['msisdn'],  $orange_today_link);
+
         } elseif ($post_array['action'] == "GRACE2") {
             $orange_subscribe->active = 0;
         } elseif ($post_array['action'] == "TERMINATE" || $post_array['action'] == "OPERATORUNSUBSCRIBE") {
