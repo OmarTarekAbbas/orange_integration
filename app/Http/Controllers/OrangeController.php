@@ -1225,6 +1225,7 @@ var_dump($output) ;
 
     public function orange_whitelist()
     {
+
       $data = Excel::load($path)->get();
       foreach ($data as $key => $value) {
         if (!empty($data) && $data->count()) {
