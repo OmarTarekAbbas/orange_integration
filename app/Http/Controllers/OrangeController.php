@@ -767,7 +767,7 @@ var_dump($output) ;
 
         if( $OrangeSubscribe == 0 ){
           $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
-          $welcome_message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط";
+          $welcome_message = "  لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط ";
           $welcome_message .= "https://orange-elkheer.com" ;
           $send_message = $welcome_message ;
 
