@@ -767,9 +767,13 @@ var_dump($output) ;
 
         if( $OrangeSubscribe == 0 ){
           $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
+          $welcome_message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط";
+          $welcome_message .= "https://orange-elkheer.com/orange_portal_login" ;
+          $send_message = $welcome_message ;
 
         }elseif($OrangeSubscribe == 1 ){
           $response_msg = 'انت مشترك بالفعل في خدمة اورانج الخير';
+          $send_message = $response_msg;
 
         }
         $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
@@ -778,6 +782,10 @@ var_dump($output) ;
       $old_ussd =   OrangeUssd::where('id',$OrangeUssd->id)->first();
       $old_ussd->response =     $response_xml  ;
       $old_ussd->save();
+
+
+      // send welcome message to the user
+        $this->sendMessageToUser($msisdn,  $send_message);
 
         return $response_xml;
 
@@ -1010,6 +1018,10 @@ var_dump($output) ;
 
         if ($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE") {
             $orange_subscribe->active = 1;
+            // send today content from orange portal to this user
+             // $orange_today_link    // will get by ip from mondia orange portal
+          // $this->sendMessageToUser($post_array['msisdn'],  $orange_today_link);
+
         } elseif ($post_array['action'] == "GRACE2") {
             $orange_subscribe->active = 0;
         } elseif ($post_array['action'] == "TERMINATE" || $post_array['action'] == "OPERATORUNSUBSCRIBE") {
