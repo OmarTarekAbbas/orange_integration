@@ -855,7 +855,7 @@ var_dump($output) ;
       $url = "https://orange-elkheer.com" ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "You have subscribed to the Orange Al Kheer package from Orange, renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text unsub1 to 6124 for free. To enter, click on this link ".$url;
+        $message = "You have subscribed to the Orange Al Kheer package from Orange,You get 3 days free then renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text unsub1 to 6124 for free. To enter, click on this link ".$url;
         // if($this->is_arabic($keyWord)) {
         //   $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
         // }
