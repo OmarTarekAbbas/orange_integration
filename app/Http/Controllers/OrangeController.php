@@ -1295,6 +1295,11 @@ var_dump($output) ;
       $orange_today_link = curl_exec($curl);
 
       foreach ($orange_subscribes as $orange_subscribe) {
+        if($orange_subscribe->active == 1 ) {
+          $type = "today" ;
+        }else{
+          $type = "free" ;
+        }
         curl_close($curl);
         $this->sendMessageToUser($orange_subscribe->msisdn,  $orange_today_link);
 
@@ -1302,7 +1307,7 @@ var_dump($output) ;
       $TodayMessage  =   new TodayMessage();
       $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
       $TodayMessage->message   = $orange_subscribe->$orange_today_link  ;
-      $TodayMessage->type   = "free"  ;
+      $TodayMessage->type   =  $type  ;
       $TodayMessage->save() ;
       }
 
