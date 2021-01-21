@@ -1311,6 +1311,8 @@ var_dump($output) ;
       $TodayMessage->save() ;
       }
 
+      echo "send today content is Done" ;
+
     }
 
 }
