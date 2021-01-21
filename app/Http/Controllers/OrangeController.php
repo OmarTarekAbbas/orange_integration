@@ -768,9 +768,12 @@ var_dump($output) ;
 
         if( $OrangeSubscribe == 0 ){
           $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
-          $welcome_message = "  لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط ";
+
+          $welcome_message = "تم الإشتراك فى باقة  أورانج الخير من أورانج  لمدة 3 ايام ببلاش ثم تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل unsub1 إلى 6124 مجانًا.";
+          $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
           $welcome_message .= "https://orange-elkheer.com" ;
           $send_message = $welcome_message ;
+
 
         }elseif($OrangeSubscribe == 1 ){
           $welcome_message = 'انت مشترك بالفعل في خدمة اورانج الخير';
@@ -852,7 +855,7 @@ var_dump($output) ;
       $url = "https://orange-elkheer.com" ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "You have successfully subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
+        $message = "You have subscribed to the Orange Al Kheer package from Orange, renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text unsub1 to 6124 for free. To enter, click on this link ".$url;
         // if($this->is_arabic($keyWord)) {
         //   $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
         // }
@@ -890,12 +893,12 @@ var_dump($output) ;
     {
       $message = '';
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "The subscription has been successfully canceled";
+        $message = "The subscription for Orange Al Kheer service has been successfully canceled";
         // if($this->is_arabic($keyWord)) {
         //   $message = "لقد تم الغاء الاشتراك بنجاح";
         // }
       } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
-        $message = "You are already not subscribed to the service";
+        $message = "You are already not subscribed to Orange Al Kheer service";
         // if($this->is_arabic($keyWord)) {
         //   $message = "أنت  غير مشترك فى الخدمه";
         // }
