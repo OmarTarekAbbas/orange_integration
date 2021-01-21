@@ -110,7 +110,7 @@ Route::get('testemail', 'Api\OrangeApiController@testemail');
 // import whitelist numbers from excel
 // Route::get('orange_whitelist', 'OrangeController@orange_whitelist');  // run only one after confirm
 
-Route::get('orange_subscribe_free', 'OrangeController@orange_subscribe_free');
+Route::get('orange_send_today_content', 'OrangeController@orange_send_today_content');
 
 
 /***************************************/

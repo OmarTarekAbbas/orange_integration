@@ -1277,7 +1277,7 @@ var_dump($output) ;
       echo "Ok";
     }
 
-    public function orange_subscribe_free()
+    public function orange_send_today_content()
     {
       $orange_subscribes = OrangeSubscribe::where("free",1)->get();
 
