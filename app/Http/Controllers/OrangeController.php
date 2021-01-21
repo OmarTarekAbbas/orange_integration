@@ -772,8 +772,10 @@ var_dump($output) ;
           $send_message = $welcome_message ;
 
         }elseif($OrangeSubscribe == 1 ){
-          $response_msg = 'انت مشترك بالفعل في خدمة اورانج الخير';
-          $send_message = $response_msg;
+          $welcome_message = 'انت مشترك بالفعل في خدمة اورانج الخير';
+          $welcome_message .= '  للدخول اضغط علي هذا الرابط ';
+          $welcome_message .= "https://orange-elkheer.com" ;
+          $send_message = $welcome_message;
 
         }
         $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
