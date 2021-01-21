@@ -1306,7 +1306,7 @@ var_dump($output) ;
         // add log to DB
       $TodayMessage  =   new TodayMessage();
       $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
-      $TodayMessage->message   = $orange_subscribe->$orange_today_link  ;
+      $TodayMessage->message   = $orange_today_link ;
       $TodayMessage->type   =  $type  ;
       $TodayMessage->save() ;
       }
