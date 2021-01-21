@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Api\OrangeApiController;
-use App\Http\Requests\Request as RequestsRequest;
-use App\OrangeCharging;
-use App\OrangeSubscribe;
-use App\OrangeUssd;
 use App\OrangeSms;
 use App\OrangeWeb;
-use App\OrangeSubUnsub;
-use App\OrangeWhitelist;
-use App\Constants\OrangeResponseStatus;
-use Illuminate\Http\Request;
 use App\Provision;
 use Carbon\Carbon;
+use App\OrangeUssd;
 use Monolog\Logger;
-use Illuminate\Support\Facades\File;
+use App\TodayMessage;
+use App\OrangeCharging;
+use App\OrangeSubUnsub;
+use App\OrangeSubscribe;
+use App\OrangeWhitelist;
+use Illuminate\Http\Request;
 use Monolog\Handler\StreamHandler;
+use Illuminate\Support\Facades\File;
+use App\Constants\OrangeResponseStatus;
+use App\Http\Controllers\Api\OrangeApiController;
+use App\Http\Requests\Request as RequestsRequest;
 
 class OrangeController extends Controller
 {
@@ -1298,7 +1299,13 @@ var_dump($output) ;
         $this->sendMessageToUser($orange_subscribe->msisdn,  $orange_today_link);
 
         // add log to DB
+      $TodayMessage  =   new TodayMessage();
+      $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
+      $TodayMessage->message   = $orange_subscribe->$orange_today_link  ;
+      $TodayMessage->type   = "free"  ;
+      $TodayMessage->save() ;
       }
+
     }
 
 }
