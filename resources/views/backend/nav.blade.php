@@ -106,6 +106,11 @@
                     <span class="glyphicon glyphicon-list-alt"></span> Orange Provisions
                 </a>
             </li>
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/orange_whitelists')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Whitelists
+                </a>
+            </li>
         </ul>
     </li>
 

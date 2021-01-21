@@ -8,6 +8,7 @@ use App\OrangeSubscribe;
 use App\OrangeUssd;
 use App\OrangeSubUnsub;
 use App\Provision;
+use App\OrangeWhitelist;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -55,6 +56,7 @@ class AdminOrangeController extends Controller
             }
             $without_paginate = 1;
         }
+
 
         if ($request->has('from_date') && $request->from_date != '') {
             $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '>=', $request->from_date);
@@ -336,6 +338,42 @@ class AdminOrangeController extends Controller
             $orange_provisions = $orange_provisions->paginate(10);
         }
         return view('backend.orange.orange_provisions', compact('orange_provisions', 'without_paginate'));
+    }
+
+    public function orange_whitelists(Request $request)
+    {
+      if ($request->has('to_date') && $request->to_date != '') {
+        $validator = Validator::make($request->all(), [
+            'from_date' => '',
+            'to_date' => 'required|after_or_equal:from_date',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+    }
+        $orange_whitelists = OrangeWhitelist::query()->orderBy('id', 'DESC');
+        $without_paginate = 0;
+
+        if ($request->has('msisdn') && $request->msisdn != '') {
+          $orange_whitelists = $orange_whitelists->where('orange_whitelists.msisdn', $request->msisdn);
+          $without_paginate = 1;
+        }
+        if ($request->has('from_date') && $request->from_date != '') {
+            $orange_whitelists = $orange_whitelists->whereDate('orange_whitelists.created_at', '>=', $request->from_date);
+            $without_paginate = 1;
+        }
+
+        if ($request->has('to_date') && $request->to_date != '') {
+            $orange_whitelists = $orange_whitelists->whereDate('orange_whitelists.created_at', '<=', $request->to_date);
+            $without_paginate = 1;
+        }
+
+        if ($without_paginate) {
+          $orange_whitelists = $orange_whitelists->get();
+        } else {
+          $orange_whitelists = $orange_whitelists->paginate(10);
+        }
+        return view('backend.orange.orange_whitelists', compact('orange_whitelists', 'without_paginate'));
     }
 
     public function orange_provisions_request_and_response($id)

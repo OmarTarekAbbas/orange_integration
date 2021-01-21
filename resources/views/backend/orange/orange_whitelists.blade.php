@@ -1,7 +1,7 @@
 @include('backend.header')
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header">All Orange Subscribes</h1>
+    <h1 class="page-header">All Orange Whitelists</h1>
   </div>
 </div>
 <!--/.row-->
@@ -18,7 +18,7 @@
   @endif
 
   <div class="form-group">
-    {!! Form::open(['url' => url('admin/orange_subscribes'),'method'=>'get', 'class'=>'all_form']) !!}
+    {!! Form::open(['url' => url('admin/orange_whitelists'),'method'=>'get', 'class'=>'all_form']) !!}
 
     <div class="col-md-4">
       {!! Form::label('ms', 'Msisdn:') !!}
@@ -27,35 +27,6 @@
         <span class="input-group-btn">
           <button type="button" id="search-btn" class="btn"><i class="glyphicon glyphicon-search"></i></button>
         </span>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      {!! Form::label('active', 'Active:') !!}
-      <div class=''>
-        {!! Form::select('active', ['1'=>'Active' , '0' => 'Not active'] ,
-        request()->get('active'),
-        ['class'=>'form-control','id'=>'active','placeholder'=>'Select Active']) !!}
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      {!! Form::label('orange_channel_id', 'Orange Notify Id:') !!}
-      <div class='input-group date'>
-        <input type='text' id="orange_channel_id" class="form-control" value="{{request()->get('orange_channel_id')}}" name="orange_channel_id" placeholder="Orange Notify Id" />
-        <span class="input-group-btn">
-          <button type="button" id="search-btn" class="btn"><i class="glyphicon glyphicon-search"></i></button>
-        </span>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      {!! Form::label('table_name', 'Table Name:') !!}
-      <div class=''>
-        {!! Form::select('table_name', ['orange_notifies'=>'orange_notifies' , 'orange_ussds' => 'orange_ussds' , 'orange_webs' => 'orange_webs' , 'orange_whitelists' => 'orange_whitelists']
-        ,
-        request()->get('table_name'),
-        ['class'=>'form-control','id'=>'table_name','placeholder'=>'Select Table Name']) !!}
       </div>
     </div>
 
@@ -80,7 +51,6 @@
     </div>
 
     <div class="col-md-12">
-      <br>
       <button class="btn btn-labeled btn-primary filter" type="submit"><span class="btn-label"><i class="glyphicon glyphicon-search"></i></span>Filter</button>
     </div>
     {!! Form::close() !!}
@@ -102,8 +72,8 @@
       <div class="col-md-6">
         <div class="pull-right">
           {!! Form::label('date', 'Count :') !!}
-          <div class='input-group date'  style="display: inline-block;">
-            <span dir="rtl" class="btn btn-success borderCircle">{{ count($orange_subscribes) }} </span>
+          <div class='input-group date' style="display: inline-block;">
+            <span dir="rtl" class="btn btn-success borderCircle">{{ count($orange_whitelists) }} </span>
           </div>
         </div>
       </div>
@@ -114,32 +84,18 @@
             <tr>
               <th>ID</th>
               <th>Msisdn</th>
-              <th>Active</th>
-              <th>Orange Notify Id</th>
-              <th>Table Name</th>
               <th>Date Time</th>
             </tr>
           </thead>
           <tbody>
-            @if($orange_subscribes->count() > 0)
-            @foreach($orange_subscribes as $item)
+            @if($orange_whitelists->count() > 0)
+            @foreach($orange_whitelists as $item)
             <tr>
               <td> {{ $item->id }}</td>
               <td> {{ $item->msisdn }}</td>
-              <td>
-                @if($item->active == 1)
-                Active
-                @else
-                Not active
-                @endif
-              </td>
-              <td> {{ $item->orange_channel_id }}</td>
-              <td> {{ $item->table_name }}</td>
               <td> {{ $item->created_at->format('Y-m-d h:i:s') }} </td>
-
-            </tr>
-            @endforeach
-            @endif
+              @endforeach
+              @endif
           </tbody>
         </table>
 
@@ -147,7 +103,7 @@
     </div>
 
     @if(!$without_paginate)
-    {!! $orange_subscribes->setPath('orange_subscribes') !!}
+    {!! $orange_whitelists->setPath('orange_whitelists') !!}
     @endif
   </div>
 </div>
