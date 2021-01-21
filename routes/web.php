@@ -93,3 +93,4 @@ Route::post('admin/setting/{id}','SettingsController@update');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
 
+//Route::get('orange_subscribe_free', 'OrangeController@orange_subscribe_free');
