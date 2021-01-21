@@ -1294,6 +1294,9 @@ var_dump($output) ;
       ));
       $orange_today_link = curl_exec($curl);
 
+      $first_message_part = " جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات  مع باقة أورانج الخير. محتوي اليوم"  ;
+      $message =   $first_message_part . " ".$orange_today_link ;
+
       foreach ($orange_subscribes as $orange_subscribe) {
         if($orange_subscribe->active == 1 ) {
           $type = "today" ;
@@ -1301,12 +1304,12 @@ var_dump($output) ;
           $type = "free" ;
         }
         curl_close($curl);
-        $this->sendMessageToUser($orange_subscribe->msisdn,  $orange_today_link);
+        $this->sendMessageToUser($orange_subscribe->msisdn, $message);
 
         // add log to DB
       $TodayMessage  =   new TodayMessage();
       $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
-      $TodayMessage->message   = $orange_today_link ;
+      $TodayMessage->message   = $orange_today_link;
       $TodayMessage->type   =  $type  ;
       $TodayMessage->save() ;
       }
