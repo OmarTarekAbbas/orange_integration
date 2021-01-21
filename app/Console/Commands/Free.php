@@ -60,6 +60,10 @@ class Free extends Command
         $subscriber->active = ( $orange_subscription_code == "0" || $orange_subscription_code == "1" ) ? 1:0;  // need to be handle  ( 0 or 1  =>active = 1)
         $subscriber->save();
 
+        // send message to the user notify that free trials will end today
+        $expire_message = "باقة أورانج الخير اللي انت مشترك فيها وبتجيلك كل يوم من أورانج هتتجدد ب 1 جنيه فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل unsub1 إلى 6124 مجانا.";
+        $orange_subscription_code = app('App\Http\Controllers\OrangeController')->sendMessageToUser($subscriber->msisdn,$expire_message);
+
       }
       echo 'subscribe_free done!';
     }

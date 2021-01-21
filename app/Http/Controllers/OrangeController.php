@@ -767,8 +767,8 @@ var_dump($output) ;
 
         if( $OrangeSubscribe == 0 ){
           $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
-          $welcome_message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط";
-          $welcome_message .= "https://orange-elkheer.com/orange_portal_login" ;
+          $welcome_message = "  لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط ";
+          $welcome_message .= "https://orange-elkheer.com" ;
           $send_message = $welcome_message ;
 
         }elseif($OrangeSubscribe == 1 ){
@@ -1127,7 +1127,7 @@ var_dump($output) ;
               $orange_subscribe->subscribe_due_date = date("Y-m-d");
               $orange_subscribe->free = 0;
             } else {
-              $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +6 days"));
+              $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
               $orange_subscribe->free = 1;
             }
             $orange_subscribe->service_id = $request->service_id;
