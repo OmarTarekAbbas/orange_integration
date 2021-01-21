@@ -1018,9 +1018,21 @@ var_dump($output) ;
 
         if ($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE") {
             $orange_subscribe->active = 1;
-            // send today content from orange portal to this user
-             // $orange_today_link    // will get by aip from mondia orange portal
-          // $this->sendMessageToUser($post_array['msisdn'],  $orange_today_link);
+             //send today content from orange portal to this user
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => ORANGEGETTODAYCONTENTLINK,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 100,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'GET'
+            ));
+            $orange_today_link = curl_exec($curl);
+            curl_close($curl);
+            $this->sendMessageToUser($post_array['msisdn'],  $orange_today_link);
 
         } elseif ($post_array['action'] == "GRACE2") {
             $orange_subscribe->active = 0;
@@ -1261,7 +1273,5 @@ var_dump($output) ;
       }
       echo "Ok";
     }
-
-
 
 }

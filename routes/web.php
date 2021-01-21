@@ -93,5 +93,3 @@ Route::post('admin/setting/{id}','SettingsController@update');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
 
-
-
