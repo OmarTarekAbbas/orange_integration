@@ -24,14 +24,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
+      // send  charging to orange
       //  $schedule->command('subscribe_free')->hourly();
-        $schedule->command('subscribe_free')->dailyAt('08:00');
-        $schedule->command('subscribe_free')->dailyAt('09:00');
-        $schedule->command('subscribe_free')->dailyAt('10:00');
-        $schedule->command('subscribe_free')->dailyAt('11:00');
-        $schedule->command('subscribe_free')->dailyAt('12:00');
-        $schedule->command('subscribe_free')->dailyAt('13:00');
-        $schedule->command('subscribe_free')->dailyAt('14:00');
+        $schedule->command('subscribe_free')->dailyAt('05:00');
+        $schedule->command('subscribe_free')->dailyAt('06:00');
+        $schedule->command('subscribe_free')->dailyAt('07:00');
+
+
+        // send today content
+       // $schedule->command('subscribe_free')->dailyAt('08:00');
+
 
     }
 
