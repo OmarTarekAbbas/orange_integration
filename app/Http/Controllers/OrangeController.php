@@ -1019,7 +1019,7 @@ var_dump($output) ;
         if ($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE") {
             $orange_subscribe->active = 1;
             // send today content from orange portal to this user
-             // $orange_today_link    // will get by ip from mondia orange portal
+             // $orange_today_link    // will get by aip from mondia orange portal
           // $this->sendMessageToUser($post_array['msisdn'],  $orange_today_link);
 
         } elseif ($post_array['action'] == "GRACE2") {
