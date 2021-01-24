@@ -25,16 +25,20 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-      // send  charging to orange
-      //  $schedule->command('subscribe_free')->hourly();
-        $schedule->command('subscribe_free')->dailyAt('05:00');
-        $schedule->command('subscribe_free')->dailyAt('06:00');
-        $schedule->command('subscribe_free')->dailyAt('07:00');
 
 
         // send today content
        // $schedule->command('subscribe_free')->dailyAt('08:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('08:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('14:58');
+
+
+        // send  charging to orange
+      //  $schedule->command('subscribe_free')->hourly();
+      $schedule->command('subscribe_free')->dailyAt('09:00');
+      $schedule->command('subscribe_free')->dailyAt('10:00');
+      $schedule->command('subscribe_free')->dailyAt('11:00');
+
 
 
     }

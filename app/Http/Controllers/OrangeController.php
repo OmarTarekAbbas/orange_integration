@@ -1286,7 +1286,8 @@ var_dump($output) ;
 
     public function orange_send_today_content()
     {
-      $orange_subscribes = OrangeSubscribe::where("active",1)->get();
+     // $orange_subscribes = OrangeSubscribe::where("active",1)->get();
+      $orange_subscribes = OrangeSubscribe::where("active",1)->where("msisdn","201223872695")->get();
 
       $orange_today_link  =  $this->orange_get_today_content();
 
@@ -1331,7 +1332,6 @@ var_dump($output) ;
       $orange_today_link = curl_exec($curl);
 
       return  $orange_today_link ? $orange_today_link : "http://orange-elkheer.com" ;
-
 
     }
 
