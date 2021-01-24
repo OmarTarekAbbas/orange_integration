@@ -1293,6 +1293,9 @@ var_dump($output) ;
 
       $message =  $orange_today_link ;
 
+      $subject = "Ivas Send today content to Orange subscribers";
+      $this->emailSend($subject) ;
+
       foreach ($orange_subscribes as $orange_subscribe) {
         if($orange_subscribe->active == 1 ) {
           $type = "today" ;
@@ -1334,6 +1337,31 @@ var_dump($output) ;
       curl_close($curl);
 
       return  $orange_today_link ? $orange_today_link : "http://orange-elkheer.com" ;
+
+    }
+
+
+
+    public function emailSend($subject)
+    {
+
+          $email = 'emad@ivas.com.eg';
+
+
+       // send mail
+       $message = '<!DOCTYPE html>
+       <html lang="en-US">
+         <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+         </head>
+         <body>
+           <h2>' . $subject . '</h2>
+         </body>
+       </html>';
+
+     $headers = 'MIME-Version: 1.0' . "\r\n";
+     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+     $headers .= 'From:  ' . $email;
+     @mail($email, $subject, $message, $headers);
 
     }
 
