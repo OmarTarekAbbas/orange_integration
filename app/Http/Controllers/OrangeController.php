@@ -1293,14 +1293,14 @@ var_dump($output) ;
 
       $message =  $orange_today_link ;
 
-      $subject = "Ivas Send today content to Orange subscribers";
-      $this->emailSend($subject) ;
+      // $subject = "Ivas Send today content to Orange subscribers";  // this server not send email
+      // $this->emailSend($subject) ;
 
       foreach ($orange_subscribes as $orange_subscribe) {
-        if($orange_subscribe->active == 1 ) {
-          $type = "today" ;
-        }elseif($orange_subscribe->free == 1){
+      if($orange_subscribe->free == 1){
           $type = "free" ;
+        }elseif($orange_subscribe->active == 1){
+          $type = "today" ;
         }
 
         $this->sendMessageToUser($orange_subscribe->msisdn, $message);
