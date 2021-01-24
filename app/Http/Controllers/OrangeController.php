@@ -1291,7 +1291,7 @@ var_dump($output) ;
 
       $orange_today_link  =  $this->orange_get_today_content();
 
-      $first_message_part = "     جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات  مع باقة أورانج الخير. محتوي اليوم"  ;
+      $first_message_part = " جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات  مع باقة أورانج الخير.  "  ;
       $message =   $first_message_part . " ".$orange_today_link ;
 
       foreach ($orange_subscribes as $orange_subscribe) {
