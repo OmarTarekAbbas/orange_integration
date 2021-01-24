@@ -1297,7 +1297,7 @@ var_dump($output) ;
       foreach ($orange_subscribes as $orange_subscribe) {
         if($orange_subscribe->active == 1 ) {
           $type = "today" ;
-        }else{
+        }elseif($orange_subscribe->free == 1){
           $type = "free" ;
         }
 
