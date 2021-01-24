@@ -772,6 +772,7 @@ var_dump($output) ;
           $welcome_message = "تم الإشتراك فى باقة  أورانج الخير من أورانج  لمدة 3 ايام ببلاش ثم تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل unsub1 إلى 6124 مجانًا.";
           $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
           $welcome_message .= "https://orange-elkheer.com" ;
+
           $send_message = $welcome_message ;
 
 
@@ -1024,6 +1025,8 @@ var_dump($output) ;
 
         if ($post_array['action'] == "OPERATORSUBSCRIBE" || $post_array['action'] == "GRACE1" || $post_array['action'] == "OUTOFGRACE") {
             $orange_subscribe->active = 1;
+
+            /*   // here today message will be handled by cron
              //send today content from orange portal to this user
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -1039,6 +1042,7 @@ var_dump($output) ;
             $orange_today_link = curl_exec($curl);
             curl_close($curl);
             $this->sendMessageToUser($post_array['msisdn'],  $orange_today_link);
+            */
 
         } elseif ($post_array['action'] == "GRACE2") {
             $orange_subscribe->active = 0;
@@ -1282,20 +1286,9 @@ var_dump($output) ;
 
     public function orange_send_today_content()
     {
-      $orange_subscribes = OrangeSubscribe::where("free",1)->get();
+      $orange_subscribes = OrangeSubscribe::where("active",1)->get();
 
-      $curl = curl_init();
-      curl_setopt_array($curl, array(
-        CURLOPT_URL => ORANGEGETTODAYCONTENTLINK,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 100,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET'
-      ));
-      $orange_today_link = curl_exec($curl);
+      $orange_today_link  =  $this->orange_get_today_content();
 
       $first_message_part = " جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات  مع باقة أورانج الخير. محتوي اليوم"  ;
       $message =   $first_message_part . " ".$orange_today_link ;
@@ -1320,5 +1313,27 @@ var_dump($output) ;
       echo "send today content is Done" ;
 
     }
+
+
+    public function orange_get_today_content()
+    {
+      $curl = curl_init();
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => ORANGEGETTODAYCONTENTLINK,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 100,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET'
+      ));
+      $orange_today_link = curl_exec($curl);
+
+      return  $orange_today_link ? $orange_today_link : "http://orange-elkheer.com" ;
+
+
+    }
+
 
 }
