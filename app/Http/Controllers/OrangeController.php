@@ -1300,7 +1300,7 @@ var_dump($output) ;
         }else{
           $type = "free" ;
         }
-        curl_close($curl);
+
         $this->sendMessageToUser($orange_subscribe->msisdn, $message);
 
         // add log to DB
@@ -1330,6 +1330,7 @@ var_dump($output) ;
         CURLOPT_CUSTOMREQUEST => 'GET'
       ));
       $orange_today_link = curl_exec($curl);
+      curl_close($curl);
 
       return  $orange_today_link ? $orange_today_link : "http://orange-elkheer.com" ;
 
