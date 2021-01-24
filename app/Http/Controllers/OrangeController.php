@@ -1286,8 +1286,8 @@ var_dump($output) ;
 
     public function orange_send_today_content()
     {
-     // $orange_subscribes = OrangeSubscribe::where("active",1)->get();
-      $orange_subscribes = OrangeSubscribe::where("active",1)->where("msisdn","201223872695")->get();
+      $orange_subscribes = OrangeSubscribe::where("active",1)->get();
+     // $orange_subscribes = OrangeSubscribe::where("active",1)->where("msisdn","201223872695")->get(); // test on my number
 
       $orange_today_link  =  $this->orange_get_today_content();
 
