@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         // send today content
        // $schedule->command('subscribe_free')->dailyAt('08:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('08:00'); // 10 am
-       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('15:39'); // testing by my number
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('15:41'); // testing by my number
 
 
         // send  charging to orange
