@@ -87,6 +87,7 @@ define("ORANGEGETTODAYCONTENTLINK",'https://orange-elkheer.com/orange_get_today_
 
 
 
+
 Route::post('subscription', 'OrangeController@subscription');
 
 Route::post('subscription_curl', 'OrangeController@subscription_curl');
