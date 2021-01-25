@@ -1286,8 +1286,11 @@ var_dump($output) ;
 
     public function orange_send_today_content()
     {
-      $orange_subscribes = OrangeSubscribe::where("active",1)->get();
+      //$orange_subscribes = OrangeSubscribe::where("active",1)->get();
      // $orange_subscribes = OrangeSubscribe::where("active",1)->where("msisdn","201223872695")->get(); // test on my number
+
+     $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->pluck('msisdn');
+     $orange_subscribes = OrangeSubscribe::where("active",1)->whereNotIn('msisdn',$today_message_msisdns)->get();
 
       $orange_today_link  =  $this->orange_get_today_content();
 
@@ -1362,6 +1365,14 @@ var_dump($output) ;
      $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
      $headers .= 'From:  ' . $email;
      @mail($email, $subject, $message, $headers);
+
+    }
+
+    public function get_orange_subscribers_not_receive_today_content(Request $request)
+    {
+
+      $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->pluck('msisdn');
+      $orange_subscribes = OrangeSubscribe::where("active",1)->whereNotIn('msisdn',$today_message_msisdns)->get();
 
     }
 
