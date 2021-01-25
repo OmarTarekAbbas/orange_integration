@@ -1370,7 +1370,6 @@ var_dump($output) ;
 
     public function get_orange_subscribers_not_receive_today_content(Request $request)
     {
-
       $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->pluck('msisdn');
       $orange_subscribes = OrangeSubscribe::where("active",1)->whereNotIn('msisdn',$today_message_msisdns)->get();
 
