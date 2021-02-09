@@ -1256,6 +1256,7 @@ var_dump($output) ;
           curl_close($ch);
           $param_array['phone'] = $phone;
           $param_array['message'] = $message;
+          $param_array['result'] = $response ;
           $this->log("sendMessageFromKenel",$URL_Api,$param_array);
           // return $response; // 1 -success 0- fail
     }
