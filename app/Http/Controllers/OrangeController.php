@@ -835,7 +835,7 @@ var_dump($output) ;
           $orandControl    = new OrangeApiController();
           $responseMessage = $orandControl->orangeWeb($orange_un_sub);
           $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
-           $this->sendMessageToUser($request->msisdn, $message);
+         //  $this->sendMessageToUser($request->msisdn, $message);
           return   $message;
         }else{
          // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
