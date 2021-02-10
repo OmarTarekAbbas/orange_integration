@@ -32,6 +32,20 @@ class Kernel extends ConsoleKernel
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('08:00'); // 10 am
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('09:00'); // 11 am
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('10:00'); // 12 pm
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('11:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('12:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('13:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('14:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('15:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('16:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('17:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('18:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('19:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('20:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('21:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('22:00'); //  10  pm
+
+
       // $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->hourly();
 
 
