@@ -33,7 +33,7 @@
     <div class="col-md-4">
       {!! Form::label('active', 'Active:') !!}
       <div class=''>
-        {!! Form::select('active', ['1'=>'Active' , '0' => 'Not active'] ,
+        {!! Form::select('active', ['1'=>'Active' , '0' => 'Pending' , '2' => 'OptOut'] ,
         request()->get('active'),
         ['class'=>'form-control','id'=>'active','placeholder'=>'Select Active']) !!}
       </div>
@@ -129,8 +129,10 @@
               <td>
                 @if($item->active == 1)
                 Active
+                @elseif($item->active == 0)
+                Pending
                 @else
-                Not active
+                OptOut
                 @endif
               </td>
               <td> {{ $item->orange_channel_id }}</td>
