@@ -93,8 +93,11 @@
                     </tr>
 
                 </table>
-
+                @if(app('request')->input('from_date'))
+                <a href="{{url('admin/download_excel_orange_statistics_v2?from_date='.app('request')->input('from_date'))}}"><button class="btn btn-warning borderRadius">Download Excel</button></a>
+                @else
                 <a href="{{url('admin/download_excel_orange_statistics_v2')}}"><button class="btn btn-warning borderRadius">Download Excel</button></a>
+                @endif
 
             </div>
         </div>
