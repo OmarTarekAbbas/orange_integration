@@ -73,6 +73,8 @@ Route::get('admin/orange_webs/request_and_response/{id}','AdminOrangeController@
 Route::get('admin/orange_provisions/request_and_response/{id}','AdminOrangeController@orange_provisions_request_and_response');
 Route::get('admin/orange_statistics','AdminOrangeController@call_orange_statistics');
 Route::get('admin/download_excel_orange_statistics','AdminOrangeController@download_excel_orange_statistics');
+Route::get('admin/orange_statistics_by_form','AdminOrangeController@orange_statistics_by_form');
+Route::get('admin/download_excel_orange_statistics_v2','AdminOrangeController@download_excel_orange_statistics_v2');
 
 // End orange Routes...
 
