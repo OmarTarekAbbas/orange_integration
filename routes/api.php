@@ -119,4 +119,10 @@ Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@
 /***************************************/
 
 
+//================elforsan ===========================//
+
+
+
+Route::post('elforsan_provision', 'OrangeController@elforsan_provision');
+
 
