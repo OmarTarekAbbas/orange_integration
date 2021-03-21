@@ -130,6 +130,6 @@ define('elforsan_sourceId', '99');
 
 
 Route::post('elforsan_provision', 'ElforsanController@elforsan_provision');
-Route::post('elforsan_orange_web', 'ElforsanController@elforsanOrangeWeb');
+Route::post('elforsanOrangeWeb', 'ElforsanController@elforsanOrangeWeb');
 
 
