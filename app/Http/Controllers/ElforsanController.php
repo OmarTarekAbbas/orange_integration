@@ -27,11 +27,11 @@ class ElforsanController extends Controller
     {
 
       date_default_timezone_set("UTC") ;
-      $elforsan_spId = spId;
+      $spId = elforsan_spId;
       $time_stamp = date('YmdHis');
-      $sp_password = MD5($elforsan_spId.password.$time_stamp);
+      $sp_password = MD5($spId.elforsan_password.$time_stamp);
 
-      $partnerId = partnerId;
+      $partnerId = elforsan_partnerId;
       /*
               Transaction identifier of a session. It must be unique among the requests from the partner.
               the formula suggested: partnerId+timestamp+sequence
@@ -45,7 +45,7 @@ class ElforsanController extends Controller
       */
       $transactionId = $partnerId.$time_stamp.rand(10000 , 99999);
 
-      $service = service;
+      $service = elforsan_service;
       $msisdn = '201223872695';
 
       $message = 'setUserInfo';
@@ -72,17 +72,6 @@ class ElforsanController extends Controller
        <operationType>$message</operationType>
        <createdTime>$time_stamp</createdTime>
        <msg>$msg</msg>
-       <callBackData>abc</callBackData>
-       <extensionInfo>
-          <item>
-             <key>k1</key>
-             <value>value0</value>
-          </item>
-          <item>
-             <key>k2</key>
-             <value>value1</value>
-          </item>
-       </extensionInfo>
     </sen:sendProvisionMsg>
  </soapenv:Body>
 </soapenv:Envelope>";
@@ -163,5 +152,174 @@ class ElforsanController extends Controller
 
       $resultCode =   isset($post_array['resultCode'])?$post_array['resultCode']:"" ;
         return $resultCode ;
+    }
+
+    /*
+    // Orange Api to sub or unsub according to command
+     1-for cron : it make direct sub and expire free after user enjoy 6days from ivas and 1 day from orange side  => and so command = SUBSCRIBE
+     2-for Orange portal to make unsub direct to orange and update status according orange result       => and so command = UNSUBSCRIBE
+     3-for ussd_notify  ||  sms_notify  ||  web_notify   =>  when user expire free or unsub before      => and so command = SUBSCRIBE
+    */
+    public function elforsanOrangeWeb(Request $request)
+    {
+
+        set_time_limit(100000);
+        date_default_timezone_set("UTC");
+
+        $spId = elforsan_spId;
+        $time_stamp = date('YmdHis');
+        $sp_password = MD5($spId.elforsan_password.$time_stamp);  // spPassword = MD5(spId + elforsan_password + timeStamp)
+        $productId = elforsan_productId;
+
+        $msisdn = $request->msisdn;
+        $command = $request->command;
+        $bearer = $request->bearer_type;
+
+        $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+        <soap:Header>
+        <RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1">
+        <spId>'.$spId.'</spId>
+        <spPassword>'.$sp_password.'</spPassword>
+        <timeStamp>'.$time_stamp.'</timeStamp>
+        </RequestSOAPHeader>
+        </soap:Header>
+        <soap:Body>
+        <asp:AspActionRequest>
+        <CC_Service_Number>'.$productId.'</CC_Service_Number>
+        <CC_Calling_Party_Id>'.$msisdn.'</CC_Calling_Party_Id>
+        <ON_Selfcare_Command>'.$command.'</ON_Selfcare_Command>
+        <ON_Bearer_Type>'.$bearer.'</ON_Bearer_Type>
+        </asp:AspActionRequest>
+        </soap:Body>
+        </soap:Envelope>';
+
+
+
+
+        $header = array(
+          "Content-Type: text/xml",
+          "Content-Length: ".strlen($soap_request),
+      );
+
+    // $URL = "http://10.240.22.41:8310/smsgwws/ASP/";  // testing
+     $URL = "http://10.240.22.62:8310/smsgwws/ASP/";  // production
+
+    //  $f = fopen('request.txt', 'w');
+      $soap_do = curl_init();
+      curl_setopt($soap_do, CURLOPT_URL, $URL);
+      curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 1000000000000000000);
+      curl_setopt($soap_do, CURLOPT_TIMEOUT, 1000000000000000000);
+      curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+    //  curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+   //   curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+      curl_setopt($soap_do, CURLOPT_POST, true);
+      curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
+      curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+    //  curl_setopt($soap_do, CURLOPT_VERBOSE, 1);  // show curl connect
+    //  curl_setopt($soap_do, CURLOPT_STDERR, $f);
+
+      $output = curl_exec($soap_do);
+
+      if(curl_errno($soap_do))
+      print curl_error($soap_do);
+  else
+      curl_close($soap_do);
+
+        $request_array = array(
+            'result_code' => ['start' => '<ON_Result_Code>', 'end' => '</ON_Result_Code>'],
+            'bearer_type' => ['start' => '<ON_Bearer_Type>', 'end' => '</ON_Bearer_Type>'],
+        );
+
+        $string = $output;
+
+        foreach ($request_array as $key => $value) {
+            $start = $value['start'];
+            $end = $value['end'];
+
+            $startpos = strpos($string, $start) + strlen($start);
+            if (strpos($string, $start) !== false) {
+                $endpos = strpos($string, $end, $startpos);
+                if (strpos($string, $end, $startpos) !== false) {
+                    $post_array[$key] = substr($string, $startpos, $endpos - $startpos);
+                } else {
+                    $post_array[$key] = "";
+                }
+            }
+        }
+
+        $orange_web = new OrangeSubUnsub;
+        $orange_web->req = $soap_request;
+        $orange_web->response = $output;
+        $orange_web->spId = $spId;
+        $orange_web->sp_password = $sp_password;
+        $orange_web->time_stamp = $time_stamp;
+        $orange_web->service_number = $productId;
+        $orange_web->calling_party_id = $msisdn;
+        $orange_web->selfcare_command = $command;
+        $orange_web->on_bearer_type = $bearer;
+        $orange_web->on_result_code = isset($post_array['result_code'])?$post_array['result_code']:"";
+
+        $OrangeWeb = $orange_web->save();
+
+
+
+     /* =================  Orange result_code for sub / unsub api ===================
+      0	success
+      1	already subscribed
+      2	not subscribed
+      5	not allowed
+      6	account problem = no balance
+      31	Technical problem
+      */
+        if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
+            if ($command == 'SUBSCRIBE') {
+                $commandActive = 1;  // sub success
+            } elseif ($command == 'UNSUBSCRIBE') {
+                $commandActive = 2;  // unsub success
+            }
+
+
+            $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
+            if ($orange_subscribe) {
+                $orange_subscribe->active = $commandActive;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
+                $orange_subscribe->table_name = 'orange_sub_unsubs';
+                $orange_subscribe->type = strtolower($bearer);
+                $orange_subscribe->save();
+            } else { // will not accured
+                $orange_subscribe = new OrangeSubscribe;
+                $orange_subscribe->msisdn = $msisdn;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
+                $orange_subscribe->table_name = 'orange_sub_unsubs';
+                $orange_subscribe->free = 1;
+                $orange_subscribe->active = 1;
+                $orange_subscribe->type = strtolower($bearer);
+                $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +6 days"));
+                $orange_subscribe->service_id = $request->service_id;
+                $orange_subscribe->save();
+            }
+        }
+
+      $result_code =   isset($post_array['result_code'])?$post_array['result_code']:"" ;
+        return $result_code ;
+    }
+
+    public function orange_provisions_store(Request $request)
+    {
+        $orange_provisions = new Provision;
+        $orange_provisions->req = $request->req;
+        $orange_provisions->response = $request->response;
+        $orange_provisions->spId = $request->spId;
+        $orange_provisions->spPassword = $request->spPassword;
+        $orange_provisions->timeStamp = $request->timeStamp;
+        $orange_provisions->transactionId = $request->transactionId;
+        $orange_provisions->msisdn = $request->msisdn;
+        $orange_provisions->serviceId = $request->serviceId;
+        $orange_provisions->operationType = $request->operationType;
+        $orange_provisions->createdTime = $request->createdTime;
+        $orange_provisions->msg = $request->msg;
+        $orange_provisions->resultCode = $request->resultCode;
+        $orange_provisions->save();
+        return $orange_provisions;
     }
 }
