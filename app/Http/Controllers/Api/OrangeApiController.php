@@ -177,7 +177,7 @@ class OrangeApiController extends Controller
                 $orange_subscribe->free = 1;
                 $orange_subscribe->active = 1;
                 $orange_subscribe->type = strtolower($bearer);
-                $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +6 days"));
+                $orange_subscribe->subscribe_due_date =date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
                 $orange_subscribe->service_id = $request->service_id;
                 $orange_subscribe->save();
             }
@@ -191,7 +191,7 @@ class OrangeApiController extends Controller
     public function testemail()
     {
           // send email
-          $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
+          $subject = 'Ivas Send Due Date subscribers to Orange after 2 days';
           $email = 'emad@ivas.com.eg';
 
 

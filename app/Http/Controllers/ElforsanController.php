@@ -337,7 +337,7 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" ?>
                 $orange_subscribe->free = 1;
                 $orange_subscribe->active = 1;
                 $orange_subscribe->type = strtolower($bearer);
-                $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +6 days"));
+                $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
                 $orange_subscribe->service_id = $request->service_id;
                 $orange_subscribe->save();
             }

@@ -31,7 +31,7 @@ class Free extends Command
     {
 
           // send email
-          $subject = 'Ivas Send Due Date subscribers to Orange after 6 days';
+          $subject = 'Ivas Send Due Date subscribers to Orange after 2 days';
           $email = 'emad@ivas.com.eg';
           $this->sendMail($subject, $email);
 
