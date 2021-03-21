@@ -119,10 +119,16 @@ Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@
 /***************************************/
 
 
-//================elforsan ===========================//
+//============================================== elforsan ==============================================//
+//---------------- ----------------------//
+define('elforsan_spId', '006738');
+define('elforsan_password', '3sJ4YiK4');
+define('elforsan_service', '0067380001');
+define('elforsan_productId', '1000004448');
+define('elforsan_partnerId', '1000000577');
+define("elforsan_sendKenelApi",'http://10.2.10.15:8310/~smsorange/api/orange_egypt_send_message');
+define("elforsan_ORANGEGETTODAYCONTENTLINK",'https://orange-elkheer.com/orange_get_today_content_link');
 
-
-
-Route::post('elforsan_provision', 'OrangeController@elforsan_provision');
+Route::post('elforsan_provision', 'ElforsanController@elforsan_provision');
 
 
