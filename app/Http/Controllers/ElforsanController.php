@@ -27,11 +27,11 @@ class ElforsanController extends Controller
     {
 
       date_default_timezone_set("UTC") ;
-      $spId = elforsan_spId;
+      $spId = spId;
       $time_stamp = date('YmdHis');
       $sp_password = MD5($spId.elforsan_password.$time_stamp);
 
-      $partnerId = elforsan_partnerId;
+      $partnerId = partnerId;
       /*
               Transaction identifier of a session. It must be unique among the requests from the partner.
               the formula suggested: partnerId+timestamp+sequence
@@ -43,38 +43,81 @@ class ElforsanController extends Controller
               35000001 20140329092530 00001
 
       */
-      $transactionId = $partnerId.$time_stamp.rand(10000 , 99999);
+      $transactionId =  $spId.$time_stamp.rand(10000 , 999999);
 
       $service = elforsan_service;
       $msisdn = '201223872695';
 
-      $message = 'setUserInfo';
+      $operationType = 'addMins';
+      $elforsan_sourceId = elforsan_sourceId ;
 
 
-      $msg = "<![CDATA[<?xml version='1.0' encoding='UTF-8'?><userInfo> <userType>1</userType>  <areaCode>23</areaCode>  <nickName>Terry</nickName>  <name>    <firstName>xx</firstName>    <middleName>yy</middleName>    <lastName>zz</lastName>  </name></userInfo>]]>";
+/*
 
-      $soap_request =
-"<?xml version='1.0' encoding='UTF-8'?>
-<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:sen='http://eaidev.mobinil.com/MEAI_OnlineServices/webServices/ESchool/sendProvisionMsg_WSDL'>
- <soapenv:Header>
-    <v2:RequestSOAPHeader>
-       <v2:spId>$spId</v2:spId>
-       <v2:spPassword>$sp_password</v2:spPassword>
-       <v2:timeStamp>$time_stamp</v2:timeStamp>
-    </v2:RequestSOAPHeader>
- </soapenv:Header>
- <soapenv:Body>
-    <sen:sendProvisionMsg>
-       <transactionId>$transactionId</transactionId>
-       <sourceId>bob</sourceId>
-       <msisdn>$msisdn</msisdn>
-       <serviceId>$service</serviceId>
-       <operationType>$message</operationType>
-       <createdTime>$time_stamp</createdTime>
-       <msg>$msg</msg>
-    </sen:sendProvisionMsg>
- </soapenv:Body>
-</soapenv:Envelope>";
+
+
+Product ID: 1000004448
+Provisioning Service ID: 23, & below is the API details
+
+URL: /provisionService/services/provision
+IP: same IP used now for Orange Elkheir
+Port: 8310
+SPID:006738
+Password: (Authentication password + SPID + Timestamp all encrypted using MD-5)
+Source ID: 99
+TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
+
+
+
+
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sen="http://eaidev.mobinil.com/MEAI_OnlineServices/webServices/ESchool/sendProvisionMsg_WSDL" xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1">
+<soapenv:Header>
+<v2:RequestSOAPHeader>
+<v2:spId>005622</v2:spId>
+<v2:spPassword>C22F55D321ED0F6C43C9B9E846EF1A23</v2:spPassword>
+<v2:timeStamp>20190717133649</v2:timeStamp>
+</v2:RequestSOAPHeader>
+</soapenv:Header>
+<soapenv:Body>
+<sen:sendProvisionMsg>
+<transactionId>00562220190717133649221960</transactionId>
+<sourceId>55</sourceId>
+<msisdn>1277036896</msisdn>
+<serviceId>23</serviceId>
+<operationType>addMins</operationType>
+<createdTime>20190717133649</createdTime>
+<msg>
+</msg>
+</sen:sendProvisionMsg>
+</soapenv:Body>
+</soapenv:Envelope>
+
+*/
+
+
+$soap_request ='<?xml version="1.0" encoding="UTF-8" ?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sen="http://eaidev.mobinil.com/MEAI_OnlineServices/webServices/ESchool/sendProvisionMsg_WSDL" xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1">
+<soapenv:Header>
+<v2:RequestSOAPHeader>
+<v2:spId>'.$spId.'</v2:spId>
+<v2:spPassword>'.$sp_password.'</v2:spPassword>
+<v2:timeStamp>'.$time_stamp.'</v2:timeStamp>
+</v2:RequestSOAPHeader>
+</soapenv:Header>
+<soapenv:Body>
+<sen:sendProvisionMsg>
+<transactionId>'.$transactionId.'</transactionId>
+<sourceId>'.$elforsan_sourceId.'</sourceId>
+<msisdn>'.$msisdn.'</msisdn>
+<serviceId>'.$service.'</serviceId>
+<operationType>'.$operationType.'</operationType>
+<createdTime>'.$time_stamp.'</createdTime>
+<msg>
+</msg>
+</sen:sendProvisionMsg>
+</soapenv:Body>
+</soapenv:Envelope>';
 
 
 
@@ -140,10 +183,10 @@ class ElforsanController extends Controller
         $orange_provisions->transactionId = $transactionId;
         $orange_provisions->msisdn = $msisdn;
         $orange_provisions->serviceId = $service;
-        $orange_provisions->operationType = $message;
+        $orange_provisions->operationType = $operationType;
         $orange_provisions->createdTime = $time_stamp;
-        $orange_provisions->msg = $msg;
-        $orange_provisions->resultCode = $post_array['result_code'];
+        $orange_provisions->msg = "";
+        $orange_provisions->resultCode = $post_array['resultCode'];
 
         $Provision = $this->orange_provisions_store($orange_provisions);
 
@@ -166,7 +209,7 @@ class ElforsanController extends Controller
         set_time_limit(100000);
         date_default_timezone_set("UTC");
 
-        $spId = elforsan_spId;
+        $spId = spId;
         $time_stamp = date('YmdHis');
         $sp_password = MD5($spId.elforsan_password.$time_stamp);  // spPassword = MD5(spId + elforsan_password + timeStamp)
         $productId = elforsan_productId;

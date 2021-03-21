@@ -121,11 +121,13 @@ Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@
 
 //============================================== elforsan ==============================================//
 //---------------- ----------------------//
-define('elforsan_spId', '006738');
 define('elforsan_password', '3sJ4YiK4');
-define('elforsan_service', '0067380001');
+define('elforsan_service', '23');
 define('elforsan_productId', '1000004448');
-define('elforsan_partnerId', '1000000577');
+define('elforsan_sourceId', '99');
+
+
+
 
 Route::post('elforsan_provision', 'ElforsanController@elforsan_provision');
 Route::post('elforsan_orange_web', 'ElforsanController@elforsanOrangeWeb');
