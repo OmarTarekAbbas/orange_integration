@@ -43,7 +43,7 @@ class ElforsanController extends Controller
               35000001 20140329092530 00001
 
       */
-      $transactionId =  $partnerId.$time_stamp.rand(10000 , 999999);
+      $transactionId =  $spId.$time_stamp.rand(10000 , 999999);
 
       $service = elforsan_service;
       $msisdn = '201223872695';
