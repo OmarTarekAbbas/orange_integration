@@ -764,6 +764,7 @@ var_dump($output) ;
         $orange_subscribe->type = 'ussd';
         $orange_subscribe->bearer_type = 'USSD';
         $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:productId;
+        $orange_subscribe->product_id = $request_array['product_id'] ?? '';
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
@@ -823,6 +824,8 @@ var_dump($output) ;
           $orange_subscribe->type = 'sms';
           $orange_subscribe->bearer_type = 'SMS';
           $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
+          $orange_subscribe->product_id = $request->product_id ?? '';
+
           $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
           // $this->sendMessageToUser($request->msisdn, $message);
@@ -935,6 +938,7 @@ var_dump($output) ;
         $orange_subscribe->type = 'web';
         $orange_subscribe->bearer_type = 'WEB';
         $orange_subscribe->service_id = $request->service_id;
+        $orange_subscribe->product_id = $request->product_id ?? '';
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
         return  $OrangeSubscribe ;
@@ -1133,6 +1137,9 @@ var_dump($output) ;
                       $orange_subscribe->active = 1;
 
                       // provision call for only elforsan (according to productId =  1000004448 )
+                      if($request->product_id != '' && $request->product_id  == elforsan_productId){
+                            $this->call_elforsan_provision($request->msisdn);
+                      }
                     } else {
                       $orange_subscribe->active = 0;
                     }
@@ -1161,9 +1168,11 @@ var_dump($output) ;
             $orange_subscribe->save();
             $response = 0;
         }
-
-
         // provision call for only elforsan (according to productId =  1000004448 )
+        if($request->product_id != '' && $request->product_id  == elforsan_productId){
+          $this->call_elforsan_provision($request->msisdn);
+        }
+
 
         return  $response;
     }
@@ -1386,5 +1395,12 @@ var_dump($output) ;
 
     }
 
+
+    public function call_elforsan_provision($msisdn)
+    {
+      $Provision = new Request;
+      $Provision->msisdn = $msisdn;
+      $provision_call_elforsan = app('App\Http\Controllers\ElforsanController')->elforsan_provision($Provision);
+    }
 
 }
