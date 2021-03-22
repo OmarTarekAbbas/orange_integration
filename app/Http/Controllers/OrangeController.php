@@ -1131,6 +1131,8 @@ var_dump($output) ;
 
                     if($response == 0) {
                       $orange_subscribe->active = 1;
+
+                      // provision call for only elforsan (according to productId =  1000004448 )
                     } else {
                       $orange_subscribe->active = 0;
                     }
@@ -1159,6 +1161,10 @@ var_dump($output) ;
             $orange_subscribe->save();
             $response = 0;
         }
+
+
+        // provision call for only elforsan (according to productId =  1000004448 )
+
         return  $response;
     }
 
