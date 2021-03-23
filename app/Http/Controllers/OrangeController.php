@@ -838,11 +838,11 @@ var_dump($output) ;
           $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
          //  $this->sendMessageToUser($request->msisdn, $message);
           return   $message;
-        }elseif(strtolower($request->message) == "sub_forsan" || $request->message == "فرسان" ){  // forsan sub
+        }elseif(strtolower($request->message) == "subforsan" || $request->message == "فرسان" ){  // forsan sub
           $url = "http://10.2.10.15:8310/~elforsan/api/sms_notify?msisdn=$request->msisdn&message=$request->message";
           $message = $this->SendRequestGet($url);
           return   $message;
-        }elseif(strtolower($request->message) == "unsub_forsan" || $request->message == "الغاء فرسان" ){  // forsan unsub
+        }elseif(strtolower($request->message) == "unsubforsan" || $request->message == "الغاءفرسان" ){  // forsan unsub
           $url = "http://10.2.10.15:8310/~elforsan/api/sms_notify?msisdn=$request->msisdn&message=$request->message";
           $message = $this->SendRequestGet($url);
           return   $message;
