@@ -838,10 +838,20 @@ var_dump($output) ;
           $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
          //  $this->sendMessageToUser($request->msisdn, $message);
           return   $message;
+        }elseif(strtolower($request->message) == "sub_forsan" || $request->message == "فرسان" ){  // forsan sub
+
+          // call curl   http://10.2.10.15:8310/~elforsan/api/sms_notify?msisdn=xxxx&message=cccc
+          //return   $message
+
+
+        }elseif(strtolower($request->message) == "unsub_forsan" || $request->message == "الغاء فرسان" ){  // forsan unsub
+
+          // call curl   http://10.2.10.15:8310/~elforsan/api/sms_notify?msisdn=xxxx&message=cccc
+          //return   $message
         }else{
          // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
          // $this->sendMessageToUser($request->msisdn, $message);
-          return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1" ;
+          return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1. To subscribe to elforsan send sub_forsan and to unsubscribe to fosan you can send unsub_forsan" ;
         }
     }
 
