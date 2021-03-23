@@ -76,4 +76,45 @@ class Controller extends BaseController
         $log->addInfo($Url, $parameters_arr);
     }
 
+    public function SendRequestPost($URL, $JSON, $headers)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $URL);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 100);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 100);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $JSON);
+        $sOutput = curl_exec($ch);
+        curl_close($ch);
+
+        return $sOutput;
+    }
+
+    public function SendRequestGet($URL, $JSON = null, $headers = null)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $URL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 100);
+        curl_setopt($ch, CURLOPT_ENCODING, "");
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        if ($headers) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
+
+        $sOutput = curl_exec($ch);
+        curl_close($ch);
+
+        return $sOutput;
+    }
+
 }
