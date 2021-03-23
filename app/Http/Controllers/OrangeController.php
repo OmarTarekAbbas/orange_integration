@@ -1168,11 +1168,10 @@ var_dump($output) ;
             $orange_subscribe->service_id = $request->service_id;
             $orange_subscribe->save();
             $response = 0;
+
+            $this->call_elforsan_provision($request->msisdn);
         }
-       // provision call for only elforsan (according to elforsan_service =  23 )
-      //  if($request->product_id != '' && $request->product_id  == elforsan_service){
-          $this->call_elforsan_provision($request->msisdn);
-       // }
+
 
 
         return  $response;
