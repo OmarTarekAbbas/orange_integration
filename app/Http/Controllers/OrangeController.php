@@ -805,7 +805,7 @@ var_dump($output) ;
          $orangeSms = new OrangeSms();
          $orangeSms->msisdn      = $request->msisdn;
          $orangeSms->message     = $request->message ?? " ";
-         $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
+         $orangeSms->service_id  = isset($request->service_id)?$request->service_id:elforsan_productId;
          $orangeSms->save();
 
          $Url= url("sms_notify");
