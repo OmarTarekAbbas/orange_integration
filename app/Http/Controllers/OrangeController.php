@@ -862,7 +862,7 @@ var_dump($output) ;
       $url = "https://elforsan.ivas.com.eg" ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message =  "You have successfully subscribed with Al forsan service now you can listen to Azan, Duaa and Ring back tones with Hany Shaker’s remarkable voice, and you have the chance to be the winner if you Answer the riddle correctly. Enjoy Al forsan service for free for the first day, and 10 minutes free valid till the next day then it will be renewed for 1 L.E daily. The internet consumption will be deducted from your package.To unsubscribe, text unsub_forsan to 6124 for free.To enter, click on this link ".$url ;
+        $message =  "You have successfully subscribed with Al forsan service now you can listen to Azan, Duaa and Ring back tones with Hany Shaker ".$url ;
 
         // if($this->is_arabic($keyWord)) {
         //   $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
