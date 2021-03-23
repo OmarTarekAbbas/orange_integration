@@ -77,11 +77,12 @@ define('partnerId', '1000000577');
 // production //
 define('spId', '006738');
 define('password', '3sJ4YiK4');
-define('service', '0067380001');
-define('productId', '1000000577');
+define('productId', '1000004448');  // elforsan
+define('service', '23');  // elforsan
+
 define('partnerId', '1000000577');
 define("sendKenelApi",'http://10.2.10.15:8310/~smsorange/api/orange_egypt_send_message');
-define("ORANGEGETTODAYCONTENTLINK",'https://orange-elkheer.com/orange_get_today_content_link');
+define("ORANGEGETTODAYCONTENTLINK",'https://elforsan.ivas.com.eg/elforsan_get_today_content_link');
 
 
 
@@ -123,11 +124,9 @@ Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@
 //---------------- ----------------------//
 define('elforsan_password', '3sJ4YiK4');
 define('elforsan_service', '23');
+
 define('elforsan_productId', '1000004448');
 define('elforsan_sourceId', '99');
-
-
-
 
 Route::post('elforsan_provision', 'ElforsanController@elforsan_provision');
 Route::post('elforsanOrangeWeb', 'ElforsanController@elforsanOrangeWeb');

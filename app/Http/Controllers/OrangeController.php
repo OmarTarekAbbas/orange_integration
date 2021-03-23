@@ -743,7 +743,7 @@ var_dump($output) ;
 
 
 
-        $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
+        $response_msg = 'تم الاشتراك بنجاح في خدمة الفرسان';
 
         $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
 
@@ -763,25 +763,25 @@ var_dump($output) ;
         $orange_subscribe->table_name = 'orange_ussds';
         $orange_subscribe->type = 'ussd';
         $orange_subscribe->bearer_type = 'USSD';
-        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:productId;
-        $orange_subscribe->product_id = $request_array['product_id'] ?? '';
+        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:elforsan_service;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
         if( $OrangeSubscribe == 0 ){
-          $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
+          $response_msg = 'تم الاشتراك بنجاح في خدمة الفرسان';
 
-          $welcome_message = "تم الإشتراك فى باقة  أورانج الخير من أورانج  لمدة 3 ايام ببلاش ثم تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل unsub1 إلى 6124 مجانًا.";
+          $welcome_message = "لقد تم الاشتراك بنجاح في خدمة الفرسان دلوقتي تقدر تسمع الأذان لأول مرة بصوت هاني شاكر و كمان تستمتع بأجمل الأدعية ونغمات الانتظار. وعندك الفرصة تكسب لما تحل لغز الفرسان كل يوم.استمتع بخدمة الفرسان ببلاش لمدة يوم وكمان 10 دقائق مجانية صالحة لثاني يوم وتتجدد بعدها بجنيه واحد في اليوم، واستهلاك الانترنت هيتخصم من الباقة بتاعتك";
+          $welcome_message .=  "لالغاء الإشتراك ارسل unsub_forsan إلى 6124 مجانًا" ;
           $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
-          $welcome_message .= "https://orange-elkheer.com" ;
+          $welcome_message .= "https://elforsan.ivas.com.eg" ;
 
           $send_message = $welcome_message ;
 
 
         }elseif($OrangeSubscribe == 1 ){
-          $welcome_message = 'انت مشترك بالفعل في خدمة اورانج الخير';
+          $welcome_message = 'انت مشترك بالفعل في خدمة اورانج الفرسان';
           $welcome_message .= '  للدخول اضغط علي هذا الرابط ';
-          $welcome_message .= "https://orange-elkheer.com" ;
+          $welcome_message .= "https://elforsan.ivas.com.eg" ;
           $send_message = $welcome_message;
 
         }
@@ -816,7 +816,7 @@ var_dump($output) ;
          // Elkheer   kheer   => sub
          // unsub1   unsub kheer  => unsub
          // all sub keyword arabic + english
-        if(strtolower($request->message) == "sub1" || $request->message == "1" ||$request->message == "خير" ){
+        if(strtolower($request->message) == "sub_forsan" || $request->message == "فرسان" ){
           $orange_subscribe = new Request();
           $orange_subscribe->msisdn = $request->msisdn;
           $orange_subscribe->table_name = 'orange_sms';
@@ -830,7 +830,7 @@ var_dump($output) ;
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
           // $this->sendMessageToUser($request->msisdn, $message);
            return  $message ;
-        } elseif(strtolower($request->message) == "unsub1" || $request->message == "الغاء خير" ){
+        } elseif(strtolower($request->message) == "unsub_forsan" || $request->message == "الغاء فرسان" ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
           $orange_un_sub->command    = 'UNSUBSCRIBE';
@@ -844,7 +844,7 @@ var_dump($output) ;
         }else{
          // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
          // $this->sendMessageToUser($request->msisdn, $message);
-          return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1" ;
+          return "to subscribe to Elforsan service You can send sub_forsan and to unsubscribe you can send unsub_forsan" ;
         }
     }
 
@@ -859,15 +859,16 @@ var_dump($output) ;
     public function handleSubscribeSendMessage($responseStatus, $keyWord)
     {
       $message = '';
-      $url = "https://orange-elkheer.com" ;
+      $url = "https://elforsan.ivas.com.eg" ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "You have subscribed to the Orange Al Kheer package from Orange,You get 3 days free then renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text unsub1 to 6124 for free. To enter, click on this link ".$url;
+        $message =  "You have successfully subscribed with Al forsan service now you can listen to Azan, Duaa and Ring back tones with Hany Shaker’s remarkable voice, and you have the chance to be the winner if you Answer the riddle correctly. Enjoy Al forsan service for free for the first day, and 10 minutes free valid till the next day then it will be renewed for 1 L.E daily. The internet consumption will be deducted from your package.To unsubscribe, text unsub_forsan to 6124 for free.To enter, click on this link ".$url ;
+
         // if($this->is_arabic($keyWord)) {
         //   $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
         // }
       } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
-        $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
+        $message = "You are already subscribed to Al forsan service. To enter, click on this link ".$url;
         // if($this->is_arabic($keyWord)) {
         //   $message = " انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط". $url;
         // }
@@ -900,12 +901,12 @@ var_dump($output) ;
     {
       $message = '';
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "The subscription for Orange Al Kheer service has been successfully canceled";
+        $message = "The subscription for Al forsan service has been successfully canceled";
         // if($this->is_arabic($keyWord)) {
         //   $message = "لقد تم الغاء الاشتراك بنجاح";
         // }
       } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
-        $message = "You are already not subscribed to Orange Al Kheer service";
+        $message = "You are already not subscribed to Al forsan service";
         // if($this->is_arabic($keyWord)) {
         //   $message = "أنت  غير مشترك فى الخدمه";
         // }
@@ -938,7 +939,6 @@ var_dump($output) ;
         $orange_subscribe->type = 'web';
         $orange_subscribe->bearer_type = 'WEB';
         $orange_subscribe->service_id = $request->service_id;
-        $orange_subscribe->product_id = $request->product_id ?? '';
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
         return  $OrangeSubscribe ;
@@ -1136,10 +1136,10 @@ var_dump($output) ;
                     if($response == 0) {
                       $orange_subscribe->active = 1;
 
-                      // provision call for only elforsan (according to productId =  1000004448 )
-                      if($request->product_id != '' && $request->product_id  == elforsan_productId){
+                      // provision call for only elforsan (according to elforsan_service =  23 )
+                     // if($request->service_id != '' && $request->service_id  == elforsan_service){
                             $this->call_elforsan_provision($request->msisdn);
-                      }
+                     // }
                     } else {
                       $orange_subscribe->active = 0;
                     }
@@ -1168,10 +1168,10 @@ var_dump($output) ;
             $orange_subscribe->save();
             $response = 0;
         }
-        // provision call for only elforsan (according to productId =  1000004448 )
-        if($request->product_id != '' && $request->product_id  == elforsan_productId){
+       // provision call for only elforsan (according to elforsan_service =  23 )
+      //  if($request->product_id != '' && $request->product_id  == elforsan_service){
           $this->call_elforsan_provision($request->msisdn);
-        }
+       // }
 
 
         return  $response;

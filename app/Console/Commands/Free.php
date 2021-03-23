@@ -31,7 +31,7 @@ class Free extends Command
     {
 
           // send email
-          $subject = 'Ivas Send Due Date subscribers to Orange after 2 days';
+          $subject = 'Ivas Send Due Date subscribers to Elforsan service after 2 days';
           $email = 'emad@ivas.com.eg';
           $this->sendMail($subject, $email);
 
@@ -61,7 +61,7 @@ class Free extends Command
         $subscriber->save();
 
         // send message to the user notify that free trials will end today
-        $expire_message = "باقة أورانج الخير اللي انت مشترك فيها وبتجيلك كل يوم من أورانج هتتجدد من بكره ب 1 جنيه فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل unsub1 إلى 6124 مجانا.";
+        $expire_message = "باقة الفرسان اللي انت مشترك فيها وبتجيلك كل يوم من أورانج هتتجدد من بكره ب 1 جنيه فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل unsub_forsan إلى 6124 مجانا.";
         $orange_subscription_code = app('App\Http\Controllers\OrangeController')->sendMessageToUser($subscriber->msisdn,$expire_message);
 
       }
