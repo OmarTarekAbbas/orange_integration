@@ -1359,7 +1359,7 @@ var_dump($output) ;
       $orange_today_link = curl_exec($curl);
       curl_close($curl);
 
-      return  $orange_today_link ? $orange_today_link : "http://orange-elkheer.com" ;
+      return  $orange_today_link ? $orange_today_link : "https://elforsan.ivas.com.eg" ;
 
     }
 
