@@ -47,7 +47,8 @@ class ElforsanController extends Controller
 
       $service = elforsan_service;
       // $msisdn = '201223872695';
-      $msisdn = $request->msisdn;
+      // $msisdn = $request->msisdn;
+      $msisdn = ltrim( $request->msisdn,"20");  // 12xx format
 
       $operationType = 'addMins';
       $elforsan_sourceId = elforsan_sourceId ;
