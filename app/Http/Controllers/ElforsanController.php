@@ -46,9 +46,10 @@ class ElforsanController extends Controller
       $transactionId =  $spId.$time_stamp.rand(10000 , 999999);
 
       $service = elforsan_service;
-      // $msisdn = '201223872695';
+      // $msisdn = '1277433337';
       // $msisdn = $request->msisdn;
       $msisdn = ltrim( $request->msisdn,"20");  // 12xx format
+
 
       $operationType = 'addMins';
       $elforsan_sourceId = elforsan_sourceId ;
