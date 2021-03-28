@@ -184,7 +184,7 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" ?>
         $orange_provisions->spPassword = $sp_password;
         $orange_provisions->timeStamp = $time_stamp;
         $orange_provisions->transactionId = $transactionId;
-        $orange_provisions->msisdn = $msisdn;
+        $orange_provisions->msisdn = $request->msisdn;
         $orange_provisions->serviceId = $service;
         $orange_provisions->operationType = $operationType;
         $orange_provisions->createdTime = $time_stamp;
