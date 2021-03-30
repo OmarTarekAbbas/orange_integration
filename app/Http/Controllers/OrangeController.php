@@ -1343,7 +1343,12 @@ var_dump($output) ;
 public function orange_send_daily_deduction()
 {
 
-     $orange_subscribes = OrangeSubscribe::where("active",1)->get();
+
+  $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->where("type","=","charge")->pluck('msisdn');
+  $orange_subscribes = OrangeSubscribe::where("active",1)->where("free",0)->whereNotIn('msisdn',$today_message_msisdns)->get();
+
+
+    //  $orange_subscribes = OrangeSubscribe::where("active",1)->get();
 
       $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
 

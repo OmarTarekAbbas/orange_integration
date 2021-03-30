@@ -47,6 +47,7 @@ class Kernel extends ConsoleKernel
 
    // daily deduction message
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('09:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('12:00');
 
 
        // weekly deduction message  // weekly at 11 at monday
