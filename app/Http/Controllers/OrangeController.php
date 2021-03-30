@@ -781,6 +781,7 @@ var_dump($output) ;
           $welcome_message = 'انت مشترك بالفعل في خدمة اورانج الخير';
           $welcome_message .= '  للدخول اضغط علي هذا الرابط ';
           $welcome_message .= "https://orange-elkheer.com" ;
+          $welcome_message .= "  لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا" ;
           $send_message = $welcome_message;
 
         }
@@ -863,31 +864,33 @@ var_dump($output) ;
       $url = "https://orange-elkheer.com" ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "You have subscribed to the Orange Al Kheer package from Orange,You get 3 days free then renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text 0215 to 6124 for free. To enter, click on this link ".$url;
-        if($this->is_arabic($keyWord)) {
-          $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
-        }
+     //   $message = "You have subscribed to the Orange Al Kheer package from Orange,You get 3 days free then renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text 0215 to 6124 for free. To enter, click on this link ".$url;
+      //  if($this->is_arabic($keyWord)) {
+        $message = "تم الإشتراك فى باقة  أورانج الخير من أورانج تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا.";
+          $message .= "  ". $url;
+       // }
       } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
-        $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
+       // $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
 
-        if($this->is_arabic($keyWord)) {
+       // if($this->is_arabic($keyWord)) {
           $message = ' انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط'. $url;
-        }
+          $message .= '  لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا';
+      //  }
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
-        $message = "Not Allowed";
-        if($this->is_arabic($keyWord)) {
-          $message = "Not Allowed";
-        }
+      //  $message = "Not Allowed";
+       // if($this->is_arabic($keyWord)) {
+          $message = "غير مسموح";
+       // }
       } elseif($responseStatus == OrangeResponseStatus::NoBalance) {
-        $message = "No Balance";
-        if($this->is_arabic($keyWord)) {
+       // $message = "No Balance";
+      //  if($this->is_arabic($keyWord)) {
           $message = 'ليس لديك رصيد كافى';
-        }
+      //  }
       } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
-        $message = "Technical problem";
-        if($this->is_arabic($keyWord)) {
-          $message = "Technical problem";
-        }
+       // $message = "Technical problem";
+      //  if($this->is_arabic($keyWord)) {
+          $message = "مشكلة فنية";
+       // }
       }
       return $message;
     }
