@@ -825,8 +825,8 @@ var_dump($output) ;
           $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
           $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
-           $this->sendMessageToUser($request->msisdn, $message);
-          // return  $message ;
+           // $this->sendMessageToUser($request->msisdn, $message);
+           return  $message ;
         } elseif(strtolower($request->message) == "unsub1" || $request->message == "الغاء خير" ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
