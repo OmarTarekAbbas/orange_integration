@@ -809,9 +809,6 @@ var_dump($output) ;
          $orangeSms->save();
 
 
-         var_dump( $request->message);
-
-
          $Url= url("sms_notify");
          $data['phone'] = $request->msisdn;;
          $data['message'] = $request->message;
