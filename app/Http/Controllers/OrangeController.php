@@ -1326,6 +1326,7 @@ var_dump($output) ;
 
         $this->sendMessageToUser($orange_subscribe->msisdn, $message);
 
+
         // add log to DB
       $TodayMessage  =   new TodayMessage();
       $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
