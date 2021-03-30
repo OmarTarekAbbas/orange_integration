@@ -905,24 +905,24 @@ var_dump($output) ;
     {
       $message = '';
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "The subscription for Orange Al Kheer service has been successfully canceled";
+       // $message = "The subscription for Orange Al Kheer service has been successfully canceled";
         // if($this->is_arabic($keyWord)) {
-        //   $message = "لقد تم الغاء الاشتراك بنجاح";
+           $message = "لقد تم الغاء الاشتراك بنجاح";
         // }
       } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
-        $message = "You are already not subscribed to Orange Al Kheer service";
+       // $message = "You are already not subscribed to Orange Al Kheer service";
         // if($this->is_arabic($keyWord)) {
-        //   $message = "أنت  غير مشترك فى الخدمه";
+           $message = "أنت  غير مشترك فى الخدمه";
         // }
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
-        $message = "Not Allowed";
+       // $message = "Not Allowed";
         // if($this->is_arabic($keyWord)) {
-        //   $message = "Not Allowed";
+          $message = "غير مسموح";
         // }
       } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
-        $message = "Technical problem";
+       // $message = "Technical problem";
         // if($this->is_arabic($keyWord)) {
-        //   $message = "Technical problem";
+          $message = "مشكلة فنية";
         // }
       }
       return $message;
