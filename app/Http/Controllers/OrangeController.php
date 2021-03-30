@@ -1311,6 +1311,8 @@ var_dump($output) ;
       $orange_today_link  =  $this->orange_get_today_content();
 
       $message =  $orange_today_link ;
+      // append charging fee
+      $message .= "  تجدد الخدمة 1 جنيه فى اليوم  "  ;
 
       // $subject = "Ivas Send today content to Orange subscribers";  // this server not send email
       // $this->emailSend($subject) ;
