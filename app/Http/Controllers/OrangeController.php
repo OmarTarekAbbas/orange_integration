@@ -816,7 +816,7 @@ var_dump($output) ;
          // Elkheer   kheer   => sub
          // unsub1   unsub kheer  => unsub
          // all sub keyword arabic + english
-        if(strtolower($request->message) == "215" ){
+        if(strtolower($request->message) == "215"   || strtolower($request->message) == "٢١٥" ){
           $orange_subscribe = new Request();
           $orange_subscribe->msisdn = $request->msisdn;
           $orange_subscribe->table_name = 'orange_sms';
@@ -828,7 +828,7 @@ var_dump($output) ;
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
             $this->sendMessageToUser($request->msisdn, $message);
         //   return  $message ;
-        } elseif(strtolower($request->message) == "0215" ){
+        } elseif(strtolower($request->message) == "0215"   || strtolower($request->message) == "٠٢١٥"  ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
           $orange_un_sub->command    = 'UNSUBSCRIBE';
