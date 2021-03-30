@@ -876,12 +876,12 @@ var_dump($output) ;
           $message = ' انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط'. $url;
           $message .= '  لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا';
       //  }
-      } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
+      }elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
       //  $message = "Not Allowed";
        // if($this->is_arabic($keyWord)) {
           $message = "غير مسموح";
        // }
-      } elseif($responseStatus == OrangeResponseStatus::NoBalance) {
+      }elseif($responseStatus == OrangeResponseStatus::NoBalance) {
        // $message = "No Balance";
       //  if($this->is_arabic($keyWord)) {
           $message = 'ليس لديك رصيد كافى';
@@ -1145,7 +1145,7 @@ var_dump($output) ;
                       $orange_subscribe->active = 0;
                     }
 
-            }elseif($orange_subscribe->active  == 1){ // already active on my system
+            }elseif($orange_subscribe->active  == 1 ){ // already active on my system
               $response = 1;
             }
 

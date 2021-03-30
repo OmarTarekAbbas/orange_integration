@@ -9,5 +9,6 @@ final class OrangeResponseStatus
   const NotAllowed       = 5;
   const NoBalance        = 6;
   const Technicalproblem = 31;
+ // const FREE = 3;
 }
 
