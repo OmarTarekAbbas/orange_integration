@@ -825,8 +825,8 @@ var_dump($output) ;
           $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
           $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
-           // $this->sendMessageToUser($request->msisdn, $message);
-           return  $message ;
+            $this->sendMessageToUser($request->msisdn, $message);
+        //   return  $message ;
         } elseif(strtolower($request->message) == "unsub1" || $request->message == "الغاء خير" ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
@@ -882,9 +882,9 @@ var_dump($output) ;
       } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
         $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
 
-        // if($this->is_arabic($keyWord)) {
-        //   $message = ' انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط'. $url;
-        // }
+        if($this->is_arabic($keyWord)) {
+          $message = ' انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط'. $url;
+        }
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
         $message = "Not Allowed";
         if($this->is_arabic($keyWord)) {
