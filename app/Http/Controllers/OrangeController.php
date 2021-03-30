@@ -770,7 +770,7 @@ var_dump($output) ;
         if( $OrangeSubscribe == 0 ){
           $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
 
-          $welcome_message = "تم الإشتراك فى باقة  أورانج الخير من أورانج  لمدة 3 ايام ببلاش ثم تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل unsub1 إلى 6124 مجانًا.";
+          $welcome_message = "تم الإشتراك فى باقة  أورانج الخير من أورانج  لمدة 3 ايام ببلاش ثم تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا.";
           $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
           $welcome_message .= "https://orange-elkheer.com" ;
 
@@ -815,7 +815,7 @@ var_dump($output) ;
          // Elkheer   kheer   => sub
          // unsub1   unsub kheer  => unsub
          // all sub keyword arabic + english
-        if(strtolower($request->message) == "sub1" || $request->message == "1" ||$request->message == "خير" ){
+        if(strtolower($request->message) == "215" ){
           $orange_subscribe = new Request();
           $orange_subscribe->msisdn = $request->msisdn;
           $orange_subscribe->table_name = 'orange_sms';
@@ -827,7 +827,7 @@ var_dump($output) ;
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
             $this->sendMessageToUser($request->msisdn, $message);
         //   return  $message ;
-        } elseif(strtolower($request->message) == "unsub1" || $request->message == "الغاء خير" ){
+        } elseif(strtolower($request->message) == "0215" ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
           $orange_un_sub->command    = 'UNSUBSCRIBE';
@@ -840,7 +840,8 @@ var_dump($output) ;
          //  return   $message;
         }else{
          // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
-          $message = "للاشتراك في خدمة اورانج الخير يرجي ارسال  خير";
+          $message = "للاشتراك في خدمة اورانج الخير يرجي ارسال    215" ;
+          $message .= " 1 جنيه  فى اليوم"  ;
           $this->sendMessageToUser($request->msisdn, $message);
          // return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1." ;
         }
@@ -863,7 +864,7 @@ var_dump($output) ;
       $url = "https://orange-elkheer.com" ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "You have subscribed to the Orange Al Kheer package from Orange,You get 3 days free then renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text unsub1 to 6124 for free. To enter, click on this link ".$url;
+        $message = "You have subscribed to the Orange Al Kheer package from Orange,You get 3 days free then renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text 0215 to 6124 for free. To enter, click on this link ".$url;
         if($this->is_arabic($keyWord)) {
           $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
         }
@@ -1305,14 +1306,13 @@ var_dump($output) ;
       //$orange_subscribes = OrangeSubscribe::where("active",1)->get();
      // $orange_subscribes = OrangeSubscribe::where("active",1)->where("msisdn","201223872695")->get(); // test on my number
 
-     $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->pluck('msisdn');
+     $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->where("type","!=","charge")->pluck('msisdn');
      $orange_subscribes = OrangeSubscribe::where("active",1)->whereNotIn('msisdn',$today_message_msisdns)->get();
 
       $orange_today_link  =  $this->orange_get_today_content();
 
       $message =  $orange_today_link ;
       // append charging fee
-      $message .= "  تجدد الخدمة 1 جنيه فى اليوم  "  ;
 
       // $subject = "Ivas Send today content to Orange subscribers";  // this server not send email
       // $this->emailSend($subject) ;
@@ -1337,6 +1337,67 @@ var_dump($output) ;
       echo "send today content is Done" ;
 
     }
+
+
+public function orange_send_daily_deduction()
+{
+
+     $orange_subscribes = OrangeSubscribe::where("active",1)->get();
+
+      $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
+
+
+      foreach ($orange_subscribes as $orange_subscribe) {
+      if($orange_subscribe->free == 1){
+          $type = "charge" ;
+        }elseif($orange_subscribe->active == 1){
+          $type = "charge" ;
+        }
+
+        $this->sendMessageToUser($orange_subscribe->msisdn, $message);
+
+        // add log to DB
+      $TodayMessage  =   new TodayMessage();
+      $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
+      $TodayMessage->message   = $orange_today_link;
+      $TodayMessage->type   =  $type  ;
+      $TodayMessage->save() ;
+      }
+
+      echo "send today content is Done" ;
+
+    }
+
+
+public function orange_send_weekly_deduction()
+{
+
+     $orange_subscribes = OrangeSubscribe::where("active",1)->where("free",0)->get();
+
+      $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
+
+
+      foreach ($orange_subscribes as $orange_subscribe) {
+      if($orange_subscribe->free == 1){
+          $type = "charge" ;
+        }elseif($orange_subscribe->active == 1){
+          $type = "charge" ;
+        }
+
+        $this->sendMessageToUser($orange_subscribe->msisdn, $message);
+
+        // add log to DB
+      $TodayMessage  =   new TodayMessage();
+      $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
+      $TodayMessage->message   = $orange_today_link;
+      $TodayMessage->type   =  $type  ;
+      $TodayMessage->save() ;
+      }
+
+      echo "send today content is Done" ;
+
+    }
+
 
 
 

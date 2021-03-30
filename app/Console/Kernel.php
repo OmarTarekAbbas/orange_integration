@@ -30,10 +30,10 @@ class Kernel extends ConsoleKernel
         // send today content
        // $schedule->command('subscribe_free')->dailyAt('08:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('08:00'); // 10 am
-       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('09:00'); // 11 am
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('09:15');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('10:00'); // 12 pm
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('11:00');
-       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('12:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('12:15');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('13:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('14:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('15:00');
@@ -45,9 +45,15 @@ class Kernel extends ConsoleKernel
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('21:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('22:00'); //  10  pm
 
+   // daily deduction message
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('09:00');
+
+
+       // weekly deduction message  // weekly at 11 at monday
+     //  $schedule->call('App\Http\Controllers\OrangeController@orange_send_weekly_deduction')->weeklyOn(1, '9:00');;
+
 
       // $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->hourly();
-
 
         // send  charging to orange
       //  $schedule->command('subscribe_free')->hourly();
