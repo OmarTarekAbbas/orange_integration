@@ -114,6 +114,7 @@ Route::get('testemail', 'Api\OrangeApiController@testemail');
 Route::get('orange_send_today_content', 'OrangeController@orange_send_today_content');
 
 Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@get_orange_subscribers_not_receive_today_content');
+Route::get('orange_send_daily_deduction', 'OrangeController@orange_send_daily_deduction');
 
 
 /***************************************/
