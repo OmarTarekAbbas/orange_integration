@@ -876,29 +876,29 @@ var_dump($output) ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
         $message = "You have subscribed to the Orange Al Kheer package from Orange,You get 3 days free then renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text unsub1 to 6124 for free. To enter, click on this link ".$url;
-        // if($this->is_arabic($keyWord)) {
-        //   $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
-        // }
+        if($this->is_arabic($keyWord)) {
+          $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
+        }
       } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
         $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
-        // if($this->is_arabic($keyWord)) {
-        //   $message = " انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط". $url;
-        // }
+        if($this->is_arabic($keyWord)) {
+          $message = " انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط". $url;
+        }
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
         $message = "Not Allowed";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = "Not Allowed";
-        // }
+        if($this->is_arabic($keyWord)) {
+          $message = "Not Allowed";
+        }
       } elseif($responseStatus == OrangeResponseStatus::NoBalance) {
         $message = "No Balance";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = 'ليس لديك رصيد كافى';
-        // }
+        if($this->is_arabic($keyWord)) {
+          $message = 'ليس لديك رصيد كافى';
+        }
       } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
         $message = "Technical problem";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = "Technical problem";
-        // }
+        if($this->is_arabic($keyWord)) {
+          $message = "Technical problem";
+        }
       }
       return $message;
     }
