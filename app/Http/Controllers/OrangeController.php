@@ -847,19 +847,6 @@ var_dump($output) ;
 
 
 
-
-        /*
-        elseif(strtolower($request->message) == "subforsan" || $request->message == "فرسان" ){  // forsan sub
-          $url = "http://10.2.10.15:8310/~elforsan/api/sms_notify?msisdn=$request->msisdn&message=$request->message";
-          $message = $this->SendRequestGet($url);
-          return   $message;
-        }elseif(strtolower($request->message) == "unsubforsan" || $request->message == "الغاءفرسان" ){  // forsan unsub
-          $url = "http://10.2.10.15:8310/~elforsan/api/sms_notify?msisdn=$request->msisdn&message=$request->message";
-          $message = $this->SendRequestGet($url);
-          return   $message;
-        }
-        */
-
     }
 
     /**
