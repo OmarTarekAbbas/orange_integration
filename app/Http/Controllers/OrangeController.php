@@ -840,7 +840,7 @@ var_dump($output) ;
          //  return   $message;
         }else{
          // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
-          $message = "للاشتراك في خدمة اورانج الخير يرجي ارسال كلمة  خير";
+          $message = "للاشتراك في خدمة اورانج الخير يرجي ارسال  خير";
           $this->sendMessageToUser($request->msisdn, $message);
          // return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1." ;
         }
