@@ -880,7 +880,9 @@ var_dump($output) ;
           $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
         }
       } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
-        $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
+      //  $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
+        $message = "이미 Orange El-Kheer 서비스에 가입되어 있습니다. 참가하려면이 링크를 클릭하세요.";
+
         // if($this->is_arabic($keyWord)) {
         //   $message = ' انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط'. $url;
         // }
