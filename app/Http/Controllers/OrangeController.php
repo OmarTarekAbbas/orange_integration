@@ -881,9 +881,9 @@ var_dump($output) ;
         }
       } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
         $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
-        if($this->is_arabic($keyWord)) {
-          $message = ' انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط'. $url;
-        }
+        // if($this->is_arabic($keyWord)) {
+        //   $message = ' انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط'. $url;
+        // }
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
         $message = "Not Allowed";
         if($this->is_arabic($keyWord)) {
