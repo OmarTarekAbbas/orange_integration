@@ -808,6 +808,10 @@ var_dump($output) ;
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
          $orangeSms->save();
 
+
+         var_dump( $request->message);
+
+
          $Url= url("sms_notify");
          $data['phone'] = $request->msisdn;;
          $data['message'] = $request->message;
@@ -816,7 +820,13 @@ var_dump($output) ;
          // Elkheer   kheer   => sub
          // unsub1   unsub kheer  => unsub
          // all sub keyword arabic + english
-        if(   $request->message == "215"   ||   $request->message == "٢١٥" ){
+
+
+
+      $firstCharacter = substr($request->message, 0, 1);
+
+
+      if(   ( $request->message == "215" && $firstCharacter != "0" )  ||   (  $request->message  == "٢١٥"  && $firstCharacter != "٠" )  ){
           $orange_subscribe = new Request();
           $orange_subscribe->msisdn = $request->msisdn;
           $orange_subscribe->table_name = 'orange_sms';
@@ -828,7 +838,8 @@ var_dump($output) ;
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
             $this->sendMessageToUser($request->msisdn, $message);
         //   return  $message ;
-        } elseif(   $request->message == "0215"   ||  $request->message == "٠٢١٥"  ){
+
+        } elseif(    ($request->message == "215"  && $firstCharacter == "0"  )  ||  ( $request->message == "٢١٥"  && $firstCharacter == "٠" )  ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
           $orange_un_sub->command    = 'UNSUBSCRIBE';
