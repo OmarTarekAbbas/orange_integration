@@ -825,8 +825,8 @@ var_dump($output) ;
           $orange_subscribe->service_id = isset($request->service_id)?$request->service_id:productId;
           $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
           $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
-          // $this->sendMessageToUser($request->msisdn, $message);
-           return  $message ;
+           $this->sendMessageToUser($request->msisdn, $message);
+          // return  $message ;
         } elseif(strtolower($request->message) == "unsub1" || $request->message == "الغاء خير" ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
@@ -836,9 +836,19 @@ var_dump($output) ;
           $orandControl    = new OrangeApiController();
           $responseMessage = $orandControl->orangeWeb($orange_un_sub);
           $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
-         //  $this->sendMessageToUser($request->msisdn, $message);
-          return   $message;
-        }elseif(strtolower($request->message) == "subforsan" || $request->message == "فرسان" ){  // forsan sub
+           $this->sendMessageToUser($request->msisdn, $message);
+         //  return   $message;
+        }else{
+         // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
+         // $this->sendMessageToUser($request->msisdn, $message);
+          return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1." ;
+        }
+
+
+
+
+        /*
+        elseif(strtolower($request->message) == "subforsan" || $request->message == "فرسان" ){  // forsan sub
           $url = "http://10.2.10.15:8310/~elforsan/api/sms_notify?msisdn=$request->msisdn&message=$request->message";
           $message = $this->SendRequestGet($url);
           return   $message;
@@ -846,11 +856,9 @@ var_dump($output) ;
           $url = "http://10.2.10.15:8310/~elforsan/api/sms_notify?msisdn=$request->msisdn&message=$request->message";
           $message = $this->SendRequestGet($url);
           return   $message;
-        }else{
-         // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
-         // $this->sendMessageToUser($request->msisdn, $message);
-          return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1. To subscribe to elforsan send sub_forsan and to unsubscribe to fosan you can send unsub_forsan" ;
         }
+        */
+
     }
 
     /**
