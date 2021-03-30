@@ -836,7 +836,9 @@ var_dump($output) ;
             $this->sendMessageToUser($request->msisdn, $message);
         //   return  $message ;
 
-        } elseif(    ($request->message == "215"  && $firstCharacter == "0"  )  ||  ( $request->message == "٢١٥"  && $firstCharacter == "٠" )  ){
+
+
+        } elseif(    ($request->message == "215"  && $firstCharacter == "0"  )  ||  (  mb_strlen($request->message) == 4    && $request->message == "٠٢١٥"  )  ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
           $orange_un_sub->command    = 'UNSUBSCRIBE';
