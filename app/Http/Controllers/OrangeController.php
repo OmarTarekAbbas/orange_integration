@@ -1290,12 +1290,13 @@ var_dump($output) ;
     public function orange_whitelist()
     {
       set_time_limit(0);
-      $path= base_path(). "/OrangeWhitelist/OrangeWhitelist.xlsx";
+      $path= base_path(). "/OrangeWhitelist/Whitelisted_dials.xlsx";
 
       $data = \Excel::load($path)->get();
+      // dd($data); die;
       foreach ($data as $value) {
         //return $value; die;
-        if (!empty($data) && $data->count()) {
+        if (!empty($data) && $data->count()  && strlen($value->mob)  > 8 ) {
           $orange = new OrangeWhitelist;
           $orange->msisdn = "2".$value->mob;
           $orange->save();
