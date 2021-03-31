@@ -1377,7 +1377,7 @@ public function orange_send_daily_deduction()
         // add log to DB
       $TodayMessage  =   new TodayMessage();
       $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
-      $TodayMessage->message   = $orange_today_link;
+      $TodayMessage->message   = $message;
       $TodayMessage->type   =  $type  ;
       $TodayMessage->save() ;
       }
