@@ -1382,7 +1382,7 @@ public function orange_send_daily_deduction()
       $TodayMessage->save() ;
       }
 
-      echo "send today content is Done" ;
+      echo "send today charging is Done" ;
 
     }
 
