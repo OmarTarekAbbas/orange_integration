@@ -763,7 +763,7 @@ var_dump($output) ;
         $orange_subscribe->table_name = 'orange_ussds';
         $orange_subscribe->type = 'ussd';
         $orange_subscribe->bearer_type = 'USSD';
-        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:elforsan_service;
+        $orange_subscribe->service_id = isset($request_array['Service-Id'])?$request_array['Service-Id']:elforsan_productId;
 
         $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
