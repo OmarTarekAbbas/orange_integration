@@ -46,8 +46,12 @@ class Kernel extends ConsoleKernel
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('22:00'); //  10  pm
 
    // daily deduction message
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('08:15');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('09:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('12:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('14:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('14:00');
+       $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('18:00');
 
 
        // weekly deduction message  // weekly at 11 at monday
