@@ -38,7 +38,6 @@ class Kernel extends ConsoleKernel
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('14:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('15:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('16:00');
-       $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('16:15');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('17:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('18:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('19:00');
@@ -49,7 +48,6 @@ class Kernel extends ConsoleKernel
    // daily deduction message
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('09:00');
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('12:00');
-       $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('16:20');
 
 
        // weekly deduction message  // weekly at 11 at monday
@@ -66,7 +64,6 @@ class Kernel extends ConsoleKernel
      $schedule->command('subscribe_free')->dailyAt('20:00');  // 1 PM
      $schedule->command('subscribe_free')->dailyAt('21:00');
      $schedule->command('subscribe_free')->dailyAt('22:00');
-     $schedule->command('subscribe_free')->dailyAt('16:25');  // 1 PM
 
 
 
