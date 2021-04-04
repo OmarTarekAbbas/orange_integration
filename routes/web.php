@@ -97,5 +97,6 @@ Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
+define('URL_ELFORSAN', 'https://elforsan.ivas.com.eg');
 
 

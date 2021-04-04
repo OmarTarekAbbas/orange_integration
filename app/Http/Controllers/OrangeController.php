@@ -774,7 +774,7 @@ var_dump($output) ;
           $welcome_message .= " " ;
         //  $welcome_message .=  "لالغاء الإشتراك ارسل unsubforsan إلى 6124 مجانًا" ;
           $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
-          $welcome_message .= "https://elforsan.ivas.com.eg" ;
+          $welcome_message .= URL_ELFORSAN ;
 
           $send_message = $welcome_message ;
 
@@ -782,7 +782,7 @@ var_dump($output) ;
         }elseif($OrangeSubscribe == 1 ){
           $welcome_message = 'انت مشترك بالفعل في خدمة اورانج الفرسان';
           $welcome_message .= '  للدخول اضغط علي هذا الرابط ';
-          $welcome_message .= "https://elforsan.ivas.com.eg" ;
+          $welcome_message .= URL_ELFORSAN ;
           $send_message = $welcome_message;
 
         }
@@ -860,7 +860,7 @@ var_dump($output) ;
     public function handleSubscribeSendMessage($responseStatus, $keyWord)
     {
       $message = '';
-      $url = "https://elforsan.ivas.com.eg" ;
+      $url = URL_ELFORSAN ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
         $message = "لقد تم الاشتراك بنجاح في خدمة الفرسان دلوقتي تقدر تسمع الأذان لأول مرة بصوت هاني شاكر و كمان تستمتع بأجمل الأدعية ونغمات الانتظار. وعندك الفرصة تكسب لما تحل لغز الفرسان كل يوم.استمتع بخدمة الفرسان ببلاش لمدة يوم وكمان 10 دقائق مجانية صالحة لثاني يوم وتتجدد بعدها بجنيه واحد في اليوم، واستهلاك الانترنت هيتخصم من الباقة بتاعتك";
@@ -1421,7 +1421,7 @@ var_dump($output) ;
       $orange_today_link = curl_exec($curl);
       curl_close($curl);
 
-      return  $orange_today_link ? $orange_today_link : "https://elforsan.ivas.com.eg" ;
+      return  $orange_today_link ? $orange_today_link : URL_ELFORSAN ;
 
     }
 
