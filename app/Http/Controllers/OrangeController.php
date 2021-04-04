@@ -772,7 +772,7 @@ var_dump($output) ;
 
           $welcome_message = "لقد تم الاشتراك بنجاح في خدمة الفرسان دلوقتي تقدر تسمع الأذان لأول مرة بصوت هاني شاكر و كمان تستمتع بأجمل الأدعية ونغمات الانتظار. وعندك الفرصة تكسب لما تحل لغز الفرسان كل يوم.استمتع بخدمة الفرسان ببلاش لمدة يوم وكمان 10 دقائق مجانية صالحة لثاني يوم وتتجدد بعدها بجنيه واحد في اليوم، واستهلاك الانترنت هيتخصم من الباقة بتاعتك";
           $welcome_message .= " " ;
-          $welcome_message .=  "لالغاء الإشتراك ارسل unsubforsan إلى 6124 مجانًا" ;
+        //  $welcome_message .=  "لالغاء الإشتراك ارسل unsubforsan إلى 6124 مجانًا" ;
           $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
           $welcome_message .= "https://elforsan.ivas.com.eg" ;
 
@@ -845,7 +845,7 @@ var_dump($output) ;
         }else{
          // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
          // $this->sendMessageToUser($request->msisdn, $message);
-          return "to subscribe to Elforsan service You can send sub_forsan and to unsubscribe you can send unsub_forsan" ;
+          return "to subscribe to Elforsan service You can send forsan and to unsubscribe you can send unsub_forsan" ;
         }
     }
 
@@ -863,31 +863,24 @@ var_dump($output) ;
       $url = "https://elforsan.ivas.com.eg" ;
 
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message =  "You have successfully subscribed with Al forsan service now you can listen to Azan, Duaa and Ring back tones with Hany Shaker ".$url ;
+        $message = "لقد تم الاشتراك بنجاح في خدمة الفرسان دلوقتي تقدر تسمع الأذان لأول مرة بصوت هاني شاكر و كمان تستمتع بأجمل الأدعية ونغمات الانتظار. وعندك الفرصة تكسب لما تحل لغز الفرسان كل يوم.استمتع بخدمة الفرسان ببلاش لمدة يوم وكمان 10 دقائق مجانية صالحة لثاني يوم وتتجدد بعدها بجنيه واحد في اليوم، واستهلاك الانترنت هيتخصم من الباقة بتاعتك";
+          $message .= " للدخول اضغط علي هذا الرابط ". $url;
 
-        // if($this->is_arabic($keyWord)) {
-        //   $message = " لقد تم اشتراكك في خدمة اورنج الخير بنجاح للدخول اضغط علي هذا الرابط". $url;
-        // }
       } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
-        $message = "You are already subscribed to Al forsan service. To enter, click on this link ".$url;
-        // if($this->is_arabic($keyWord)) {
-        //   $message = " انت بالفعل مشترك فى خدمه اورنج الخير , اضغط على هذا الرابط". $url;
-        // }
+           $message = " انت بالفعل مشترك فى خدمه الفرسان , اضغط على هذا الرابط". $url;
+
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
-        $message = "Not Allowed";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = "Not Allowed";
-        // }
+         //  $message = "Not Allowed";
+          $message = "غير مسموح";
+
       } elseif($responseStatus == OrangeResponseStatus::NoBalance) {
-        $message = "No Balance";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = 'ليس لديك رصيد كافى';
-        // }
+         //    $message = "No Balance";
+           $message = 'ليس لديك رصيد كافى';
+
       } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
-        $message = "Technical problem";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = "Technical problem";
-        // }
+         //  $message = "Technical problem";
+           $message = "مشكلة فنية";
+
       }
       return $message;
     }
