@@ -1383,7 +1383,7 @@ public function orange_send_daily_deduction()
       $TodayMessage->save() ;
       }
 
-      echo "send today charging is Done" ;
+      echo "send today charging message  is Done" ;
 
     }
 
@@ -1391,16 +1391,19 @@ public function orange_send_daily_deduction()
 public function orange_send_weekly_deduction()
 {
 
-     $orange_subscribes = OrangeSubscribe::where("active",1)->where("free",0)->get();
+
+     $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->where("type","=","charge-w")->pluck('msisdn');
+     $orange_subscribes = OrangeSubscribe::where("active",1)->where("free",0)->whereNotIn('msisdn',$today_message_msisdns)->get();
+
 
       $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
 
 
       foreach ($orange_subscribes as $orange_subscribe) {
       if($orange_subscribe->free == 1){
-          $type = "charge" ;
+          $type = "charge-w" ;
         }elseif($orange_subscribe->active == 1){
-          $type = "charge" ;
+          $type = "charge-w" ;
         }
 
         $this->sendMessageToUser($orange_subscribe->msisdn, $message);
@@ -1408,12 +1411,12 @@ public function orange_send_weekly_deduction()
         // add log to DB
       $TodayMessage  =   new TodayMessage();
       $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
-      $TodayMessage->message   = $orange_today_link;
+      $TodayMessage->message   =  $message;
       $TodayMessage->type   =  $type  ;
       $TodayMessage->save() ;
       }
 
-      echo "send today content is Done" ;
+      echo "send weekly charging message  is Done" ;
 
     }
 
