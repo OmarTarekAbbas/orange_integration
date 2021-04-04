@@ -46,14 +46,32 @@ class Kernel extends ConsoleKernel
        $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->dailyAt('22:00'); //  10  pm
 
 
-      // $schedule->call('App\Http\Controllers\OrangeController@orange_send_today_content')->hourly();
+      // daily deduction message
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('08:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('09:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('10:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('11:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('12:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('13:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('14:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('15:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('16:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('17:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('18:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('19:15');
+      $schedule->call('App\Http\Controllers\OrangeController@orange_send_daily_deduction')->dailyAt('20:15');
+
+
+       // weekly deduction message  // weekly at 11 at monday
+     //  $schedule->call('App\Http\Controllers\OrangeController@orange_send_weekly_deduction')->weeklyOn(1, '9:00');;
 
 
         // send  charging to orange
-      //  $schedule->command('subscribe_free')->hourly();
       $schedule->command('subscribe_free')->dailyAt('11:00');  // 1 PM
       $schedule->command('subscribe_free')->dailyAt('12:00');
       $schedule->command('subscribe_free')->dailyAt('13:00');
+      $schedule->command('subscribe_free')->dailyAt('21:00');
+      $schedule->command('subscribe_free')->dailyAt('22:00');
 
 
 
