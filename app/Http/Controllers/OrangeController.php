@@ -917,7 +917,7 @@ var_dump($output) ;
       if($responseStatus == OrangeResponseStatus::Success) {
        // $message = "The subscription for Orange Al Kheer service has been successfully canceled";
         // if($this->is_arabic($keyWord)) {
-           $message = "لقد تم الغاء الاشتراك بنجاح";
+           $message = "تم الغاء أشتراكك في خدمة أورنج الخير بنجاح.";
         // }
       } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
        // $message = "You are already not subscribed to Orange Al Kheer service";
