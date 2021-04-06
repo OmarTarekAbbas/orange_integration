@@ -895,25 +895,21 @@ var_dump($output) ;
     {
       $message = '';
       if($responseStatus == OrangeResponseStatus::Success) {
-        $message = "The subscription for Al forsan service has been successfully canceled";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = "لقد تم الغاء الاشتراك بنجاح";
-        // }
+     //   $message = "The subscription for Al forsan service has been successfully canceled";
+           $message = "تم الغاء أشتراكك في خدمة الفرسان بنجاح";
+
       } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
-        $message = "You are already not subscribed to Al forsan service";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = "أنت  غير مشترك فى الخدمه";
-        // }
+        // $message = "You are already not subscribed to Al forsan service";
+          $message = "أنت  غير مشترك في خدمة الفرسان";
+
       } elseif($responseStatus == OrangeResponseStatus::NotAllowed) {
-        $message = "Not Allowed";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = "Not Allowed";
-        // }
+       //  $message = "Not Allowed";
+          $message = "غير مسموح";
+
       } elseif($responseStatus == OrangeResponseStatus::Technicalproblem) {
-        $message = "Technical problem";
-        // if($this->is_arabic($keyWord)) {
-        //   $message = "Technical problem";
-        // }
+      //  $message = "Technical problem";
+           $message = "مشكلة فنية";
+
       }
       return $message;
     }
