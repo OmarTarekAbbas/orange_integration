@@ -43,7 +43,13 @@ class Whitelist extends Command
               $orange = new OrangeWhitelist;
               $orange->msisdn = "2".$value->mob;
               $orange->save();
+            }else{
+              $orange = $orange_whitelist_item;
+            }
 
+
+            $orange_subscribe_item = OrangeSubscribe::where('msisdn', "2".$value->mob)->first();
+            if(!isset($orange_subscribe_item)){
               $orange_subscribe = new OrangeSubscribe;
               $orange_subscribe->msisdn = $orange->msisdn;
               $orange_subscribe->active = 1;  // charging modify
@@ -53,7 +59,11 @@ class Whitelist extends Command
               $orange_subscribe->service_id = productId;
               $orange_subscribe->type = "whitelists";
               $orange_subscribe->save();
+            }else{
+              $orange_subscribe_item->orange_channel_id = $orange->id;
+              $orange_subscribe_item->save();
             }
+
           }
         }
       }
