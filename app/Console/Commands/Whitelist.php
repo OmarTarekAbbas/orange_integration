@@ -35,24 +35,25 @@ class Whitelist extends Command
 
       $data = \Excel::load($path)->get();
 
-      foreach ($data as $value) {
+      if(!empty($data) && $data->count()){
+        foreach ($data as $value) {
+          if (strlen($value->mob)  > 8 ) {
+            $orange_whitelist_item = OrangeWhitelist::where('msisdn', "2".$value->mob)->first();
+            if(!isset($orange_whitelist_item)){
+              $orange = new OrangeWhitelist;
+              $orange->msisdn = "2".$value->mob;
+              $orange->save();
 
-        if (!empty($data) && $data->count()  && strlen($value->mob)  > 8 ) {
-          $orange_whitelist_item = OrangeWhitelist::where('msisdn', "2".$value->mob)->first();
-          if(!isset($orange_whitelist_item) || $orange_whitelist_item==null){
-            $orange = new OrangeWhitelist;
-            $orange->msisdn = "2".$value->mob;
-            $orange->save();
-
-            $orange_subscribe = new OrangeSubscribe;
-            $orange_subscribe->msisdn = $orange->msisdn;
-            $orange_subscribe->active = 1;  // charging modify
-            $orange_subscribe->orange_channel_id = $orange->id;
-            $orange_subscribe->table_name = "orange_whitelists";
-            $orange_subscribe->free = 1;
-            $orange_subscribe->service_id = productId;
-            $orange_subscribe->type = "whitelists";
-            $orange_subscribe->save();
+              $orange_subscribe = new OrangeSubscribe;
+              $orange_subscribe->msisdn = $orange->msisdn;
+              $orange_subscribe->active = 1;  // charging modify
+              $orange_subscribe->orange_channel_id = $orange->id;
+              $orange_subscribe->table_name = "orange_whitelists";
+              $orange_subscribe->free = 1;
+              $orange_subscribe->service_id = productId;
+              $orange_subscribe->type = "whitelists";
+              $orange_subscribe->save();
+            }
           }
         }
       }
