@@ -122,6 +122,7 @@ Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@
 
 //============================================== elforsan ==============================================//
 //---------------- ----------------------//
+define('URL_ELFORSAN', 'https://elforsan.ivas.com.eg');
 define('elforsan_password', '3sJ4YiK4');
 define('elforsan_service', '23');
 
