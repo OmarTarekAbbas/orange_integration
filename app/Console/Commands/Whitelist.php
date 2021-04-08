@@ -30,6 +30,7 @@ class Whitelist extends Command
      */
     public function handle()
     {
+      ini_set('memory_limit', '-1');
       set_time_limit(0);
       $path= base_path(). "/OrangeWhitelist/Whitelisted_dials.xlsx";
 
@@ -38,17 +39,17 @@ class Whitelist extends Command
       if(!empty($data) && $data->count()){
         foreach ($data as $value) {
           if (strlen($value->mob)  > 8 ) {
-            $orange_whitelist_item = OrangeWhitelist::where('msisdn', "2".$value->mob)->first();
+            $orange_whitelist_item = OrangeWhitelist::where('msisdn', "20".$value->mob)->first();
             if(!isset($orange_whitelist_item)){
               $orange = new OrangeWhitelist;
-              $orange->msisdn = "2".$value->mob;
+              $orange->msisdn = "20".$value->mob;
               $orange->save();
             }else{
               $orange = $orange_whitelist_item;
             }
 
 
-            $orange_subscribe_item = OrangeSubscribe::where('msisdn', "2".$value->mob)->first();
+            $orange_subscribe_item = OrangeSubscribe::where('msisdn', "20".$value->mob)->first();
             if(!isset($orange_subscribe_item)){
               $orange_subscribe = new OrangeSubscribe;
               $orange_subscribe->msisdn = $orange->msisdn;
