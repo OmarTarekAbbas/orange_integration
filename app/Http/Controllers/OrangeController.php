@@ -1110,7 +1110,7 @@ var_dump($output) ;
 
           // provision call for only elforsan (according to elforsan_service =  23 )
           // if($request->service_id != '' && $request->service_id  == elforsan_service){
-          $this->call_elforsan_provision($request->msisdn);
+       //   $this->call_elforsan_provision($request->msisdn);  // no gift after second try to unsub
           // }
         } else {
           $orange_subscribe->active = 0;
