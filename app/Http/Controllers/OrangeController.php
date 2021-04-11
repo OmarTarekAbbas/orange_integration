@@ -872,7 +872,7 @@ var_dump($output) ;
       //  $this->sendMessageToUser($request->msisdn, $message);
       return   $message;
     } elseif ($request->message == "1" || $request->message == "2"  || $request->message == "3"   || $request->message == "4" ) {
-      $message = "سوف يتم مراجعة اجابتك";
+      $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان لحلقة اليوم";
       $this->sendMessageToUser($request->msisdn, $message);
       return "ok";
     } else {
