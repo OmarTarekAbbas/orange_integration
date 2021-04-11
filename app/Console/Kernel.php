@@ -67,11 +67,21 @@ class Kernel extends ConsoleKernel
 
 
         // send  charging to orange
-      $schedule->command('subscribe_free')->dailyAt('11:00');  // 1 PM
-      $schedule->command('subscribe_free')->dailyAt('12:00');
-      $schedule->command('subscribe_free')->dailyAt('13:00');
-      $schedule->command('subscribe_free')->dailyAt('21:00');
-      $schedule->command('subscribe_free')->dailyAt('22:00');
+        $schedule->command('subscribe_free')->dailyAt('09:00');
+        $schedule->command('subscribe_free')->dailyAt('10:00');
+        $schedule->command('subscribe_free')->dailyAt('11:00');
+        $schedule->command('subscribe_free')->dailyAt('12:00');
+        $schedule->command('subscribe_free')->dailyAt('13:00');
+        $schedule->command('subscribe_free')->dailyAt('14:00');
+        $schedule->command('subscribe_free')->dailyAt('15:00');
+        $schedule->command('subscribe_free')->dailyAt('16:00');
+        $schedule->command('subscribe_free')->dailyAt('17:00');
+        $schedule->command('subscribe_free')->dailyAt('18:00');
+        $schedule->command('subscribe_free')->dailyAt('19:00');
+        $schedule->command('subscribe_free')->dailyAt('20:00');
+        $schedule->command('subscribe_free')->dailyAt('21:00');
+       $schedule->command('subscribe_free')->dailyAt('22:49');
+       $schedule->command('subscribe_free')->dailyAt('23:00');
 
 
 
