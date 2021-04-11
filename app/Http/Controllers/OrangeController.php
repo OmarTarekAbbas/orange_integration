@@ -806,7 +806,28 @@ var_dump($output) ;
     $welcome_message .= URL_ELFORSAN;
     $send_message = $welcome_message;
 
-    $this->sendMessageToUser($msisdn,  $send_message);
+    $message =  $send_message ;
+    $phone =  $msisdn ;
+
+    $URL_Api = sendKenelApi;
+    $param = "phone_number=$phone&message=$message";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL_Api);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $param_array['phone'] = $phone;
+    $param_array['message'] = $message;
+    $param_array['result'] = $response;
+    $this->log("sendMessageFromKenel", $URL_Api, $param_array);
+
+    return $response ;
+
+
+
+    // $this->sendMessageToUser($msisdn,  $send_message);
   }
 
   public function sms_notify(Request $request)
