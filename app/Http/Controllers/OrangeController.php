@@ -1293,75 +1293,58 @@ var_dump($output) ;
       echo "Ok";
     }
 
-    public function orange_send_today_content()
-    {
-      //$orange_subscribes = OrangeSubscribe::where("active",1)->get();
-     // $orange_subscribes = OrangeSubscribe::where("active",1)->where("msisdn","201223872695")->get(); // test on my number
+  public function orange_send_today_content()
+  {
+    $message = $this->orange_get_today_content();
+    $today_message_msisdns = TodayMessage::whereDate('created_at', Carbon::now()->toDateString())->pluck('msisdn');
 
-     $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->pluck('msisdn');
-     $orange_subscribes = OrangeSubscribe::where("active",1)->whereNotIn('msisdn',$today_message_msisdns)->get();
-
-      $orange_today_link  =  $this->orange_get_today_content();
-
-      $message =  $orange_today_link ;
-
-      // $subject = "Ivas Send today content to Orange subscribers";  // this server not send email
-      // $this->emailSend($subject) ;
-
-      foreach ($orange_subscribes as $orange_subscribe) {
-      if($orange_subscribe->free == 1){
-          $type = "free" ;
-        }elseif($orange_subscribe->active == 1){
-          $type = "today" ;
-        }
-
-        $this->sendMessageToUser($orange_subscribe->msisdn, $message);
-
-        // add log to DB
-      $TodayMessage  =   new TodayMessage();
-      $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
-      $TodayMessage->message   = $orange_today_link;
-      $TodayMessage->type   =  $type  ;
-      $TodayMessage->save() ;
+    OrangeSubscribe::where("active", 1)->whereNotIn('msisdn', $today_message_msisdns)->chunk(1000, function ($orange_subscribe) use($message){
+      if ($orange_subscribe->free == 1) {
+        $type = "free";
+      } elseif ($orange_subscribe->active == 1) {
+        $type = "today";
       }
 
-      echo "send today content is Done" ;
+      $this->sendMessageToUser($orange_subscribe->msisdn, $message);
 
-    }
+      // add log to DB
+      $TodayMessage  =   new TodayMessage();
+      $TodayMessage->msisdn   = $orange_subscribe->msisdn;
+      $TodayMessage->message   = $message;
+      $TodayMessage->type   =  $type;
+      $TodayMessage->save();
+    });
 
-
-
-
-	 public function orange_send_daily_deduction()
-   {
-
-     $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->where("type","=","charge")->pluck('msisdn');
-     $orange_subscribes = OrangeSubscribe::where("active",1)->where("free",0)->whereNotIn('msisdn',$today_message_msisdns)->get();
-
-
-         $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك.";
+    echo "send today content is Done";
+  }
 
 
-         foreach ($orange_subscribes as $orange_subscribe) {
-         if($orange_subscribe->free == 1){
-             $type = "charge" ;
-           }elseif($orange_subscribe->active == 1){
-             $type = "charge" ;
-           }
 
-           $this->sendMessageToUser($orange_subscribe->msisdn, $message);
 
-           // add log to DB
-         $TodayMessage  =   new TodayMessage();
-         $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
-         $TodayMessage->message   = $message;
-         $TodayMessage->type   =  $type  ;
-         $TodayMessage->save() ;
-         }
+  public function orange_send_daily_deduction()
+  {
+    $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك.";
+    $today_message_msisdns = TodayMessage::whereDate('created_at', Carbon::now()->toDateString())->where("type", "=", "charge")->pluck('msisdn');
 
-         echo "send today charging is Done" ;
+    OrangeSubscribe::where("active", 1)->where("free", 0)->whereNotIn('msisdn', $today_message_msisdns)->chunk(1000, function ($orange_subscribe) use ($message) {
+      if ($orange_subscribe->free == 1) {
+        $type = "charge";
+      } elseif ($orange_subscribe->active == 1) {
+        $type = "charge";
+      }
 
-       }
+      $this->sendMessageToUser($orange_subscribe->msisdn, $message);
+
+      // add log to DB
+      $TodayMessage  =   new TodayMessage();
+      $TodayMessage->msisdn   = $orange_subscribe->msisdn;
+      $TodayMessage->message   = $message;
+      $TodayMessage->type   =  $type;
+      $TodayMessage->save();
+    });
+
+    echo "send today charging is Done";
+  }
 
 
 
