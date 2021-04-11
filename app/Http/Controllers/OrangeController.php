@@ -1259,7 +1259,7 @@ var_dump($output) ;
     $param_array['result'] = $response;
     $this->log("sendMessageFromKenel", $URL_Api, $param_array);
 
-     print_r(  $response) ; die;
+    // print_r(  $response) ; die;
 
 
     // return $response; // 1 -success 0- fail
