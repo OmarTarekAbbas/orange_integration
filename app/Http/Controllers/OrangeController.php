@@ -874,6 +874,7 @@ var_dump($output) ;
     } elseif ($request->message == "1" || $request->message == "2"  || $request->message == "3"   || $request->message == "4" ) {
       $message = "سوف يتم مراجعة اجابتك";
       $this->sendMessageToUser($request->msisdn, $message);
+      return "ok";
     } else {
       // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
       // $this->sendMessageToUser($request->msisdn, $message);
