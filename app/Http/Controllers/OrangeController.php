@@ -871,6 +871,9 @@ var_dump($output) ;
       $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
       //  $this->sendMessageToUser($request->msisdn, $message);
       return   $message;
+    } elseif ($request->message == "1" || $request->message == "2"  || $request->message == "3"   || $request->message == "4" ) {
+      $message = "سوف يتم مراجعة اجابتك";
+      $this->sendMessageToUser($request->msisdn, $message);
     } else {
       // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
       // $this->sendMessageToUser($request->msisdn, $message);
@@ -933,6 +936,7 @@ var_dump($output) ;
     }
     return $message;
   }
+
 
   public function web_notify(Request $request)
   {
