@@ -75,7 +75,7 @@ Route::get('admin/orange_statistics','AdminOrangeController@call_orange_statisti
 Route::get('admin/download_excel_orange_statistics','AdminOrangeController@download_excel_orange_statistics');
 Route::get('admin/orange_statistics_by_form','AdminOrangeController@orange_statistics_by_form');
 Route::get('admin/download_excel_orange_statistics_v2','AdminOrangeController@download_excel_orange_statistics_v2');
-
+Route::get('admin/remove_duplicate_msisdn','AdminOrangeController@removeDuplicateMsisdn');
 // End orange Routes...
 
 // Authentication Routes...
@@ -97,5 +97,4 @@ Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
-
 

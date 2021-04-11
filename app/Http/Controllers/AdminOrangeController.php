@@ -523,4 +523,29 @@ class AdminOrangeController extends Controller
               });
           })->export('csv');
       }
+
+    public function removeDuplicateMsisdn()
+    {
+      $whitelist_unique_numbers = [];
+      $subscribe_unique_numbers = [];
+      OrangeWhitelist::orderBy("created_at", "desc")->chunk(100, function ($whitelists) use ($whitelist_unique_numbers){
+        foreach ($whitelists as $whitelist) {
+            if(!in_array($whitelist->msisdn, $whitelist_unique_numbers)){
+              array_push($whitelist_unique_numbers, $whitelist->msisdn);
+              continue;
+            }
+            $whitelist->delete();
+        }
+      });
+
+      OrangeSubscribe::orderBy("created_at", "desc")->chunk(100, function ($OrangeSubscribes) use ($subscribe_unique_numbers){
+        foreach ($OrangeSubscribes as $OrangeSubscribe) {
+            if(!in_array($OrangeSubscribe->msisdn, $subscribe_unique_numbers)){
+              array_push($subscribe_unique_numbers, $OrangeSubscribe->msisdn);
+              continue;
+            }
+            $OrangeSubscribe->delete();
+        }
+      });
+    }
 }
