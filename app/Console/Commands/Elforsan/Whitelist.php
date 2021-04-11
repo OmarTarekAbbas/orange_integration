@@ -43,8 +43,6 @@ class Whitelist extends Command
 
     $path = base_path() . "/ElforsanWhitelist/ElforsanWhitelist.xlsx";
 
-    $data = \Excel::load($path)->get();
-
     \Excel::filter('chunk')->load($path)->chunk(1000, function ($results) {
       if (!empty($results) && $results->count()) {
         foreach ($results as $value) {
