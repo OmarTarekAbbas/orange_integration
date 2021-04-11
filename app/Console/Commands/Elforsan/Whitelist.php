@@ -45,7 +45,7 @@ class Whitelist extends Command
 
     $data = \Excel::load($path)->get();
 
-    \Excel::filter('chunk')->load($path)->chunk(100, function ($results) {
+    \Excel::filter('chunk')->load($path)->chunk(1000, function ($results) {
       if (!empty($results) && $results->count()) {
         foreach ($results as $value) {
           if (strlen($value->mob)  > 8) {
