@@ -48,6 +48,7 @@ class Whitelist extends Command
             }
 
 
+
             $orange_subscribe_item = OrangeSubscribe::where('msisdn', "20" . $value->mob)->first();
             if (!isset($orange_subscribe_item)) {
               $orange_subscribe = new OrangeSubscribe;
