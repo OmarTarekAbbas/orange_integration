@@ -795,6 +795,20 @@ var_dump($output) ;
     return $response_xml;
   }
 
+  public function ussd_notify_test()
+  {
+    $msisdn = "201223872695" ;
+
+    $welcome_message = "لقد تم الاشتراك بنجاح في خدمة الفرسان دلوقتي تقدر تسمع الأذان لأول مرة بصوت هاني شاكر و كمان تستمتع بأجمل الأدعية ونغمات الانتظار. وعندك الفرصة تكسب لما تحل لغز الفرسان كل يوم.استمتع بخدمة الفرسان ببلاش لمدة يوم وكمان 10 دقائق مجانية صالحة لثاني يوم وتتجدد بعدها بجنيه واحد في اليوم، واستهلاك الانترنت هيتخصم من الباقة بتاعتك";
+    $welcome_message .= " ";
+    //  $welcome_message .=  "لالغاء الإشتراك ارسل unsubforsan إلى 6124 مجانًا" ;
+    $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
+    $welcome_message .= URL_ELFORSAN;
+    $send_message = $welcome_message;
+
+    $this->sendMessageToUser($msisdn,  $send_message);
+  }
+
   public function sms_notify(Request $request)
   {
     $orangeSms = new OrangeSms();
@@ -1244,6 +1258,9 @@ var_dump($output) ;
     $param_array['message'] = $message;
     $param_array['result'] = $response;
     $this->log("sendMessageFromKenel", $URL_Api, $param_array);
+
+    // print_r(  $response) ; die;
+
 
     // return $response; // 1 -success 0- fail
   }

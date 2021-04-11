@@ -100,6 +100,7 @@ Route::post('provision_test', 'OrangeController@provision_response_test');
 
 Route::post('charging_notify', 'OrangeController@charging_notify');
 Route::get('ussd_notify', 'OrangeController@ussd_notify');   //  #657#
+Route::get('ussd_notify_test', 'OrangeController@ussd_notify_test');   //  #657#
 
 Route::get('sms_notify', 'OrangeController@sms_notify');
 Route::post('web_notify', 'OrangeController@web_notify');

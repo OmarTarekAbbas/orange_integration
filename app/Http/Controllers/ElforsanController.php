@@ -175,6 +175,8 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" ?>
             }
         }
 
+        $resultCode =   isset($post_array['resultCode'])?$post_array['resultCode']:"" ;
+
 
 
         $orange_provisions = new Request;
@@ -189,14 +191,14 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" ?>
         $orange_provisions->operationType = $operationType;
         $orange_provisions->createdTime = $time_stamp;
         $orange_provisions->msg = "";
-        $orange_provisions->resultCode = $post_array['resultCode'];
+        $orange_provisions->resultCode =  $resultCode;
 
         $Provision = $this->orange_provisions_store($orange_provisions);
 
 
 
 
-      $resultCode =   isset($post_array['resultCode'])?$post_array['resultCode']:"" ;
+
         return $resultCode ;
     }
 
