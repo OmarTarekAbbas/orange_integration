@@ -44,18 +44,18 @@ class Whitelist2 extends Command
       \Excel::filter('chunk')->load($path)->chunk(1000, function ($results) {
         if (!empty($results) && $results->count()) {
           foreach ($results as $value) {
-            if (strlen($value->phone_number)  > 8) {
-              $orange_whitelist_item = OrangeWhitelist::where('msisdn', "2" . $value->phone_number)->first();
+            if (strlen($value->mob)  > 8) {
+              $orange_whitelist_item = OrangeWhitelist::where('msisdn', "2" . $value->mob)->first();
               if (!isset($orange_whitelist_item)) {
                 $orange = new OrangeWhitelist;
-                $orange->msisdn = "2" . $value->phone_number;
+                $orange->msisdn = "2" . $value->mob;
                 $orange->save();
               } else {
                 $orange = $orange_whitelist_item;
               }
 
 
-              $orange_subscribe_item = OrangeSubscribe::where('msisdn', "2" . $value->phone_number)->first();
+              $orange_subscribe_item = OrangeSubscribe::where('msisdn', "2" . $value->mob)->first();
               if (!isset($orange_subscribe_item)) {
                 $orange_subscribe = new OrangeSubscribe;
                 $orange_subscribe->msisdn = $orange->msisdn;
