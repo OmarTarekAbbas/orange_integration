@@ -96,6 +96,12 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
 
+define('user_name', "admin@ivas.com");
+define('test_pasword', "123456");
+Route::view("test/login", "orange/login")->name('orange.login');
+Route::post("test/login", "OrangeController@testLogin")->name('orange.login.submit');
+Route::view("test/direct_sub", "orange/direct_sub")->name("orange.form");
+Route::get("direct_sub", "OrangeController@directSubOrangeWeb");
 define('ENABLE', Helper::get_setting('approve_enable'));
 
 
