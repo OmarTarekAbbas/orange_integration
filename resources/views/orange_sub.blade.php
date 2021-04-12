@@ -10,6 +10,13 @@
 </head>
 
 <style>
+  body {
+    background: #0f1218;
+    direction: rtl;
+    text-align: right;
+  }
+
+
   .form_content {
     width: 85%;
     margin: 10% auto;
@@ -20,9 +27,34 @@
     grid-template-columns: 100%;
   }
 
+  .form_content form .form_grid .logo {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 10%;
+  }
+
+  .form_content form .form_grid .logo_title {
+    color: #FFF;
+  }
+
+  .form_content form .form_grid .dropdown {
+    margin: 5% auto;
+  }
+
+  .form_content form .form_grid .dropdown .dropdown-menu {
+    text-align: right;
+  }
+
+  .form_content form .form_grid .dropdown .btn,
   .form_content form .form_grid #phone {
     border: 1px solid #f60;
+  }
 
+  .form_content form .form_grid #zain_submit {
+    background-color: #f60;
+    color: #fff;
+    width: 50%;
+    margin: 5% auto;
   }
 
   .form_content form .form_grid #phone:focus {
@@ -38,24 +70,24 @@
 
         <div class="form_grid">
 
+          <img class="logo" src="img/orange.png" alt="Orange">
+
+          <h3 class="logo_title text-center">خدمة أورنج الخير</h3>
+
           <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Dropdown
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            من فضلك اختر
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
+              <li><a href="#">اشترك</a></li>
+              <li><a href="#">إلغاء الاشتراك</a></li>
             </ul>
           </div>
 
-          <input type="tel" class="form-control show_class" id="phone" value="{{(session()->has('landing_msisdn')?session()->get('landing_msisdn'):'')}}" placeholder="@lang('messages.Enter_your')" name="number" required>
+          <input type="tel" class="form-control show_class" id="phone" value="" placeholder="Enter Your No." name="number" required>
+          <a id="zain_submit" class="btn text-capitalize">submit</a>
         </div>
-        <!--<button class="btn back">رجوع</button>-->
-        <a id="zain_submit" class="btn">submit</a>
       </form>
 
       <!--<h5>للاشتراك يرجى الارسال الى <span>965</span></h5>
