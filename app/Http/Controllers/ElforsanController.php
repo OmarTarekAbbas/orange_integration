@@ -214,6 +214,17 @@ $soap_request ='<?xml version="1.0" encoding="UTF-8" ?>
         set_time_limit(100000);
         date_default_timezone_set("UTC");
 
+
+        $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $request->service_id)->first();
+        if($orange_subscribe  &&  $request->command == "UNSUBSCRIBE"){ // user still free and need to unsub
+          $orange_subscribe->active = 2 ;  // unsub
+          $orange_subscribe->free = 0;  // unsub
+          $orange_subscribe->save();
+          return  0 ;
+        }
+
+
+
         $spId = spId;
         $time_stamp = date('YmdHis');
         $sp_password = MD5($spId.elforsan_password.$time_stamp);  // spPassword = MD5(spId + elforsan_password + timeStamp)
