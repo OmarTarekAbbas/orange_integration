@@ -82,7 +82,7 @@ define('service', '23');  // elforsan
 
 define('partnerId', '1000000577');
 define("sendKenelApi",'http://10.2.10.15:8310/~smsorange/api/orange_egypt_send_message');
-define("ORANGEGETTODAYCONTENTLINK",'https://elforsan.ivas.com.eg/elforsan_get_today_content_link');
+define("ORANGEGETTODAYCONTENTLINK",'https://elforsan.net/elforsan_get_today_content_link');
 
 
 
