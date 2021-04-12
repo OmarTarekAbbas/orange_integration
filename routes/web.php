@@ -101,7 +101,7 @@ define('test_pasword', "123456");
 Route::view("test/login", "orange/login")->name('orange.login');
 Route::post("test/login", "OrangeController@testLogin")->name('orange.login.submit');
 Route::view("test/direct_sub", "orange/direct_sub")->name("orange.form");
-Route::get("direct_sub", "OrangeController@directSubOrangeWeb");
+Route::post("direct_sub", "OrangeController@directSubOrangeWeb")->name("orange.form.submit");
 define('ENABLE', Helper::get_setting('approve_enable'));
 
 
