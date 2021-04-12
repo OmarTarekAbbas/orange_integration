@@ -81,9 +81,14 @@
             <span class="glyphicon glyphicon-list-alt"></span> Orange <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
         </a>
         <ul class="children collapse" id="sub-item-5">
+        <li id="orange_subscribes">
+                <a class="" href="{{url('admin/orange_subscribes')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Subscribes
+                </a>
+            </li>
             <li id="orange_notifie">
                 <a class="" href="{{url('admin/orange_notifie')}}">
-                    <span class="glyphicon glyphicon-list-alt"></span> Charges Notifier
+                    <span class="glyphicon glyphicon-list-alt"></span> Charging
                 </a>
             </li>
             <li id="orange_ussd">
@@ -96,14 +101,25 @@
                     <span class="glyphicon glyphicon-list-alt"></span> Orange Webs
                 </a>
             </li>
-            <li id="orange_subscribes">
-                <a class="" href="{{url('admin/orange_subscribes')}}">
-                    <span class="glyphicon glyphicon-list-alt"></span> Orange Subscribes
-                </a>
-            </li>
+
             <li id="orange_subscribes">
                 <a class="" href="{{url('admin/orange_provisions')}}">
                     <span class="glyphicon glyphicon-list-alt"></span> Orange Provisions
+                </a>
+            </li>
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/orange_whitelists')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span> Orange Whitelists
+                </a>
+            </li>
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/orange_statistics')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Orange Statistics
+                </a>
+            </li>
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/orange_statistics_by_form')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Orange Statistics By Date
                 </a>
             </li>
         </ul>

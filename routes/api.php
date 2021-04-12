@@ -65,21 +65,72 @@ Route::get('send_today_link_per_each_service', 'TimeweController@send_today_link
 
 
 /**************Start Orange**************/
-define('spId', '000812');
-define('password', 'ivas');
-define('service', '2142');
-define('partnerId', '35000001');
+/*  //testing
+define('spId', '002401');
+define('password', '3uKc3f1W');
+define('service', '0024010001');
+define('productId', '1000000577');
+define('partnerId', '1000000577');
+*/
+
+
+// production //
+define('spId', '006738');
+define('password', '3sJ4YiK4');
+define('service', '0067380001');
+define('productId', '1000000577');
+define('partnerId', '1000000577');
+define("sendKenelApi",'http://10.2.10.15:8310/~smsorange/api/orange_egypt_send_message');
+define("ORANGEGETTODAYCONTENTLINK",'https://orange-elkheer.com/orange_get_today_content_link');
+
+
+
+
+
 
 Route::post('subscription', 'OrangeController@subscription');
 
 Route::post('subscription_curl', 'OrangeController@subscription_curl');
+Route::post('subscription_curl_emad', 'OrangeController@subscription_curl_emad');
 Route::post('subscription_test', 'OrangeController@subscription_response_test');
 
 Route::post('provision_curl', 'OrangeController@provision_curl');
 Route::post('provision_test', 'OrangeController@provision_response_test');
 
-Route::post('notify', 'OrangeController@notify');
+Route::post('charging_notify', 'OrangeController@charging_notify');
+Route::get('ussd_notify', 'OrangeController@ussd_notify');   //  #215#
 
-Route::get('ussd_notify', 'OrangeController@ussd_notify');
+Route::get('sms_notify', 'OrangeController@sms_notify');
+Route::post('web_notify', 'OrangeController@web_notify');
 
-/************************************** */
+Route::post('checkStatus', 'Api\OrangeApiController@checkStatus');
+Route::post('orangeWeb', 'Api\OrangeApiController@orangeWeb');
+
+Route::get('testemail', 'Api\OrangeApiController@testemail');
+
+// import whitelist numbers from excel
+// Route::get('orange_whitelist', 'OrangeController@orange_whitelist');  // run only one after confirm
+
+Route::get('orange_send_today_content', 'OrangeController@orange_send_today_content');
+
+Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@get_orange_subscribers_not_receive_today_content');
+Route::get('orange_send_daily_deduction', 'OrangeController@orange_send_daily_deduction');
+
+
+/***************************************/
+
+
+//============================================== elforsan ==============================================//
+//---------------- ----------------------//
+define('elforsan_password', '3sJ4YiK4');
+define('elforsan_service', '23');
+define('elforsan_productId', '1000004448');
+define('elforsan_sourceId', '99');
+
+
+
+
+Route::post('elforsan_provision', 'ElforsanController@elforsan_provision');
+Route::post('elforsanOrangeWeb', 'ElforsanController@elforsanOrangeWeb');
+
+

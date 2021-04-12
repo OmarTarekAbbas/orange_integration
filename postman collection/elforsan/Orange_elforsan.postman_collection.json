@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "054cefbc-e72d-4f5c-a6f4-ba4b8d811c7b",
+		"name": "Orange_elforsan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "subscribe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://10.2.10.15:8310/~elforsan/api/elforsanOrangeWeb?msisdn=201223872695&command=Subscribe&bearer_type=WEB",
+					"protocol": "http",
+					"host": [
+						"10",
+						"2",
+						"10",
+						"15"
+					],
+					"port": "8310",
+					"path": [
+						"~elforsan",
+						"api",
+						"elforsanOrangeWeb"
+					],
+					"query": [
+						{
+							"key": "msisdn",
+							"value": "201223872695"
+						},
+						{
+							"key": "command",
+							"value": "Subscribe"
+						},
+						{
+							"key": "bearer_type",
+							"value": "WEB"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "provision",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://10.2.10.15:8310/~elforsan/api/elforsan_provision",
+					"protocol": "http",
+					"host": [
+						"10",
+						"2",
+						"10",
+						"15"
+					],
+					"port": "8310",
+					"path": [
+						"~elforsan",
+						"api",
+						"elforsan_provision"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ussd_notify",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": " text/html",
+						"type": "text"
+					},
+					{
+						"key": "User-Language",
+						"value": " ar",
+						"type": "text"
+					},
+					{
+						"key": "User-MSISDN",
+						"value": " tel:+201212513414",
+						"type": "text"
+					},
+					{
+						"key": "User-SessionId",
+						"value": " 23112020215558mln",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": " 10.240.14.156:80",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": " close",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": " 0",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://10.2.10.15:8310/~elforsan/api/ussd_notify",
+					"protocol": "http",
+					"host": [
+						"10",
+						"2",
+						"10",
+						"15"
+					],
+					"port": "8310",
+					"path": [
+						"~elforsan",
+						"api",
+						"ussd_notify"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -30,13 +30,12 @@
       </div>
     </div>
 
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-      {!! Form::label('action', 'Action:') !!}
-      <div class='input-group date'>
-        <input type='text' id="action" class="form-control" value="{{request()->get('action')}}" name="action" placeholder="Action" />
-        <span class="input-group-btn">
-          <button type="button" id="search-btn" class="btn"><i class="glyphicon glyphicon-search"></i></button>
-        </span>
+    <div class="col-md-4">
+      {!! Form::label('Action', 'Action:') !!}
+      <div class=''>
+        {!! Form::select('action', ['GRACE1'=>'GRACE1' , 'OUTOFGRACE' => 'OUTOFGRACE' , 'OPERATORSUBSCRIBE' => 'OPERATORSUBSCRIBE', 'OPERATORUNSUBSCRIBE' => 'OPERATORUNSUBSCRIBE','Success' => 'Success'] ,
+        request()->get('action'),
+        ['class'=>'form-control','id'=>'action','placeholder'=>'Select Active']) !!}
       </div>
     </div>
 

@@ -66,10 +66,16 @@ Route::get('admin/orange_ussds','AdminOrangeController@orange_ussds');
 Route::get('admin/orange_webs','AdminOrangeController@orange_webs');
 Route::get('admin/orange_subscribes','AdminOrangeController@orange_subscribes');
 Route::get('admin/orange_provisions','AdminOrangeController@orange_provisions');
+Route::get('admin/orange_whitelists','AdminOrangeController@orange_whitelists');
 Route::get('admin/orange_notifie/request_and_response/{id}','AdminOrangeController@orange_notifie_request_and_response');
 Route::get('admin/orange_ussds/request_and_response/{id}','AdminOrangeController@orange_ussds_request_and_response');
 Route::get('admin/orange_webs/request_and_response/{id}','AdminOrangeController@orange_webs_request_and_response');
 Route::get('admin/orange_provisions/request_and_response/{id}','AdminOrangeController@orange_provisions_request_and_response');
+Route::get('admin/orange_statistics','AdminOrangeController@call_orange_statistics');
+Route::get('admin/download_excel_orange_statistics','AdminOrangeController@download_excel_orange_statistics');
+Route::get('admin/orange_statistics_by_form','AdminOrangeController@orange_statistics_by_form');
+Route::get('admin/download_excel_orange_statistics_v2','AdminOrangeController@download_excel_orange_statistics_v2');
+
 // End orange Routes...
 
 // Authentication Routes...

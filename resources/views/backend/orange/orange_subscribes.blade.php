@@ -33,16 +33,16 @@
     <div class="col-md-4">
       {!! Form::label('active', 'Active:') !!}
       <div class=''>
-        {!! Form::select('active', ['1'=>'Active' , '0' => 'Not active'] ,
+        {!! Form::select('active', ['1'=>'Active' , '0' => 'Pending' , '2' => 'OptOut'] ,
         request()->get('active'),
         ['class'=>'form-control','id'=>'active','placeholder'=>'Select Active']) !!}
       </div>
     </div>
 
     <div class="col-md-4">
-      {!! Form::label('orange_notify_id', 'Orange Notify Id:') !!}
+      {!! Form::label('orange_channel_id', 'Orange Notify Id:') !!}
       <div class='input-group date'>
-        <input type='text' id="orange_notify_id" class="form-control" value="{{request()->get('orange_notify_id')}}" name="orange_notify_id" placeholder="Orange Notify Id" />
+        <input type='text' id="orange_channel_id" class="form-control" value="{{request()->get('orange_channel_id')}}" name="orange_channel_id" placeholder="Orange Notify Id" />
         <span class="input-group-btn">
           <button type="button" id="search-btn" class="btn"><i class="glyphicon glyphicon-search"></i></button>
         </span>
@@ -52,7 +52,7 @@
     <div class="col-md-4">
       {!! Form::label('table_name', 'Table Name:') !!}
       <div class=''>
-        {!! Form::select('table_name', ['orange_notifies'=>'orange_notifies' , 'orange_ussds' => 'orange_ussds' , 'orange_webs' => 'orange_webs']
+        {!! Form::select('table_name', ['orange_notifies'=>'orange_notifies' , 'orange_ussds' => 'orange_ussds' , 'orange_webs' => 'orange_webs' , 'orange_whitelists' => 'orange_whitelists']
         ,
         request()->get('table_name'),
         ['class'=>'form-control','id'=>'table_name','placeholder'=>'Select Table Name']) !!}
@@ -129,11 +129,13 @@
               <td>
                 @if($item->active == 1)
                 Active
+                @elseif($item->active == 0)
+                Pending
                 @else
-                Not active
+                OptOut
                 @endif
               </td>
-              <td> {{ $item->orange_notify_id }}</td>
+              <td> {{ $item->orange_channel_id }}</td>
               <td> {{ $item->table_name }}</td>
               <td> {{ $item->created_at->format('Y-m-d h:i:s') }} </td>
 

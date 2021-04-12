@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
@@ -55,6 +58,63 @@ class Controller extends BaseController
         if (file_exists($image_path)) {
             unlink($image_path);
         }
+    }
+
+    public function log_action($actionName, $Url, $parameters_arr)
+    {
+        date_default_timezone_set("Africa/Cairo");
+        $year = date("Y");
+        $month = date("m");
+        $day = date("d");
+        $log = new Logger($actionName);
+        // to create new folder with current date  // if folder is not found create new one
+        if (!File::exists(storage_path('logs/' . $year . '/' . $month . '/' . $day . '/' . $actionName))) {
+            File::makeDirectory(storage_path('logs/' . $year . '/' . $month . '/' . $day . '/' . $actionName), 0775, true, true);
+        }
+
+        $log->pushHandler(new StreamHandler(storage_path('logs/' . $year . '/' . $month . '/' . $day . '/' . $actionName . '/logFile.log', Logger::INFO)));
+        $log->addInfo($Url, $parameters_arr);
+    }
+
+    public function SendRequestPost($URL, $JSON, $headers)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $URL);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 100);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 100);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $JSON);
+        $sOutput = curl_exec($ch);
+        curl_close($ch);
+
+        return $sOutput;
+    }
+
+    public function SendRequestGet($URL, $JSON = null, $headers = null)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $URL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 100);
+        curl_setopt($ch, CURLOPT_ENCODING, "");
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        if ($headers) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
+
+        $sOutput = curl_exec($ch);
+        curl_close($ch);
+
+        return $sOutput;
     }
 
 }
