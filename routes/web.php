@@ -89,7 +89,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
-
+Route::view("orange_sub", "orange_sub");
 define('ENABLE', Helper::get_setting('approve_enable'));
 
 
