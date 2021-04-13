@@ -873,7 +873,7 @@ var_dump($output) ;
       $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
         $this->sendMessageToUser($request->msisdn, $message);
      // return   $message;
-    } elseif ($request->message == "1" || $request->message == "2"  || $request->message == "3"   || $request->message == "4" ) {
+    } elseif ($request->message == "a1" || $request->message == "a2"  || $request->message == "a3"   || $request->message == "a4" ) {
       $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان الدينية لحلقة اليوم";
       $this->sendMessageToUser($request->msisdn, $message);
       return "ok";
