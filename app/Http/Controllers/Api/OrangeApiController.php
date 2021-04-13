@@ -167,14 +167,17 @@ class OrangeApiController extends Controller
         if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
             if ($command == 'SUBSCRIBE') {
                 $commandActive = 1;  // sub success
+                $free = 1;
             } elseif ($command == 'UNSUBSCRIBE') {
                 $commandActive = 2;  // unsub success
+                $free = 0  ;
             }
 
 
             $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
             if ($orange_subscribe) {
                 $orange_subscribe->active = $commandActive;
+                $orange_subscribe->free =  $free;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_sub_unsubs';
                 $orange_subscribe->type = strtolower($bearer);
@@ -184,8 +187,8 @@ class OrangeApiController extends Controller
                 $orange_subscribe->msisdn = $msisdn;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_sub_unsubs';
-                $orange_subscribe->free = 1;
-                $orange_subscribe->active = 1;
+                $orange_subscribe->free =  $free;
+                $orange_subscribe->active = $commandActive;
                 $orange_subscribe->type = strtolower($bearer);
                 $orange_subscribe->subscribe_due_date =date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
                 $orange_subscribe->service_id = $request->service_id;
