@@ -860,8 +860,8 @@ var_dump($output) ;
 
       $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
       $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
-      // $this->sendMessageToUser($request->msisdn, $message);
-      return  $message;
+       $this->sendMessageToUser($request->msisdn, $message);
+     // return  $message;
     } elseif (strtolower($request->message) == "unsub"  || $request->message == "الغاء" || $request->message == "ألغاء" ) {
       $orange_un_sub = new Request();
       $orange_un_sub->msisdn     = $request->msisdn;
@@ -871,8 +871,8 @@ var_dump($output) ;
       $orandControl    = new OrangeApiController();
       $responseMessage = $orandControl->orangeWeb($orange_un_sub);
       $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
-      //  $this->sendMessageToUser($request->msisdn, $message);
-      return   $message;
+        $this->sendMessageToUser($request->msisdn, $message);
+     // return   $message;
     } elseif ($request->message == "1" || $request->message == "2"  || $request->message == "3"   || $request->message == "4" ) {
       $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان الدينية لحلقة اليوم";
       $this->sendMessageToUser($request->msisdn, $message);
