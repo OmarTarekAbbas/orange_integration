@@ -878,8 +878,7 @@ var_dump($output) ;
       $this->sendMessageToUser($request->msisdn, $message);
       return "ok";
     } else {
-       $message = "6122 لاشتراك في خدمة الفرسان الدينية  ارسل 1 الي ";
-       $message .= " لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا."  ;
+      $message = "للاشتراك في خدمة الفرسان الدينية يرجي ارسال 1 ولالغاء الاشتراك ارسل الغاء " ;
        $this->sendMessageToUser($request->msisdn, $message);
      // return "to subscribe to Elforsan service You can send 1 and to unsubscribe you can send unsub";
     }
