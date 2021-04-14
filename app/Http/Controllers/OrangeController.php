@@ -738,7 +738,7 @@ var_dump($output) ;
     }
 
 
-    $response_msg = "تم الإشتراك فى خدمة  الفرسان الدينية من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
+    $response_msg = "تم الإشتراك فى خدمة الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
 
 
 
@@ -774,11 +774,11 @@ var_dump($output) ;
       $welcome_message .= URL_ELFORSAN;
       $send_message = $welcome_message;
     } elseif ($OrangeSubscribe == 1) {
-      $welcome_message = 'انت مشترك بالفعل في خدمة  الفرسان الدينية من أورنج تجدد ب 1 جنيه فى اليوم';
+      $welcome_message = 'انت مشترك بالفعل في خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم';
       $welcome_message .= '  للدخول اضغط علي هذا الرابط ';
       $welcome_message .= URL_ELFORSAN;
       $send_message = $welcome_message;
-      $response_msg = 'انت مشترك بالفعل في خدمة  الفرسان الدينية من أورنج تجدد ب 1 جنيه فى اليوم';
+      $response_msg = 'انت مشترك بالفعل في خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم';
     }
     $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
 
@@ -799,7 +799,7 @@ var_dump($output) ;
     $msisdn = "201223872695" ;
 
 
-    $welcome_message = "تم الإشتراك فى خدمة  الفرسان الدينية من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
+    $welcome_message = "تم الإشتراك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
 
     $welcome_message .= " ";
     //  $welcome_message .=  "لالغاء الإشتراك ارسل unsubforsan إلى 6124 مجانًا" ;
@@ -847,7 +847,7 @@ var_dump($output) ;
     // Elkheer   kheer   => sub
     // unsub1   unsub kheer  => unsub
     // all sub keyword arabic + english
-    if (strtolower($request->message) == "sub" || $request->message == "1"   
+    if (strtolower($request->message) == "sub" || $request->message == "1"
     || $request->message == "اشترك"  ||  $request->message == "أشترك" ) {
       $orange_subscribe = new Request();
       $orange_subscribe->msisdn = $request->msisdn;
@@ -874,11 +874,11 @@ var_dump($output) ;
         $this->sendMessageToUser($request->msisdn, $message);
      // return   $message;
     } elseif ($request->message == "a1" || $request->message == "a2"  || $request->message == "a3"   || $request->message == "a4" ) {
-      $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان الدينية لحلقة اليوم";
+      $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان لحلقة اليوم";
       $this->sendMessageToUser($request->msisdn, $message);
       return "ok";
     } else {
-      $message = "للاشتراك في خدمة الفرسان الدينية يرجي ارسال 1 ولالغاء الاشتراك ارسل الغاء " ;
+      $message = "للاشتراك في خدمة الفرسان يرجي ارسال 1 ولالغاء الاشتراك ارسل الغاء " ;
        $this->sendMessageToUser($request->msisdn, $message);
      // return "to subscribe to Elforsan service You can send 1 and to unsubscribe you can send unsub";
     }
@@ -900,10 +900,10 @@ var_dump($output) ;
     if ($responseStatus == OrangeResponseStatus::Success) {
 
 
-      $message = "تم الإشتراك فى خدمة  الفرسان الدينية من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
+      $message = "تم الإشتراك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
       $message .= " للدخول اضغط علي هذا الرابط " . $url;
     } elseif ($responseStatus == OrangeResponseStatus::AlreadySuccess) {
-      $message = " انت بالفعل مشترك فى خدمة  الفرسان الدينية من أورنج تجدد ب 1 جنيه فى اليوم، , اضغط على هذا الرابط" . $url;
+      $message = " انت بالفعل مشترك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، , اضغط على هذا الرابط" . $url;
     } elseif ($responseStatus == OrangeResponseStatus::NotAllowed) {
       //  $message = "Not Allowed";
       $message = "غير مسموح";
@@ -928,10 +928,10 @@ var_dump($output) ;
     $message = '';
     if ($responseStatus == OrangeResponseStatus::Success) {
       //   $message = "The subscription for Al forsan service has been successfully canceled";
-      $message = "تم الغاء اشتراكك في خدمة الفرسان الدينية بنجاح";
+      $message = "تم الغاء اشتراكك في خدمة الفرسان بنجاح";
     } elseif ($responseStatus == OrangeResponseStatus::NotSubscribed) {
       // $message = "You are already not subscribed to Al forsan service";
-      $message = "أنت  غير مشترك في خدمة الفرسان الدينية";
+      $message = "أنت  غير مشترك في خدمة الفرسان";
     } elseif ($responseStatus == OrangeResponseStatus::NotAllowed) {
       //  $message = "Not Allowed";
       $message = "غير مسموح";
@@ -1471,4 +1471,6 @@ var_dump($output) ;
     $Provision->msisdn = $msisdn;
     $provision_call_elforsan = app('App\Http\Controllers\ElforsanController')->elforsan_provision($Provision);
   }
+
+
 }
