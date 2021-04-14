@@ -738,9 +738,10 @@ var_dump($output) ;
     }
 
 
+    $response_msg = "تم الإشتراك فى خدمة الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
 
 
-    $response_msg = 'تم الاشتراك بنجاح في خدمة الفرسان';
+
 
     $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
 
@@ -765,20 +766,19 @@ var_dump($output) ;
     $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
 
     if ($OrangeSubscribe == 0) {
-      $response_msg = 'تم الاشتراك بنجاح في خدمة الفرسان';
+      $welcome_message =  $response_msg ;
 
-      $welcome_message = "لقد تم الاشتراك بنجاح في خدمة الفرسان دلوقتي تقدر تسمع الأذان لأول مرة بصوت هاني شاكر و كمان تستمتع بأجمل الأدعية ونغمات الانتظار. وعندك الفرصة تكسب لما تحل لغز الفرسان كل يوم.استمتع بخدمة الفرسان ببلاش لمدة يوم وكمان 10 دقائق مجانية صالحة لثاني يوم وتتجدد بعدها بجنيه واحد في اليوم، واستهلاك الانترنت هيتخصم من الباقة بتاعتك";
       $welcome_message .= " ";
       //  $welcome_message .=  "لالغاء الإشتراك ارسل unsubforsan إلى 6124 مجانًا" ;
       $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
       $welcome_message .= URL_ELFORSAN;
-
       $send_message = $welcome_message;
     } elseif ($OrangeSubscribe == 1) {
-      $welcome_message = 'انت مشترك بالفعل في خدمة اورانج الفرسان';
+      $welcome_message = 'انت مشترك بالفعل في خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم';
       $welcome_message .= '  للدخول اضغط علي هذا الرابط ';
       $welcome_message .= URL_ELFORSAN;
       $send_message = $welcome_message;
+      $response_msg = 'انت مشترك بالفعل في خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم';
     }
     $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
 
@@ -792,6 +792,43 @@ var_dump($output) ;
     $this->sendMessageToUser($msisdn,  $send_message);
 
     return $response_xml;
+  }
+
+  public function ussd_notify_test()
+  {
+    $msisdn = "201223872695" ;
+
+
+    $welcome_message = "تم الإشتراك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
+
+    $welcome_message .= " ";
+    //  $welcome_message .=  "لالغاء الإشتراك ارسل unsubforsan إلى 6124 مجانًا" ;
+    $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
+    $welcome_message .= URL_ELFORSAN;
+    $send_message = $welcome_message;
+
+    $message =  $send_message ;
+    $phone =  $msisdn ;
+
+    $URL_Api = sendKenelApi;
+    $param = "phone_number=$phone&message=$message";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL_Api);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $param_array['phone'] = $phone;
+    $param_array['message'] = $message;
+    $param_array['result'] = $response;
+    $this->log("sendMessageFromKenel", $URL_Api, $param_array);
+
+    return $response ;
+
+
+
+    // $this->sendMessageToUser($msisdn,  $send_message);
   }
 
   public function sms_notify(Request $request)
@@ -810,7 +847,8 @@ var_dump($output) ;
     // Elkheer   kheer   => sub
     // unsub1   unsub kheer  => unsub
     // all sub keyword arabic + english
-    if (strtolower($request->message) == "subforsan" || $request->message == "فرسان") {
+    if (strtolower($request->message) == "sub" || $request->message == "1"
+    || $request->message == "اشترك"  ||  $request->message == "أشترك" ) {
       $orange_subscribe = new Request();
       $orange_subscribe->msisdn = $request->msisdn;
       $orange_subscribe->table_name = 'orange_sms';
@@ -822,9 +860,9 @@ var_dump($output) ;
 
       $OrangeSubscribe = $this->orange_subscribe_store($orange_subscribe);
       $message = $this->handleSubscribeSendMessage($OrangeSubscribe, $request->message);
-      // $this->sendMessageToUser($request->msisdn, $message);
-      return  $message;
-    } elseif (strtolower($request->message) == "unsubforsan" || $request->message == "الغاءفرسان") {
+       $this->sendMessageToUser($request->msisdn, $message);
+     // return  $message;
+    } elseif (strtolower($request->message) == "unsub"  || $request->message == "الغاء" || $request->message == "ألغاء" ) {
       $orange_un_sub = new Request();
       $orange_un_sub->msisdn     = $request->msisdn;
       $orange_un_sub->command    = 'UNSUBSCRIBE';
@@ -833,12 +871,16 @@ var_dump($output) ;
       $orandControl    = new OrangeApiController();
       $responseMessage = $orandControl->orangeWeb($orange_un_sub);
       $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
-      //  $this->sendMessageToUser($request->msisdn, $message);
-      return   $message;
+        $this->sendMessageToUser($request->msisdn, $message);
+     // return   $message;
+    } elseif ($request->message == "a1" || $request->message == "a2"  || $request->message == "a3"   || $request->message == "a4" ) {
+      $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان لحلقة اليوم";
+      $this->sendMessageToUser($request->msisdn, $message);
+      return "ok";
     } else {
-      // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
-      // $this->sendMessageToUser($request->msisdn, $message);
-      return "to subscribe to Elforsan service You can send forsan and to unsubscribe you can send unsub_forsan";
+      $message = "للاشتراك في خدمة الفرسان يرجي ارسال 1 ولالغاء الاشتراك ارسل الغاء " ;
+       $this->sendMessageToUser($request->msisdn, $message);
+     // return "to subscribe to Elforsan service You can send 1 and to unsubscribe you can send unsub";
     }
   }
 
@@ -856,10 +898,12 @@ var_dump($output) ;
     $url = URL_ELFORSAN;
 
     if ($responseStatus == OrangeResponseStatus::Success) {
-      $message = "لقد تم الاشتراك بنجاح في خدمة الفرسان دلوقتي تقدر تسمع الأذان لأول مرة بصوت هاني شاكر و كمان تستمتع بأجمل الأدعية ونغمات الانتظار. وعندك الفرصة تكسب لما تحل لغز الفرسان كل يوم.استمتع بخدمة الفرسان ببلاش لمدة يوم وكمان 10 دقائق مجانية صالحة لثاني يوم وتتجدد بعدها بجنيه واحد في اليوم، واستهلاك الانترنت هيتخصم من الباقة بتاعتك";
+
+
+      $message = "تم الإشتراك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
       $message .= " للدخول اضغط علي هذا الرابط " . $url;
     } elseif ($responseStatus == OrangeResponseStatus::AlreadySuccess) {
-      $message = " انت بالفعل مشترك فى خدمه الفرسان , اضغط على هذا الرابط" . $url;
+      $message = " انت بالفعل مشترك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، , اضغط على هذا الرابط" . $url;
     } elseif ($responseStatus == OrangeResponseStatus::NotAllowed) {
       //  $message = "Not Allowed";
       $message = "غير مسموح";
@@ -884,7 +928,7 @@ var_dump($output) ;
     $message = '';
     if ($responseStatus == OrangeResponseStatus::Success) {
       //   $message = "The subscription for Al forsan service has been successfully canceled";
-      $message = "تم الغاء أشتراكك في خدمة الفرسان بنجاح";
+      $message = "تم الغاء اشتراكك في خدمة الفرسان بنجاح";
     } elseif ($responseStatus == OrangeResponseStatus::NotSubscribed) {
       // $message = "You are already not subscribed to Al forsan service";
       $message = "أنت  غير مشترك في خدمة الفرسان";
@@ -897,6 +941,7 @@ var_dump($output) ;
     }
     return $message;
   }
+
 
   public function web_notify(Request $request)
   {
@@ -1110,7 +1155,7 @@ var_dump($output) ;
 
           // provision call for only elforsan (according to elforsan_service =  23 )
           // if($request->service_id != '' && $request->service_id  == elforsan_service){
-          $this->call_elforsan_provision($request->msisdn);
+       //   $this->call_elforsan_provision($request->msisdn);  // no gift after second try to unsub
           // }
         } else {
           $orange_subscribe->active = 0;
@@ -1244,6 +1289,9 @@ var_dump($output) ;
     $param_array['result'] = $response;
     $this->log("sendMessageFromKenel", $URL_Api, $param_array);
 
+    // print_r(  $response) ; die;
+
+
     // return $response; // 1 -success 0- fail
   }
 
@@ -1305,7 +1353,7 @@ var_dump($output) ;
 
   public function orange_send_daily_deduction()
   {
-    $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك.";
+    $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل الغاء إلى 6122 مجانا.";
     $today_message_msisdns = TodayMessage::whereDate('created_at', Carbon::now()->toDateString())->where("type", "=", "charge")->pluck('msisdn');
 
     OrangeSubscribe::where("active", 1)->where("free", 0)->whereNotIn('msisdn', $today_message_msisdns)->chunk(1000, function ($orange_subscribes) use ($message) {
@@ -1339,8 +1387,8 @@ var_dump($output) ;
     $today_message_msisdns = TodayMessage::whereDate('created_at', Carbon::now()->toDateString())->where("type", "=", "charge-w")->pluck('msisdn');
     $orange_subscribes = OrangeSubscribe::where("active", 1)->where("free", 0)->whereNotIn('msisdn', $today_message_msisdns)->get();
 
+    $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل الغاء إلى 6122 مجانا.";
 
-    $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك ";
 
 
     foreach ($orange_subscribes as $orange_subscribe) {
@@ -1423,4 +1471,6 @@ var_dump($output) ;
     $Provision->msisdn = $msisdn;
     $provision_call_elforsan = app('App\Http\Controllers\ElforsanController')->elforsan_provision($Provision);
   }
+
+
 }

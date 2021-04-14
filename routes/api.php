@@ -81,8 +81,8 @@ define('productId', '1000004448');  // elforsan
 define('service', '23');  // elforsan
 
 define('partnerId', '1000000577');
-define("sendKenelApi",'http://10.2.10.15:8310/~smsorange/api/orange_egypt_send_message');
-define("ORANGEGETTODAYCONTENTLINK",'https://elforsan.ivas.com.eg/elforsan_get_today_content_link');
+define("sendKenelApi",'http://10.2.10.15:8310/~smselforsan/api/orange_egypt_send_message');
+define("ORANGEGETTODAYCONTENTLINK",'https://elforsan.net/elforsan_get_today_content_link');
 
 
 
@@ -99,7 +99,8 @@ Route::post('provision_curl', 'OrangeController@provision_curl');
 Route::post('provision_test', 'OrangeController@provision_response_test');
 
 Route::post('charging_notify', 'OrangeController@charging_notify');
-Route::get('ussd_notify', 'OrangeController@ussd_notify');   //  #215#
+Route::get('ussd_notify', 'OrangeController@ussd_notify');   //  #657#
+Route::get('ussd_notify_test', 'OrangeController@ussd_notify_test');   //  #657#
 
 Route::get('sms_notify', 'OrangeController@sms_notify');
 Route::post('web_notify', 'OrangeController@web_notify');
@@ -122,7 +123,7 @@ Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@
 
 //============================================== elforsan ==============================================//
 //---------------- ----------------------//
-define('URL_ELFORSAN', 'https://elforsan.ivas.com.eg');
+define('URL_ELFORSAN', 'https://elforsan.net');
 define('elforsan_password', '3sJ4YiK4');
 define('elforsan_service', '23');
 

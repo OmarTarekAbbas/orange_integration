@@ -60,7 +60,7 @@ class Free extends Command
         $subscriber->save();
 
         // send message to the user notify that free trials will end today
-        $expire_message = "باقة الفرسان اللي انت مشترك فيها وبتجيلك كل يوم من أورانج هتتجدد من بكره ب 1 جنيه فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل unsub_forsan إلى 6124 مجانا.";
+        $expire_message = "خدمة الفرسان  اللي انت مشترك فيها وبتجيلك كل يوم من أورنج هتتجدد ب 1 جنيه فى اليوم، و لسة عندك الفرصة تكون فائز ب 5000 جنيه يوميًا طوال شهر رمضان لما تحل لغز الفرسان واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل الغاء إلى  6122مجانا.";
         $orange_subscription_code = app('App\Http\Controllers\OrangeController')->sendMessageToUser($subscriber->msisdn, $expire_message);
       }
     });
