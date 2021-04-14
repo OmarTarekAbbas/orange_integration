@@ -1642,7 +1642,19 @@ public function orange_send_weekly_deduction()
         $msisdn = $request->msisdn;
         $service_id = $request->service_id;
 
-        $subscriber = OrangeSubscribe::where('msisdn', $msisdn)->where('service_id', $service_id)->where('active', 1)->first();
+        //trim 2 from number if exist and add two number
+        $phone_number = ltrim($request->msisdn, 2);
+        $phone_number = "2" . $phone_number;
+
+
+
+        $subscriber = OrangeSubscribe::where('msisdn', $phone_number)->where('service_id', $service_id)->first();
+
+        if(isset($subscriber) && $subscriber!=null){
+          $subscriber = $subscriber;
+        }else{
+          $subscriber = [];
+        }
 
         //register log
         $action = 'CheckStatus';
@@ -1656,11 +1668,7 @@ public function orange_send_weekly_deduction()
         }
         $this->log_action($action, $url, $log);
 
-        if($subscriber  ) {
-          return $subscriber;
-        }
-
-        return "0";
+        return view('orange.check_status', compact('subscriber'));
     }
 
 
