@@ -1630,4 +1630,35 @@ public function orange_send_weekly_deduction()
     }
 
 
+    public function checkStatus(){
+      return view('orange.check_status');
+    }
+
+    public function checkStatusAction(Request $request)
+    {
+        $msisdn = $request->msisdn;
+        $service_id = $request->service_id;
+
+        $subscriber = OrangeSubscribe::where('msisdn', $msisdn)->where('service_id', $service_id)->where('active', 1)->first();
+
+        //register log
+        $action = 'CheckStatus';
+        $url = url()->full();
+        $log['msisdn'] = $msisdn;
+        $log['service_id'] = $service_id;
+        if($subscriber){
+          $log['subscriber'] = $subscriber->toArray();
+        }else{
+          $log['subscriber'] = $subscriber;
+        }
+        $this->log_action($action, $url, $log);
+
+        if($subscriber  ) {
+          return $subscriber;
+        }
+
+        return "0";
+    }
+
+
 }

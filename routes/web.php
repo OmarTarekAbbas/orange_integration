@@ -98,10 +98,13 @@ Route::post('admin/setting/{id}','SettingsController@update');
 
 define('user_name', "admin@ivas.com");
 define('test_pasword', "123456");
-Route::view("test/login", "orange/login")->name('orange.login');
-Route::post("test/login", "OrangeController@testLogin")->name('orange.login.submit');
-Route::view("test/direct_sub", "orange/direct_sub")->name("orange.form");
-Route::post("direct_sub", "OrangeController@directSubOrangeWeb")->name("orange.form.submit");
+Route::view("customer_care", "orange/login")->name('orange.login');
+Route::post("customer_care", "OrangeController@testLogin")->name('orange.login.submit');
+Route::view("sub_unsub", "orange/direct_sub")->name("orange.form");
+Route::post("sub_unsub", "OrangeController@directSubOrangeWeb")->name("orange.form.submit");
+Route::get("check_status", "OrangeController@checkStatus")->name("orange.check_status");
+Route::post("check_status", "OrangeController@checkStatusAction")->name("orange.check_status.submit");
+
 define('ENABLE', Helper::get_setting('approve_enable'));
 
 
