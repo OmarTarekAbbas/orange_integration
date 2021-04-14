@@ -1545,8 +1545,88 @@ public function orange_send_weekly_deduction()
 
       if(curl_errno($soap_do))
       print curl_error($soap_do);
-      else
-        curl_close($soap_do);
+  else
+      curl_close($soap_do);
+
+        $request_array = array(
+            'result_code' => ['start' => '<ON_Result_Code>', 'end' => '</ON_Result_Code>'],
+            'bearer_type' => ['start' => '<ON_Bearer_Type>', 'end' => '</ON_Bearer_Type>'],
+        );
+
+        $string = $output;
+
+        foreach ($request_array as $key => $value) {
+            $start = $value['start'];
+            $end = $value['end'];
+
+            $startpos = strpos($string, $start) + strlen($start);
+            if (strpos($string, $start) !== false) {
+                $endpos = strpos($string, $end, $startpos);
+                if (strpos($string, $end, $startpos) !== false) {
+                    $post_array[$key] = substr($string, $startpos, $endpos - $startpos);
+                } else {
+                    $post_array[$key] = "";
+                }
+            }
+        }
+
+        $orange_web = new OrangeSubUnsub;
+        $orange_web->req = $soap_request;
+        $orange_web->response = $output;
+        $orange_web->spId = $spId;
+        $orange_web->sp_password = $sp_password;
+        $orange_web->time_stamp = $time_stamp;
+        $orange_web->service_number = $productId;
+        $orange_web->calling_party_id = $msisdn;
+        $orange_web->selfcare_command = $command;
+        $orange_web->on_bearer_type = $bearer;
+        $orange_web->on_result_code = isset($post_array['result_code'])?$post_array['result_code']:"";
+
+        $OrangeWeb = $orange_web->save();
+
+
+
+     /* =================  Orange result_code for sub / unsub api ===================
+      0	success
+      1	already subscribed
+      2	not subscribed
+      5	not allowed
+      6	account problem = no balance
+      31	Technical problem
+      */
+        if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
+            if ($command == 'SUBSCRIBE') {
+                $commandActive = 1;  // sub success
+                $free =  1 ;
+                $flash_message = "لقد تم الاشتراك بنجاح";
+            } elseif ($command == 'UNSUBSCRIBE') {
+                $commandActive = 2;  // unsub success
+                $free =  0 ;
+                $flash_message = "لقد تم الغاء الاشتراك بنجاح ";
+            }
+
+
+            $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
+            if ($orange_subscribe) {
+                $orange_subscribe->active = $commandActive;
+                $orange_subscribe->free =  $free;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
+                $orange_subscribe->table_name = 'orange_sub_unsubs';
+                $orange_subscribe->type = strtolower($bearer);
+                $orange_subscribe->save();
+            } else { // will not accured
+                $orange_subscribe = new OrangeSubscribe;
+                $orange_subscribe->msisdn = $msisdn;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
+                $orange_subscribe->table_name = 'orange_sub_unsubs';
+                $orange_subscribe->free =  $free;
+                $orange_subscribe->active = $commandActive;
+                $orange_subscribe->type = strtolower($bearer);
+                $orange_subscribe->subscribe_due_date =date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
+                $orange_subscribe->service_id = $request->service_id;
+                $orange_subscribe->save();
+            }
+        }
 
           $request_array = array(
               'result_code' => ['start' => '<ON_Result_Code>', 'end' => '</ON_Result_Code>'],
