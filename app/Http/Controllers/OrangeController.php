@@ -1597,9 +1597,11 @@ public function orange_send_weekly_deduction()
         if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0){
             if ($command == 'SUBSCRIBE') {
                 $commandActive = 1;  // sub success
-                $flash_message = "لقد تم اشتراك بنجاح";
+                $free =  1 ;
+                $flash_message = "لقد تم الاشتراك بنجاح";
             } elseif ($command == 'UNSUBSCRIBE') {
                 $commandActive = 2;  // unsub success
+                $free =  0 ;
                 $flash_message = "لقد تم الغاء الاشتراك بنجاح ";
             }
 
@@ -1607,6 +1609,7 @@ public function orange_send_weekly_deduction()
             $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
             if ($orange_subscribe) {
                 $orange_subscribe->active = $commandActive;
+                $orange_subscribe->free =  $free;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_sub_unsubs';
                 $orange_subscribe->type = strtolower($bearer);
@@ -1616,8 +1619,8 @@ public function orange_send_weekly_deduction()
                 $orange_subscribe->msisdn = $msisdn;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_sub_unsubs';
-                $orange_subscribe->free = 1;
-                $orange_subscribe->active = 1;
+                $orange_subscribe->free =  $free;
+                $orange_subscribe->active = $commandActive;
                 $orange_subscribe->type = strtolower($bearer);
                 $orange_subscribe->subscribe_due_date =date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
                 $orange_subscribe->service_id = $request->service_id;
