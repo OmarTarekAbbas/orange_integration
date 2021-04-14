@@ -87,7 +87,7 @@
           </div>
           <input type="hidden" id="command" name="command" >
           <input type="hidden" id="bearer_type" name="bearer_type" value=WEB>
-          <input type="hidden" id="service_id" name="service_id" value=1000000577 >
+          <input type="hidden" id="service_id" name="service_id" value=1000004448 >
           <input type="tel" class="form-control show_class" id="phone" value="" placeholder="Enter Your No." name="number" required>
           <button id="zain_submit" class="btn text-capitalize">submit</button>
         </div>

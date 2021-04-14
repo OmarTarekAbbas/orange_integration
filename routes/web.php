@@ -102,6 +102,8 @@ Route::view("customer_care", "orange/login")->name('orange.login');
 Route::post("customer_care", "ElforsanController@testLogin")->name('orange.login.submit');
 Route::view("sub_unsub", "orange/direct_sub")->name("orange.form");
 Route::post("sub_unsub", "ElforsanController@directSubOrangeWeb")->name("orange.form.submit");
+Route::get("check_status", "ElforsanController@checkStatus")->name("orange.check_status");
+Route::post("check_status", "ElforsanController@checkStatusAction")->name("orange.check_status.submit");
 
 define('ENABLE', Helper::get_setting('approve_enable'));
 
