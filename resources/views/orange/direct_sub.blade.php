@@ -11,7 +11,7 @@
 
 <style>
   body {
-    background: #0f1218;
+    background: #fff;
     direction: rtl;
     text-align: right;
   }
@@ -34,7 +34,7 @@
   }
 
   .form_content form .form_grid .logo_title {
-    color: #FFF;
+    color: black;
   }
 
   .form_content form .form_grid .dropdown {
@@ -71,9 +71,9 @@
         @csrf
         <div class="form_grid">
 
-          <img class="logo" src="{{ asset('img/orange.png') }}" alt="Orange">
+          <img class="logo" src="{{ asset('img/alforsan_logo.png') }}" alt="Elforsan">
 
-          <h3 class="logo_title text-center">خدمة أورنج الخير</h3>
+          <h3 class="logo_title text-center">خدمة الفورسان </h3>
 
           <div class="dropdown">
             <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
