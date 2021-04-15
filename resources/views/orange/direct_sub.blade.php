@@ -87,9 +87,9 @@
           <h3 class="logo_title text-center text-capitalize">orange elkhir</h3>
 
           <select class="custom-select"  name="command" id="command"  required>
-            <option value="">من فضلك اختر</option>
-            <option value="SUBSCRIBE">اشترك</option>
-              <option value="UNSUBSCRIBE">إلغاء الاشتراك</option>
+            <option value="">Please Select</option>
+            <option value="SUBSCRIBE">Make Subscription </option>
+              <option value="UNSUBSCRIBE">Make Unsubscription </option>
           </select>
 
 
@@ -109,8 +109,7 @@
         <a href="{{url('/check_status')}}">Msisdn Check Status</a>
       </div>
 
-      <!--<h5>للاشتراك يرجى الارسال الى <span>965</span></h5>
-                <h5>الى <span>965</span><span> STOP1 </span>لالغاء الاشتراك ارسل</h5>-->
+
     </div>
   </section>
 
