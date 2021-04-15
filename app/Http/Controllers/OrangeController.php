@@ -1710,8 +1710,13 @@ public function orange_send_weekly_deduction()
       }
 
 
-    public function checkStatus(){
+    public function checkStatus(Request $request){
+
+      if(!(session()->has("test_login") && session("test_login") == user_name)) {
+        return redirect()->route("orange.login");
+      }
       return view('orange.check_status');
+
     }
 
     public function checkStatusAction(Request $request)
@@ -1719,11 +1724,8 @@ public function orange_send_weekly_deduction()
         $msisdn = $request->msisdn;
         $service_id = $request->service_id;
 
-        //trim 2 from number if exist and add two number
-        $phone_number = ltrim($request->msisdn, 2);
-        $phone_number = "2" . $phone_number;
-
-
+        $phone_number = ltrim($request->msisdn, 0);
+        $phone_number = "20$phone_number";
 
         $subscriber = OrangeSubscribe::where('msisdn', $phone_number)->where('service_id', $service_id)->first();
 
