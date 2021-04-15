@@ -96,8 +96,8 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
 
-define('user_name', "admin@ivas.com");
-define('test_pasword', "123456");
+define('user_name', "orangeelkheer@ivas.com.eg");
+define('test_pasword', "orangeelkheer_ivas_752");
 Route::view("customer_care", "orange/login")->name('orange.login');
 Route::post("customer_care", "OrangeController@testLogin")->name('orange.login.submit');
 Route::view("sub_unsub", "orange/direct_sub")->name("orange.form");
