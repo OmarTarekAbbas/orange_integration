@@ -372,7 +372,6 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
         $msisdn = "20$phone_number";
         $command = $request->command;
 
-        $flash_message = "لقد حدث خطأ ما";
 
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $service_id)->first();
         if ($orange_subscribe && $request->command == "UNSUBSCRIBE") { // user still free and need to unsub
