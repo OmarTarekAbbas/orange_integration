@@ -32,7 +32,7 @@ final class OrangeResponseStatus
    */
   public static function getLabel($key)
   {
-      return in_array($key, self::getList()) ? self::getList()[$key] : trans("there are error ");
+      return array_key_exists($key, self::getList()) ? self::getList()[$key] : trans("there are error ");
   }
 }
 
