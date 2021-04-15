@@ -534,6 +534,7 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
     public function checkStatusAction(Request $request)
     {
+      
         $service_id = productId  ;
         $phone_number = ltrim($request->msisdn, 0);
         $msisdn = "20$phone_number";
