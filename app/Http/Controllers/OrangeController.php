@@ -1475,6 +1475,9 @@ public function orange_send_weekly_deduction()
 
       $flash_message = "لقد حدث خطأ ما";
 
+      $phone_number = ltrim($request->number, 0);
+      $request->msisdn = "20$phone_number";
+
       $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $request->service_id)->first();
       if($orange_subscribe  &&  $request->command == "UNSUBSCRIBE"){ // user still free and need to unsub
         $orange_subscribe->active = 2 ;  // unsub
