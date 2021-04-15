@@ -76,19 +76,16 @@
           <h3 class="logo_title text-center">خدمة أورنج الخير</h3>
 
           <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            من فضلك اختر
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="#" onclick="document.getElementById('command').value = 'SUBSCRIBE'">اشترك</a></li>
-              <li><a href="#" onclick="document.getElementById('command').value = 'UNSUBSCRIBE'">إلغاء الاشتراك</a></li>
-            </ul>
+
+            <select name="command" id="command"  required  style="width: 300%">
+              <option value="">من فضلك اختر</option>
+              <option value="SUBSCRIBE">اشترك</option>
+              <option value="UNSUBSCRIBE">إلغاء الاشتراك</option>
+            </select>
+
           </div>
-          <input type="hidden" id="command" name="command" >
-          <input type="hidden" id="bearer_type" name="bearer_type" value=WEB>
-          <input type="hidden" id="service_id" name="service_id" value=1000000577 >
-          <input type="tel" class="form-control show_class" id="phone" value="" placeholder="Enter Your No." name="number" required>
+
+        <input type="tel" class="form-control show_class" id="phone" value=""  name="number" required >
           <button id="zain_submit" class="btn text-capitalize">submit</button>
         </div>
       </form>

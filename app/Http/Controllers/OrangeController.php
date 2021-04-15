@@ -1475,7 +1475,11 @@ public function orange_send_weekly_deduction()
 
       $flash_message = "لقد حدث خطأ ما";
 
-      $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $request->service_id)->first();
+      // default values
+      $bearer = "WEB";
+      $service_id = productId  ;
+
+      $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $service_id)->first();
       if($orange_subscribe  &&  $request->command == "UNSUBSCRIBE"){ // user still free and need to unsub
         $orange_subscribe->active = 2 ;  // unsub
         $orange_subscribe->free = 0;  // unsub
@@ -1606,7 +1610,7 @@ public function orange_send_weekly_deduction()
             }
 
 
-            $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
+            $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $service_id)->first();
             if ($orange_subscribe) {
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->free =  $free;
@@ -1623,7 +1627,7 @@ public function orange_send_weekly_deduction()
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->type = strtolower($bearer);
                 $orange_subscribe->subscribe_due_date =date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
-                $orange_subscribe->service_id = $request->service_id;
+                $orange_subscribe->service_id = $service_id;
                 $orange_subscribe->save();
             }
         }
