@@ -6,17 +6,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>orange</title>
-  <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <style>
   body {
-    background: #0f1218;
+    background: #fff;
   }
 
+  @media (min-width: 1030px) {
+    body {
+      width: 25%;
+      margin: auto;
+    }
+  }
 
   .form_content {
-    margin: 0px auto;
+    width: 100%;
+    margin: 10% auto;
   }
 
   .form_content form .form_grid {
@@ -25,75 +32,73 @@
   }
 
   .form_content form .form_grid .logo {
-    margin: 5% auto;
-    height: 400px;
-    width: 50%;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 15%;
   }
 
   .form_content form .form_grid .logo_title {
+    color: #000;
+    margin-bottom: 10%;
+  }
+
+  .form_content form .form_grid .input-group-text {
+    border: 1px solid #f60;
+    background-color: #f60;
     color: #FFF;
   }
 
-  .form_content form .form_grid .dropdown {
-    margin: 5% auto;
-  }
-
-  .form_content form .form_grid .dropdown .dropdown-menu {
-    text-align: right;
-  }
-
-  .form_content form .form_grid .dropdown .btn,
   .form_content form .form_grid #phone {
     border: 1px solid #f60;
-    width: 50%;
-    margin: 0px auto;
   }
 
   .form_content form .form_grid #zain_submit {
     background-color: #f60;
     color: #fff;
     width: 50%;
-    margin: 2% auto;
+    margin: 5% auto;
   }
 
   .form_content form .form_grid #phone:focus {
     box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(255 102 0);
   }
 
-  .user_data {
-    width: 50%;
-    margin: 0px auto 10px;
-  }
-
-  .user_data hr {
-    border-top-color: #3c763d;
-    margin-top: 5px;
-    margin-bottom: 0px;
+  .form_content .unsub_check a {
+    color: #000;
+    text-decoration: underline;
   }
 </style>
 
 <body>
 
-  <div class="form_content">
+  <section class="form_content">
     <div class="container">
       @include("orange/alerts")
       <form method="post" action="{{ route('orange.check_status.submit') }}" id="form_zain">
         @csrf
         <div class="form_grid">
 
-          <img class="logo" src="{{ asset('img/alforsan_logo.png') }}" alt="Elforsan">
+        <img class="logo" src="{{ asset('img/alforsan_logo.png') }}" alt="Al Forsan">
 
-          <h3 class="logo_title text-center">Al forsan service</h3>
+        <h3 class="logo_title text-center text-capitalize">Al Forsan service</h3>
 
-          <input type="hidden" id="service_id" name="service_id" value=1000004448>
+          <input type="hidden" id="service_id" name="service_id" value=1000000577>
 
-          <input type="tel" class="form-control show_class" id="phone" value="" placeholder="Please enter the phone number" name="msisdn" required>
-
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">+20</span>
+            </div>
+            <input ype="tel" class="form-control show_class" id="phone" value="" placeholder="Enter Your Mobile No." name="number" required>
+          </div>
           <button id="zain_submit" class="btn text-capitalize">Check status</button>
         </div>
       </form>
+
+      <div class="unsub_check text-center text-capitalize">
+        <a href="{{url('/sub_unsub')}}">go to subscribe & unsubscribe</a>
+      </div>
     </div>
-  </div>
+  </section>
 
   @isset($subscriber)
     @if($subscriber != [])
@@ -128,8 +133,8 @@
     @endif
   @endisset
 
-  <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
-  <script src="{{asset('js/bootstrap.min.js')}}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </body>
 
 </html>
