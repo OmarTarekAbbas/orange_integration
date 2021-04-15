@@ -21,7 +21,7 @@
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
-            <div class="panel-heading">Log To Alforsan Service</div>
+            <div class="panel-heading">Log To Alforsan Service Customer Care</div>
             <div class="panel-body">
                 @include("orange/alerts")
                 {!! Form::open(['url'=> route("orange.login.submit")]) !!}
