@@ -6,6 +6,7 @@ use App\OrangeSubscribe;
 use App\OrangeSubUnsub;
 use App\Provision;
 use Illuminate\Http\Request;
+use App\Constants\OrangeResponseStatus;
 
 class ElforsanController extends Controller
 {
@@ -520,9 +521,16 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
         }
 
 
-        $result_code = isset($post_array['result_code']) ? $post_array['result_code'] : "";
-        return back()->with("success", $flash_message);
-    }
+        $result_code =   isset($post_array['result_code']) ? $post_array['result_code'] : "error" ;
+        if(isset($flash_message) && $flash_message != ''){
+          session()->flash('success', $flash_message);
+        } else {
+          session()->flash('warning', OrangeResponseStatus::getLabel($result_code));
+        }
+        return back();
+      }
+
+
 
     public function checkStatus(){
       if(!(session()->has("test_login") && session("test_login") == user_name)) {
