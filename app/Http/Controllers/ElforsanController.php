@@ -363,6 +363,14 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
             return redirect()->route("orange.login");
         }
 
+        // default values
+        $bearer = "WEB";
+        $service_id = productId  ;
+        $phone_number = ltrim($request->msisdn, 0);
+        $request->msisdn = "20$phone_number";
+        $msisdn = "20$phone_number";
+        $command = $request->command;
+
         $flash_message = "لقد حدث خطأ ما";
 
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $request->service_id)->first();
@@ -517,21 +525,20 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
     }
 
     public function checkStatus(){
+      if(!(session()->has("test_login") && session("test_login") == user_name)) {
+        return redirect()->route("orange.login");
+      }
+
       return view('orange.check_status');
     }
 
     public function checkStatusAction(Request $request)
     {
-        $msisdn = $request->msisdn;
-        $service_id = $request->service_id;
+        $service_id = productId  ;
+        $phone_number = ltrim($request->msisdn, 0);
+        $msisdn = "20$phone_number";
 
-        //trim 2 from number if exist and add two number
-        $phone_number = ltrim($request->msisdn, 2);
-        $phone_number = "2" . $phone_number;
-
-
-
-        $subscriber = OrangeSubscribe::where('msisdn', $phone_number)->where('service_id', $service_id)->first();
+        $subscriber = OrangeSubscribe::where('msisdn', $msisdn)->where('service_id', $service_id)->first();
 
         if(isset($subscriber) && $subscriber!=null){
           $subscriber = $subscriber;
