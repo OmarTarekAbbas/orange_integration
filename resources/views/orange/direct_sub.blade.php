@@ -85,7 +85,7 @@
 
           </div>
 
-        <input type="tel" class="form-control show_class" id="phone" value=""  name="number" required >
+        <input type="tel" class="form-control show_class" id="phone" value=""  name="msisdn" required >
           <button id="zain_submit" class="btn text-capitalize">submit</button>
         </div>
       </form>
