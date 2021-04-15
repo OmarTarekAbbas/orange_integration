@@ -1478,7 +1478,9 @@ public function orange_send_weekly_deduction()
       // default values
       $bearer = "WEB";
       $service_id = productId  ;
-      $msisdn = $request->msisdn;
+      $phone_number = ltrim($request->msisdn, 0);
+      $request->msisdn = "20$phone_number";
+      $msisdn = "20$phone_number";
       $command = $request->command;
 
 
@@ -1539,7 +1541,7 @@ public function orange_send_weekly_deduction()
       curl_setopt($soap_do, CURLOPT_TIMEOUT, 1000000000000000000);
       curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
     //  curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
-   //   curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+    //   curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
       curl_setopt($soap_do, CURLOPT_POST, true);
       curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
       curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
@@ -1633,13 +1635,19 @@ public function orange_send_weekly_deduction()
             }
         }
 
-      $result_code =   isset($post_array['result_code'])?$post_array['result_code']:"" ;
-      return back()->with("success", $flash_message);
-    }
+
+        $result_code =   isset($post_array['result_code'])?$post_array['result_code']:"" ;
+        return back()->with("success", $flash_message);
+      }
 
 
-    public function checkStatus(){
+    public function checkStatus(Request $request){
+
+      if(!(session()->has("test_login") && session("test_login") == user_name)) {
+        return redirect()->route("orange.login");
+      }
       return view('orange.check_status');
+
     }
 
     public function checkStatusAction(Request $request)
@@ -1647,11 +1655,8 @@ public function orange_send_weekly_deduction()
         $msisdn = $request->msisdn;
         $service_id = $request->service_id;
 
-        //trim 2 from number if exist and add two number
-        $phone_number = ltrim($request->msisdn, 2);
-        $phone_number = "2" . $phone_number;
-
-
+        $phone_number = ltrim($request->msisdn, 0);
+        $phone_number = "20$phone_number";
 
         $subscriber = OrangeSubscribe::where('msisdn', $phone_number)->where('service_id', $service_id)->first();
 
