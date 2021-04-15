@@ -1652,9 +1652,8 @@ public function orange_send_weekly_deduction()
 
     public function checkStatusAction(Request $request)
     {
-        $msisdn = $request->msisdn;
-        $service_id = $request->service_id;
 
+        $service_id = productId  ;
         $phone_number = ltrim($request->msisdn, 0);
         $phone_number = "20$phone_number";
 

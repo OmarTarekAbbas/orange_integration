@@ -92,7 +92,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">+20</span>
             </div>
-            <input ype="tel" class="form-control show_class" id="phone" value="" placeholder="Enter Your Mobile No." name="number" required>
+            <input ype="tel" class="form-control show_class" id="phone" value="" placeholder="Enter Your Mobile No." name="msisdn" required>
           </div>
           <button id="zain_submit" class="btn text-capitalize">Check status</button>
         </div>
