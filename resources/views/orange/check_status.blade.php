@@ -84,7 +84,7 @@
 
           <img class="logo" src="{{ asset('img/orange.png') }}" alt="Orange">
 
-          <h3 class="logo_title text-center">Orange service</h3>
+          <h3 class="logo_title text-center">Orange Elkheer service</h3>
 
           <input type="hidden" id="service_id" name="service_id" value=1000000577>
 

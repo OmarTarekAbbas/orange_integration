@@ -84,7 +84,7 @@
 
           <img class="logo" src="{{ asset('img/orange.png') }}" alt="Orange">
 
-          <h3 class="logo_title text-center text-capitalize">orange elkhir</h3>
+          <h3 class="logo_title text-center text-capitalize">Orange Elkheer service  </h3>
 
           <select class="custom-select"  name="command" id="command"  required>
             <option value="">Please Select</option>
