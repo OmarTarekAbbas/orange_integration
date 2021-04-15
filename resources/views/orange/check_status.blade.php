@@ -99,7 +99,7 @@
       </form>
 
       <div class="unsub_check text-center text-capitalize">
-        <a href="#0">go to subscribe & unsubscribe</a>
+        <a href="{{url('/sub_unsub')}}">go to subscribe & unsubscribe</a>
       </div>
     </div>
   </section>
