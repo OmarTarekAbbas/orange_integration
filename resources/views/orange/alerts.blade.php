@@ -9,7 +9,7 @@
 @endif
 
 @if(session()->has('warning'))
-    <div class="alert alert_danger fade show" role="alert">
+    <div class="alert alert-danger fade show" role="alert">
         <span class="alert-inner--icon"><i class="fa fa-exclamation-circle"></i></span>
         <span class="alert-inner--text"><strong>{{ trans('Warning!') }}</strong> {{ session()->get('warning') }}</span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

@@ -1473,8 +1473,6 @@ public function orange_send_weekly_deduction()
         return redirect()->route("orange.login");
       }
 
-      $flash_message = "لقد حدث خطأ ما";
-
       // default values
       $bearer = "WEB";
       $service_id = productId  ;
@@ -1636,8 +1634,13 @@ public function orange_send_weekly_deduction()
         }
 
 
-        $result_code =   isset($post_array['result_code'])?$post_array['result_code']:"" ;
-        return back()->with("success", $flash_message);
+        $result_code =   isset($post_array['result_code']) ? $post_array['result_code'] : "error" ;
+        if(isset($flash_message) && $flash_message != ''){
+          session()->flash('success', $flash_message);
+        } else {
+          session()->flash('warning', OrangeResponseStatus::getLabel($result_code));
+        }
+        return back();
       }
 
 
