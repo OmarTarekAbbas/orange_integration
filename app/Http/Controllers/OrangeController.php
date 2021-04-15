@@ -1478,6 +1478,8 @@ public function orange_send_weekly_deduction()
       // default values
       $bearer = "WEB";
       $service_id = productId  ;
+      $msisdn = $request->msisdn;
+      $command = $request->command;
 
       $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $service_id)->first();
       if($orange_subscribe  &&  $request->command == "UNSUBSCRIBE"){ // user still free and need to unsub
@@ -1498,9 +1500,7 @@ public function orange_send_weekly_deduction()
         $sp_password = MD5($spId.password.$time_stamp);  // spPassword = MD5(spId + Password + timeStamp)
         $productId = productId;
 
-        $msisdn = $request->msisdn;
-        $command = $request->command;
-        $bearer = $request->bearer_type;
+
 
         $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
         <soap:Header>
