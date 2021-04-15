@@ -42,7 +42,7 @@
   }
 
   .form_content form .form_grid .custom-select {
-    width: 35%;
+    width: 45%;
     margin: 5% auto;
   }
 
