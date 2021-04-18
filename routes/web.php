@@ -97,6 +97,8 @@ Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
 
 Route::get('orange_send_today_content_export_phonenumbers','OrangeController@export_phonenumbers');
+Route::get('orange_get_today_content', 'OrangeController@orange_get_today_content');
+Route::get('orange_send_daily_deduction_message', 'OrangeController@orange_send_daily_deduction_message');
 
 define('user_name', "admin@ivas.com");
 define('test_pasword', "123456");
