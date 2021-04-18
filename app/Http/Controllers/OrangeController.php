@@ -1461,6 +1461,10 @@ public function orange_send_weekly_deduction()
 
     }
 
+    public function orange_send_daily_deduction_message(){
+      return "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
+    }
+
 
 
     public function emailSend($subject)

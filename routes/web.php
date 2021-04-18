@@ -106,6 +106,7 @@ Route::get("check_status", "OrangeController@checkStatus")->name("orange.check_s
 Route::post("check_status", "OrangeController@checkStatusAction")->name("orange.check_status.submit");
 Route::get('orange_send_today_content_export_phonenumbers','OrangeController@export_phonenumbers');
 Route::get('orange_get_today_content', 'OrangeController@orange_get_today_content');
+Route::get('orange_send_daily_deduction_message', 'OrangeController@orange_send_daily_deduction_message');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
 
