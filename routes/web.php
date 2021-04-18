@@ -96,6 +96,8 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
 
+Route::get('orange_send_today_content_export_phonenumbers','OrangeController@export_phonenumbers');
+
 define('user_name', "admin@ivas.com");
 define('test_pasword', "123456");
 Route::view("customer_care", "orange/login")->name('orange.login');
