@@ -1343,6 +1343,9 @@ var_dump($output) ;
 
   public function export_phonenumbers()
   {
+    //set memory limit
+    ini_set('memory_limit', -1);
+
     $file = 'orange-elkheer_'. date("d-m-Y") .'.txt';
     $file_object = fopen($file, "w") or die("Unable to open file!");
     fwrite($file_object, "phone_number \n");
