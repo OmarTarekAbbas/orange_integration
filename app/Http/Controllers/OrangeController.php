@@ -848,7 +848,7 @@ var_dump($output) ;
     // unsub1   unsub kheer  => unsub
     // all sub keyword arabic + english
     if (strtolower($request->message) == "sub" || $request->message == "1"
-    || $request->message == "اشترك"  ||  $request->message == "أشترك" ) {
+    || $request->message == "اشترك"  ||  $request->message == "أشترك"  ||  $request->message == "١" ) {
       $orange_subscribe = new Request();
       $orange_subscribe->msisdn = $request->msisdn;
       $orange_subscribe->table_name = 'orange_sms';
@@ -873,7 +873,8 @@ var_dump($output) ;
       $message = $this->handleUnSubscribeSendMessage($responseMessage, $request->message);
         $this->sendMessageToUser($request->msisdn, $message);
      // return   $message;
-    } elseif ($request->message == "a1" || $request->message == "a2"  || $request->message == "a3"   || $request->message == "a4" ) {
+    } elseif ( $request->message == "a1" || $request->message == "a2"  || $request->message == "a3"   || $request->message == "a4"
+    ||  $request->message == "a١" || $request->message == "a٢"  || $request->message == "a٣"   || $request->message == "a٤"  ) {
       $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان لحلقة اليوم";
       $this->sendMessageToUser($request->msisdn, $message);
       return "ok";

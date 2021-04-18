@@ -6,6 +6,7 @@ use App\OrangeSubscribe;
 use App\OrangeSubUnsub;
 use App\Provision;
 use Illuminate\Http\Request;
+use App\Constants\OrangeResponseStatus;
 
 class ElforsanController extends Controller
 {
@@ -371,7 +372,6 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
         $msisdn = "20$phone_number";
         $command = $request->command;
 
-        $flash_message = "لقد حدث خطأ ما";
 
         $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $service_id)->first();
         if ($orange_subscribe && $request->command == "UNSUBSCRIBE") { // user still free and need to unsub
@@ -392,7 +392,6 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
         $msisdn = $request->msisdn;
         $command = $request->command;
-        $bearer = $request->bearer_type;
 
         $soap_request = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
         <soap:Header>
@@ -520,9 +519,16 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
         }
 
 
-        $result_code = isset($post_array['result_code']) ? $post_array['result_code'] : "";
-        return back()->with("success", $flash_message);
-    }
+        $result_code =   isset($post_array['result_code']) ? $post_array['result_code'] : "error" ;
+        if(isset($flash_message) && $flash_message != ''){
+          session()->flash('success', $flash_message);
+        } else {
+          session()->flash('warning', OrangeResponseStatus::getLabel($result_code));
+        }
+        return back();
+      }
+
+
 
     public function checkStatus(){
       if(!(session()->has("test_login") && session("test_login") == user_name)) {

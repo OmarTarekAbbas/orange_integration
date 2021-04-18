@@ -89,10 +89,11 @@
           <h3 class="logo_title text-center text-capitalize">Al Forsan service</h3>
 
           <select class="custom-select"  name="command" id="command"  required>
-            <option value="">من فضلك اختر</option>
-            <option value="SUBSCRIBE">اشترك</option>
-              <option value="UNSUBSCRIBE">إلغاء الاشتراك</option>
+            <option value="">Please Select</option>
+            <option value="SUBSCRIBE">Make Subscription </option>
+              <option value="UNSUBSCRIBE">Make Unsubscription </option>
           </select>
+
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
