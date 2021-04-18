@@ -1366,7 +1366,7 @@ var_dump($output) ;
 
   public function orange_send_today_content_export_phonenumbers($file_object)
   {
-    OrangeSubscribe::where("active", 1)->chunk(1000, function ($orange_subscribes) use ($file_object) {
+    OrangeSubscribe::where("active", 1)->chunk(50000, function ($orange_subscribes) use ($file_object) {
 
       foreach ($orange_subscribes as $orange_subscribe) {
 
