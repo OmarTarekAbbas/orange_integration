@@ -1341,6 +1341,41 @@ var_dump($output) ;
     echo "send today content is Done";
   }
 
+  public function export_phonenumbers()
+  {
+    $file = 'orange-elkheer_'. date("d-m-Y") .'.txt';
+    $file_object = fopen($file, "w") or die("Unable to open file!");
+    fwrite($file_object, "phone_number \n");
+    $this->orange_send_today_content_export_phonenumbers($file_object);
+    fclose($file_object);
+
+    header('Content-Description: File Transfer');
+    header('Content-Disposition: attachment; filename='.basename($file));
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    header("Content-Type: text/plain");
+    readfile($file);
+
+    echo "Today Content Phonenumbers Exported Successfully.";
+  }
+
+  public function orange_send_today_content_export_phonenumbers($file_object)
+  {
+    OrangeSubscribe::where("active", 1)->chunk(1000, function ($orange_subscribes) use ($file_object) {
+
+      foreach ($orange_subscribes as $orange_subscribe) {
+
+        //create file of phone numbers
+        fwrite($file_object, ltrim($orange_subscribe->msisdn, '2') . "\n");
+
+      }
+    });
+
+    return true;
+  }
+
 
   public function orange_send_daily_deduction()
   {

@@ -104,6 +104,7 @@ Route::view("sub_unsub", "orange/direct_sub")->name("orange.form");
 Route::post("sub_unsub", "OrangeController@directSubOrangeWeb")->name("orange.form.submit");
 Route::get("check_status", "OrangeController@checkStatus")->name("orange.check_status");
 Route::post("check_status", "OrangeController@checkStatusAction")->name("orange.check_status.submit");
+Route::get('orange_send_today_content_export_phonenumbers','OrangeController@export_phonenumbers');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
 
