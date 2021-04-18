@@ -540,7 +540,7 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
     public function checkStatusAction(Request $request)
     {
-      
+
         $service_id = productId  ;
         $phone_number = ltrim($request->msisdn, 0);
         $msisdn = "20$phone_number";
@@ -567,5 +567,65 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
         return view('orange.check_status', compact('subscriber'));
     }
+
+  public function export_phonenumbers()
+  {
+    set_time_limit(0);
+    ini_set('memory_limit', -1);
+
+    $file = 'alforsan_' . date("d-m-Y") . '.txt';
+    $file_object = fopen($file, "w") or die("Unable to open file!");
+    fwrite($file_object, "phone_number \n");
+    $this->alforsan_send_today_content_export_phonenumbers($file_object);
+    fclose($file_object);
+
+    header('Content-Description: File Transfer');
+    header('Content-Disposition: attachment; filename=' . basename($file));
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    header("Content-Type: text/plain");
+    readfile($file);
+
+    echo "Today Content Phonenumbers Exported Successfully.";
+  }
+
+  public function alforsan_send_today_content_export_phonenumbers($file_object)
+  {
+    OrangeSubscribe::where("active", 1)->chunk(50000, function ($orange_subscribes) use ($file_object) {
+
+      foreach ($orange_subscribes as $orange_subscribe) {
+
+        //create file of phone numbers
+        fwrite($file_object, ltrim($orange_subscribe->msisdn, '2') . "\n");
+      }
+    });
+
+    return true;
+  }
+
+  public function alforsan_get_today_content()
+  {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => ORANGEGETTODAYCONTENTLINK,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 100,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET'
+    ));
+    $orange_today_link = curl_exec($curl);
+    curl_close($curl);
+
+    return  $orange_today_link ? $orange_today_link : URL_ELFORSAN;
+  }
+
+  public function alforsan_send_daily_deduction_message(){
+    return "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
+  }
 
 }

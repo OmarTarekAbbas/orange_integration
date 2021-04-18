@@ -105,6 +105,10 @@ Route::post("sub_unsub", "ElforsanController@directSubOrangeWeb")->name("orange.
 Route::get("check_status", "ElforsanController@checkStatus")->name("orange.check_status");
 Route::post("check_status", "ElforsanController@checkStatusAction")->name("orange.check_status.submit");
 
+Route::get('alforsan_send_today_content_export_phonenumbers','ElforsanController@export_phonenumbers');
+Route::get('alforsan_get_today_content', 'ElforsanController@alforsan_get_today_content');
+Route::get('alforsan_send_daily_deduction_message', 'ElforsanController@alforsan_send_daily_deduction_message');
+
 define('ENABLE', Helper::get_setting('approve_enable'));
 
 
