@@ -97,7 +97,7 @@ Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
 
 define('user_name', "forsan@ivas.com.eg");
-define('test_pasword', "123456");
+define('test_pasword', "forsan_ivas_761");
 Route::view("customer_care", "orange/login")->name('orange.login');
 Route::post("customer_care", "ElforsanController@testLogin")->name('orange.login.submit');
 Route::view("sub_unsub", "orange/direct_sub")->name("orange.form");
