@@ -1343,7 +1343,7 @@ var_dump($output) ;
 
   public function export_phonenumbers()
   {
-    //set memory limit
+    set_time_limit(0);
     ini_set('memory_limit', -1);
 
     $file = 'orange-elkheer_'. date("d-m-Y") .'.txt';
@@ -1378,7 +1378,6 @@ var_dump($output) ;
 
     return true;
   }
-
 
   public function orange_send_daily_deduction()
   {
