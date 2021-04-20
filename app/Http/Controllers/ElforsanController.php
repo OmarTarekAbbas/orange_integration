@@ -568,7 +568,7 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
         return view('orange.check_status', compact('subscriber'));
     }
 
-  public function export_phonenumbers()
+  public function alforsan_export_today_active_phonenumbers()
   {
     set_time_limit(0);
     ini_set('memory_limit', -1);
