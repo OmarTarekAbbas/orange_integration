@@ -575,7 +575,7 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
     $file = 'alforsan_' . date("d-m-Y") . '.txt';
     $file_object = fopen($file, "w") or die("Unable to open file!");
-    fwrite($file_object, "phone_number \n");
+    //fwrite($file_object, "phone_number \n");
     $this->alforsan_send_today_content_export_phonenumbers($file_object);
     fclose($file_object);
 
