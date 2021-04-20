@@ -515,6 +515,7 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
                 $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d') . " +2 days"));
                 $orange_subscribe->service_id = $service_id;
                 $orange_subscribe->save();
+                $this->elforsan_provision($request);
             }
         }
 
