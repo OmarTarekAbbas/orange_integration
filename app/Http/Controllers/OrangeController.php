@@ -804,6 +804,7 @@ var_dump($output) ;
     public function sms_notify(Request $request)
     {
          $orangeSms = new OrangeSms();
+         $request->msisdn = ltrim($request->msisdn, "+");
          $orangeSms->msisdn      = $request->msisdn;
          $orangeSms->message     = $request->message ?? " ";
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
