@@ -513,6 +513,7 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->type = strtolower($bearer);
                 $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d') . " +2 days"));
+                if ($command == 'UNSUBSCRIBE')  $orange_subscribe->subscribe_due_date = NULL ;
                 $orange_subscribe->service_id = $service_id;
                 $orange_subscribe->save();
                 $this->elforsan_provision($request);
