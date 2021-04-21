@@ -50,6 +50,7 @@ class OrangeApiController extends Controller
       if($orange_subscribe  &&  $request->command == "UNSUBSCRIBE"){ // user still free and need to unsub
         $orange_subscribe->active = 2 ;  // unsub
         $orange_subscribe->free = 0;  // unsub
+        $orange_subscribe->subscribe_due_date = NULL ;
         $orange_subscribe->save();
         return  0 ;
       }
