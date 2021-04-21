@@ -178,12 +178,19 @@ class OrangeApiController extends Controller
 
             $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $request->service_id)->first();
             if ($orange_subscribe) {
-                $orange_subscribe->active = $commandActive;
+              if( $orange_subscribe->active == 2 )  {
+                $orange_subscribe->free =  0;
+                $orange_subscribe->subscribe_due_date = NULL ;
+              }else{
                 $orange_subscribe->free =  $free;
+                if ($command == 'UNSUBSCRIBE')  $orange_subscribe->subscribe_due_date = NULL ;
+              }
+
+                $orange_subscribe->active = $commandActive;
                 $orange_subscribe->orange_channel_id = $orange_web->id;
                 $orange_subscribe->table_name = 'orange_sub_unsubs';
                 $orange_subscribe->type = strtolower($bearer);
-                if ($command == 'UNSUBSCRIBE')  $orange_subscribe->subscribe_due_date = NULL ;
+
                 $orange_subscribe->save();
             } else { // will not accured
                 $orange_subscribe = new OrangeSubscribe;
