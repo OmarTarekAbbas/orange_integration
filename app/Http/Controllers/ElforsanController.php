@@ -513,8 +513,10 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
                 $orange_subscribe->active = $commandActive;
                 $orange_subscribe->type = strtolower($bearer);
                 $orange_subscribe->subscribe_due_date = date("Y-m-d", strtotime(date('Y-m-d') . " +2 days"));
+                if ($command == 'UNSUBSCRIBE')  $orange_subscribe->subscribe_due_date = NULL ;
                 $orange_subscribe->service_id = $service_id;
                 $orange_subscribe->save();
+                $this->elforsan_provision($request);
             }
         }
 
@@ -568,14 +570,14 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
         return view('orange.check_status', compact('subscriber'));
     }
 
-  public function export_phonenumbers()
+  public function alforsan_export_today_active_phonenumbers()
   {
     set_time_limit(0);
     ini_set('memory_limit', -1);
 
     $file = 'alforsan_' . date("d-m-Y") . '.txt';
     $file_object = fopen($file, "w") or die("Unable to open file!");
-    fwrite($file_object, "phone_number \n");
+    //fwrite($file_object, "phone_number \n");
     $this->alforsan_send_today_content_export_phonenumbers($file_object);
     fclose($file_object);
 
@@ -625,7 +627,9 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
   }
 
   public function alforsan_send_daily_deduction_message(){
+
     return "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل الغاء إلى 6122 مجانا.";
+
   }
 
 }

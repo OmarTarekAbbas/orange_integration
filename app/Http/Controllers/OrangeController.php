@@ -737,8 +737,9 @@ var_dump($output) ;
       $User_SessionId = "";
     }
 
+    $response_msg = "تم الإشتراك فى خدمة الفرسان بنجاح من أورنج" ;
 
-    $response_msg = "تم الإشتراك فى خدمة الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
+
 
 
 
@@ -769,8 +770,8 @@ var_dump($output) ;
       $welcome_message =  $response_msg ;
 
       $welcome_message .= " ";
-      //  $welcome_message .=  "لالغاء الإشتراك ارسل unsubforsan إلى 6124 مجانًا" ;
-      $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
+      $welcome_message .= "تم الإشتراك فى خدمة الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
+      $welcome_message .= "   للدخول اضغط علي هذا الرابط  ";
       $welcome_message .= URL_ELFORSAN;
       $send_message = $welcome_message;
     } elseif ($OrangeSubscribe == 1) {
@@ -834,6 +835,7 @@ var_dump($output) ;
   public function sms_notify(Request $request)
   {
     $orangeSms = new OrangeSms();
+    $request->msisdn = ltrim($request->msisdn, "+");
     $orangeSms->msisdn      = $request->msisdn;
     $orangeSms->message     = $request->message ?? " ";
     $orangeSms->service_id  = isset($request->service_id) ? $request->service_id : elforsan_productId;
