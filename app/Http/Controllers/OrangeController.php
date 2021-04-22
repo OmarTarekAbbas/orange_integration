@@ -783,6 +783,7 @@ var_dump($output) ;
           $welcome_message .= "https://orange-elkheer.com" ;
           $welcome_message .= "  لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا" ;
           $send_message = $welcome_message;
+          $response_msg = 'انت مشترك بالفعل في خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم';
 
         }
         $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
@@ -803,6 +804,7 @@ var_dump($output) ;
     public function sms_notify(Request $request)
     {
          $orangeSms = new OrangeSms();
+         $request->msisdn = ltrim($request->msisdn, "+");
          $orangeSms->msisdn      = $request->msisdn;
          $orangeSms->message     = $request->message ?? " ";
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
