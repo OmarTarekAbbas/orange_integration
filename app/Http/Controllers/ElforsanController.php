@@ -636,8 +636,24 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
   public function alforsan_statistics(Request $request)
   {
-    $date = Carbon::now()->toDateString();
-    $equal = '=';
+
+    if ($request->has('to_date') && $request->to_date != '') {
+      $validator = \Validator::make($request->all(), [
+          'from_date' => '',
+          'to_date' => 'required|after_or_equal:from_date',
+      ]);
+      if ($validator->fails()) {
+          return back()->withErrors($validator)->withInput();
+      }
+    }
+
+    if($request->has('from_date') && $request->from_date != ''){
+      $date = $request->from_date;
+      $equal = '<=';
+    }else{
+      $date = Carbon::now()->toDateString();
+      $equal = '=';
+    }
 
     $todaySuccessCharging = OrangeCharging::whereNotIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->whereDate('created_at',$equal, $date)->count();
 
@@ -646,7 +662,7 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
     $allSuccessCharging = OrangeCharging::whereNotIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->count();
 
     $allFailedCharging = OrangeCharging::whereIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->count();
-    
+
     return view('orange.alforsan_statistics',compact('todaySuccessCharging','todayFailedCharging','allSuccessCharging','allFailedCharging','date'));
   }
 

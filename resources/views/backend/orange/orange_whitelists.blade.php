@@ -108,7 +108,8 @@
   </div>
 </div>
 
-@include('backend.footer')
+<script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
+
 <script type="text/javascript">
   $('#sub-item-5').addClass('collapse in');
   $('#sub-item-5').parent().addClass('active').siblings().removeClass('active');
