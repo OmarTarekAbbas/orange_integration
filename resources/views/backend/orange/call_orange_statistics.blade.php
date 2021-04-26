@@ -60,17 +60,17 @@
                     </tr>
 
                     <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Charging Users Not Free</td>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Revenue Users Not Free</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_charging_users_not_free }}</span></td>
                     </tr>
 
                     <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Charging</td>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
                     </tr>
 
                     <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Charging Today</td>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue Today</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_today }}</span></td>
                     </tr>
 

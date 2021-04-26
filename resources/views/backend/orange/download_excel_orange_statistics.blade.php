@@ -7,9 +7,9 @@
                 <th>Count All Pending Users</th>
                 <th>Count All Unsub Users</th>
                 <th>Count Of Total Free Users</th>
-                <th>Count Charging Users Not Free</th>
-                <th>Count Of All Success Charging</th>
-                <th>Count Of All Success Charging Today</th>
+                <th>Count Revenue Users Not Free</th>
+                <th>Count Of All Success Revenue</th>
+                <th>Count Of All Success Revenue Today</th>
             </tr>
         </thead>
         <tbody>
