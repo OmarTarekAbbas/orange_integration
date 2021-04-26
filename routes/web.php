@@ -111,7 +111,8 @@ Route::get('orange_send_daily_deduction_message', 'OrangeController@orange_send_
 
 define('REVENUE_USERNAME', "orangeelkheer@ivas.com.eg");
 define('REVENUE_PASSWORD', "orangeelkheer_ivas_12345");
-Route::get('orange_revenue','OrangeController@orangeRevenue')->name('orange.revenue');
+Route::get('orange_revenue','OrangeController@orangeRevenue');
+Route::post('orange_revenue','OrangeController@orangeRevenue')->name('orange.revenue');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
 

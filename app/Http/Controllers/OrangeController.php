@@ -1749,25 +1749,29 @@ public function orange_send_weekly_deduction()
     }
 
     $date = Carbon::now()->toDateString();
+    $from_date = $request->has('from_date') && $request->from_date != '' ? $request->from_date : NULL ;
+    $to_date = $request->has('to_date') && $request->to_date != ''? $request->to_date : NULL ;
     $equal = '=';
 
-    if (!$request->has('from_date') && !$request->has('to_date')) {
-      $today_success_charging = OrangeCharging::whereNotIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->whereDate('created_at', $equal, $date)->count();
-      $today_failed_charging = OrangeCharging::whereIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->whereDate('created_at', $equal, $date)->count();
-      $all_success_charging = OrangeCharging::whereNotIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->count();
-      $all_failed_charging = OrangeCharging::whereIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->count();
+    $today_success_charging = OrangeCharging::whereNotIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->whereDate('created_at', $equal, $date)->count();
+    $today_failed_charging = OrangeCharging::whereIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->whereDate('created_at', $equal, $date)->count();
+    $all_success_charging = OrangeCharging::query()->whereNotIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE']);
+    $all_failed_charging = OrangeCharging::query()->whereIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE']);
+
+    if ($request->has('from_date') && $request->from_date != '') {
+      $all_success_charging = $all_success_charging->whereDate('orange_chargings.created_at', '>=', $request->from_date);
+      $all_failed_charging = $all_failed_charging->whereDate('orange_chargings.created_at', '>=', $request->from_date);
     }
 
-    // if ($request->has('from_date') && $request->from_date != '') {
-    //   $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '>=', $request->from_date);
-    // }
+    if ($request->has('to_date') && $request->to_date != '') {
+      $all_success_charging = $all_success_charging->whereDate('orange_chargings.created_at', '<=', $request->to_date);
+      $all_failed_charging = $all_failed_charging->whereDate('orange_chargings.created_at', '<=', $request->to_date);
+    }
 
-    // if ($request->has('to_date') && $request->to_date != '') {
-    //   $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '<=', $request->to_date);
-    // }
+    $all_success_charging = $all_success_charging->count();
+    $all_failed_charging = $all_failed_charging->count();
 
-
-    return view('orange.revenue', compact('all_success_charging', 'all_failed_charging', 'today_success_charging', 'today_failed_charging'));
+    return view('orange.revenue', compact('all_success_charging', 'all_failed_charging', 'today_success_charging', 'today_failed_charging', 'from_date', 'to_date'));
   }
 
 
