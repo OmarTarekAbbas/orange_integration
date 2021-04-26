@@ -7,6 +7,8 @@ use App\OrangeSubUnsub;
 use App\Provision;
 use Illuminate\Http\Request;
 use App\Constants\OrangeResponseStatus;
+use App\OrangeCharging;
+use Carbon\Carbon;
 
 class ElforsanController extends Controller
 {
@@ -634,7 +636,18 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
   public function alforsan_statistics(Request $request)
   {
-    # code...
+    $date = Carbon::now()->toDateString();
+    $equal = '=';
+
+    $todaySuccessCharging = OrangeCharging::whereNotIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->whereDate('created_at',$equal, $date)->count();
+
+    $todayFailedCharging = OrangeCharging::whereIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->whereDate('created_at',$equal, $date)->count();
+
+    $allSuccessCharging = OrangeCharging::whereNotIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->count();
+
+    $allFailedCharging = OrangeCharging::whereIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->count();
+    
+    return view('orange.alforsan_statistics',compact('todaySuccessCharging','todayFailedCharging','allSuccessCharging','allFailedCharging','date'));
   }
 
 
