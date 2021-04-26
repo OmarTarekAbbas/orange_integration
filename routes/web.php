@@ -108,7 +108,10 @@ Route::get('orange_send_today_content_export_phonenumbers','OrangeController@exp
 Route::get('orange_get_today_content', 'OrangeController@orange_get_today_content');
 Route::get('orange_send_daily_deduction_message', 'OrangeController@orange_send_daily_deduction_message');
 
-Route::get('orange_revenue','OrangeController@orangeRevenue');
+
+define('REVENUE_USERNAME', "orangeelkheer@ivas.com.eg");
+define('REVENUE_PASSWORD', "orangeelkheer_ivas_12345");
+Route::get('orange_revenue','OrangeController@orangeRevenue')->name('orange.revenue');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
 

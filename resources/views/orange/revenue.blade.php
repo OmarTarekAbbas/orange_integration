@@ -1,213 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Orange System </title>
-
-  <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
-  <link href="{{asset('css/datepicker3.css')}}" rel="stylesheet">
-  <link href="{{asset('css/styles.css')}}" rel="stylesheet">
-
-  <!--[if lt IE 9]>
-    <script src="{{asset('js/html5shiv.js')}}"></script>
-    <script src="{{asset('js/respond.min.js')}}"></script>
-    <![endif]-->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orange Revenue Tool</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
+<style>
+  body {
+    background: #0f1218;
+  }
+
+  @media (min-width: 1030px) {
+    body {
+      width: 25%;
+      margin: auto;
+    }
+  }
+
+  .form_content {
+    width: 100%;
+    margin: 10% auto;
+  }
+
+  .form_content form .form_grid {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  .form_content form .form_grid .logo {
+    width: 30%;
+    margin: auto;
+    margin-bottom: 10%;
+  }
+
+  .form_content form .form_grid .logo_title {
+    color: #FFF;
+  }
+
+  .form_content form .form_grid .custom-select {
+    width: 35%;
+    margin: 5% auto;
+  }
+
+  .form_content form .form_grid .input-group-text {
+    border: 1px solid #f60;
+    background-color: #f60;
+    color: #FFF;
+  }
+
+  .form_content form .form_grid #phone {
+    border: 1px solid #f60;
+  }
+
+  .form_content form .form_grid #zain_submit {
+    background-color: #f60;
+    color: #fff;
+    width: 50%;
+    margin: 5% auto;
+  }
+
+  .form_content form .form_grid #phone:focus {
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(255 102 0);
+  }
+
+  .form_content .unsub_check a {
+    color: #fff;
+    text-decoration: underline;
+  }
+</style>
 
 <body>
 
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="javascript:void(0)"><span>Orange </span>Revenue</a>
-        <!-- <ul class="user-menu">
-          <li class="dropdown pull-right">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              {{--<li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>--}}
-              <li><a href="{{url('logout')}}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();""><span class=" glyphicon glyphicon-log-out"></span> Logout</a></li>
-              <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-              </form>
-            </ul>
-          </li>
-        </ul> -->
-      </div>
+  <section class="form_content">
+    <div class="container">
+      @include("orange/alerts")
+      <form method="post" action="{{ route('orange.check_status.submit') }}" id="form_zain">
+        @csrf
+        <div class="form_grid">
 
-    </div><!-- /.container-fluid -->
-  </nav>
+          <img class="logo" src="{{ asset('img/orange.png') }}" alt="Orange">
 
-  <div class="main">
-    <!-- <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header">All Charges Notifier</h1>
-      </div>
-    </div> -->
-    <!--/.row-->
+          <h3 class="logo_title text-center">Orange Elkheer Revenue Tool</h3>
 
-    <div class="row">
-      @if (count($errors) > 0)
-      <div class="alert alert-danger">
-        <ul>
-          @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-      @endif
-
-      <div class="form-group">
-        {!! Form::open(['url' => url('admin/orange_notifie'),'method'=>'get', 'class'=>'all_form']) !!}
-
-        <div class="col-xs-12 col-sm-12 col-md-4">
-          {!! Form::label('ms', 'Msisdn:') !!}
-          <div class='input-group date'>
-            <input type='text' id="ms" class="form-control" value="{{request()->get('msisdn')}}" name="msisdn" placeholder="Msisdn" />
-            <span class="input-group-btn">
-              <button type="button" id="search-btn" class="btn"><i class="glyphicon glyphicon-search"></i></button>
-            </span>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          {!! Form::label('Action', 'Action:') !!}
-          <div class=''>
-            {!! Form::select('action', ['GRACE1'=>'GRACE1' , 'OUTOFGRACE' => 'OUTOFGRACE' , 'OPERATORSUBSCRIBE' => 'OPERATORSUBSCRIBE', 'OPERATORUNSUBSCRIBE' => 'OPERATORUNSUBSCRIBE','Success' => 'Success'] ,
-            request()->get('action'),
-            ['class'=>'form-control','id'=>'action','placeholder'=>'Select Active']) !!}
-          </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-4">
-          {!! Form::label('from_date', 'Select Form Date :') !!}
-          <div class='input-group date' id='datetimepicker'>
+          <!-- <div class='input-group date' id='datetimepicker'>
             <input type='text' class="form-control" value="{{request()->get('from_date')}}" name="from_date" id="from_date" placeholder="Select Form Date" />
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </span>
           </div>
-        </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-4">
-          {!! Form::label('to_date', 'Select To Date :') !!}
-          <div class='input-group date' id='datetimepicker1'>
-            <input type='text' class="form-control" value="{{request()->get('to_date')}}" name="to_date" id="to_date" placeholder="Select To Date" />
-            <span class="input-group-addon">
-              <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-          </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
-          <button class="btn btn-labeled btn-primary filter" id="my_form" type="submit"><span class="btn-label"><i class="glyphicon glyphicon-search"></i></span>Filter</button>
-        </div>
-        {!! Form::close() !!}
-      </div>
-
-      <div class="col-xs-12">
-        <div class="box">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding: 0;">
-            <div class="box-title">
-              @if(Session::has('success'))
-              <div class="alert alert-success">
-                {{ Session::get('success') }}
-              </div>
-              @endif
-              <h3> Charges Notifier</h3>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">+20</span>
             </div>
-          </div>
-
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding: 0;">
-            <div class="pull-right">
-              {!! Form::label('date', 'Count :') !!}
-              <div class='input-group date' style="display: inline-block;">
-                <span dir="rtl" class="btn btn-success borderCircle">{{ count($orange_notify) }} </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xs-12 col-sm-12 col-md-12" style="padding: 0;">
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover table-striped mt-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Msisdn</th>
-                    <th>Action</th>
-                    <th>ServiceId</th>
-                    <th>Notification Result</th>
-                    <th>Date Time</th>
-                    <th>Result</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @if($orange_notify->count() > 0)
-                  @foreach($orange_notify as $item)
-                  <tr>
-                    <td> {{ $item->id }}</td>
-                    <td> {{ $item->msisdn }}</td>
-                    <td> {{ $item->action }}</td>
-                    <td> {{ $item->service_id }} </td>
-                    <td> {{ $item->notification_result }} </td>
-                    <td> {{ $item->created_at->format('Y-m-d h:i:s') }} </td>
-                    <td>
-                      <a href="{{url('admin/orange_notifie/request_and_response/'.$item->id)}}" target="_blank">
-                        <button class="btn btn-warning borderRadius">Request&Response</button>
-                      </a>
-                    </td>
-                  </tr>
-                  @endforeach
-                  @endif
-                </tbody>
-              </table>
-
-            </div>
-          </div>
+            <input ype="tel" class="form-control show_class" id="phone" value="" placeholder="Enter Your Mobile No." name="msisdn" required>
+          </div> -->
         </div>
-
-        @if(!$without_paginate)
-        {!! $orange_notify->setPath('orange_notify') !!}
-        @endif
-      </div>
+      </form>
     </div>
+  </section>
 
-  </div>
+  @if(isset($all_success_charging) && isset($all_failed_charging) && isset($today_success_charging) && isset($today_failed_charging))
+    <div class="alert alert-success user_data">
+      <span class="alert-inner--icon"><i class="ni ni-like-2"></i></span>
+      <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> -->
+      <p><b>Orange Revenue<b></p>
+      <hr>
+      <br>
+      <p><b>All Success Charging:<b> {{ $all_success_charging }}</p>
+      <p><b>All Failed Charging:<b> {{ $all_failed_charging }}</p>
+      <p><b>Today Success Charging:<b> {{ $today_success_charging }}</p>
+      <p><b>Today Failed Charging:<b> {{ $today_failed_charging }}</p>
+    </div>
+  @endif
 
-
-  <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
-  <script src="{{asset('js/bootstrap.min.js')}}"></script>
-  <script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
-  <script type="text/javascript">
-    $('#sub-item-5').addClass('collapse in');
-    $('#sub-item-5').parent().addClass('active').siblings().removeClass('active');
-    $('#datetimepicker').datepicker({
-      format: "yyyy-mm-dd"
-    });
-    $('#datetimepicker1').datepicker({
-      format: "yyyy-mm-dd"
-    });
-
-    $(".").submit(function(event) {
-      console.log('Invalid 1');
-      alert('Invalid');
-      var date_ini = parseDate($('#from_date').val()).getTime();
-      var date_end = parseDate($('#to_date').val()).getTime();
-      console.log(date_ini, date_end)
-      if (date_ini > date_end) {
-        console.log('Invalid 1');
-        alert('Invalid');
-      }
-    });
-  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </body>
 
 </html>

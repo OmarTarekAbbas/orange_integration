@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\File;
 use App\Constants\OrangeResponseStatus;
 use App\Http\Controllers\Api\OrangeApiController;
 use Validator;
+use DB;
 use App\Http\Requests\Request as RequestsRequest;
 
 class OrangeController extends Controller
@@ -1507,8 +1508,12 @@ public function orange_send_weekly_deduction()
       if($request->user_name == user_name && $request->password == test_pasword) {
         session()->put("test_login", $request->user_name);
         return redirect()->route("orange.form");
+      }elseif($request->user_name == REVENUE_USERNAME && $request->password == REVENUE_PASSWORD){
+        session()->put("revenue_login", $request->user_name);
+        return redirect()->route("orange.revenue");
+      }else{
+        return back()->with("faild", "These credentials do not match our records");
       }
-      return back()->with("faild", "These credentials do not match our records");
     }
 
     public function directSubOrangeWeb(Request $request)
@@ -1729,7 +1734,7 @@ public function orange_send_weekly_deduction()
 
   public function orangeRevenue(Request $request)
   {
-    if (!(session()->has("test_login") && session("test_login") == user_name)) {
+    if (!(session()->has("revenue_login") && session("revenue_login") == user_name)) {
       return redirect()->route("orange.login");
     }
 
@@ -1743,43 +1748,26 @@ public function orange_send_weekly_deduction()
       }
     }
 
-    $orange_notify = OrangeCharging::query()->orderBy('id', 'DESC');
-    $without_paginate = 0;
-    if ($request->has('msisdn') && $request->msisdn != '') {
-      $orange_notify = $orange_notify->where('orange_chargings.msisdn', $request->msisdn);
-      $without_paginate = 1;
+    $date = Carbon::now()->toDateString();
+    $equal = '=';
+
+    if (!$request->has('from_date') && !$request->has('to_date')) {
+      $today_success_charging = OrangeCharging::whereNotIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->whereDate('created_at', $equal, $date)->count();
+      $today_failed_charging = OrangeCharging::whereIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->whereDate('created_at', $equal, $date)->count();
+      $all_success_charging = OrangeCharging::whereNotIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->count();
+      $all_failed_charging = OrangeCharging::whereIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->count();
     }
 
-    if ($request->has('action') && $request->action != '') {
-      if ($request->action == 'Success') {
-        $orange_notify = $orange_notify->where(function ($q) {
-          $q->where('orange_chargings.action', 'GRACE1');
-          $q->orWhere('orange_chargings.action', 'OUTOFGRACE');
-          $q->orWhere('orange_chargings.action', 'OPERATORSUBSCRIBE');
-        });
-      } else {
-        $orange_notify = $orange_notify->where('orange_chargings.action', $request->action);
-      }
-      $without_paginate = 1;
-    }
+    // if ($request->has('from_date') && $request->from_date != '') {
+    //   $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '>=', $request->from_date);
+    // }
 
-    if ($request->has('from_date') && $request->from_date != '') {
-      $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '>=', $request->from_date);
-      $without_paginate = 1;
-    }
+    // if ($request->has('to_date') && $request->to_date != '') {
+    //   $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '<=', $request->to_date);
+    // }
 
-    if ($request->has('to_date') && $request->to_date != '') {
-      $orange_notify = $orange_notify->whereDate('orange_chargings.created_at', '<=', $request->to_date);
-      $without_paginate = 1;
-    }
 
-    if ($without_paginate) {
-      $orange_notify = $orange_notify->get();
-    } else {
-      $orange_notify = $orange_notify->paginate(10);
-    }
-
-    return view('orange.revenue', compact('orange_notify', 'without_paginate'));
+    return view('orange.revenue', compact('all_success_charging', 'all_failed_charging', 'today_success_charging', 'today_failed_charging'));
   }
 
 
