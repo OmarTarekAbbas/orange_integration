@@ -109,6 +109,10 @@ Route::get('alforsan_export_today_active_phonenumbers','ElforsanController@alfor
 Route::get('alforsan_get_today_content', 'ElforsanController@alforsan_get_today_content');
 Route::get('alforsan_send_daily_deduction_message', 'ElforsanController@alforsan_send_daily_deduction_message');
 
+
+Route::get('alforsan_statistics', 'ElforsanController@alforsan_statistics');
+
+
 define('ENABLE', Helper::get_setting('approve_enable'));
 
 

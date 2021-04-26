@@ -632,4 +632,10 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
   }
 
+  public function alforsan_statistics(Request $request)
+  {
+    # code...
+  }
+
+
 }
