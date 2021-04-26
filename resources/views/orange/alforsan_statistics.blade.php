@@ -73,11 +73,8 @@ body {
     color: #000;
     text-decoration: underline;
 }
-.borderCircle{
-  background-color: #f60;
-  color: #FFF;
-}
 </style>
+
 <body>
 
     <section class="form_content">
@@ -89,35 +86,24 @@ body {
                     <img class="logo" src="{{ asset('img/alforsan_logo.png') }}" alt="Al Forsan">
 
                     <h3 class="logo_title text-center text-capitalize">Al Forsan service</h3>
-
-                    <table class="table table-bordered" style="background: #9c877930;">
-                        <thead>
-                            <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col"><span dir="rtl" class="btn borderCircle">{{$date}}</span></th>
-                            </tr>
-                            <tr>
-                                <th scope="col">Today Success Charging</th>
-                                <th scope="col"><span dir="rtl" class="btn borderCircle">{{$todaySuccessCharging}}</span></th>
-                            </tr>
-
-                            <tr>
-                                <th scope="col">Today Failed Charging</th>
-                                <th scope="col"><span dir="rtl" class="btn borderCircle">{{$todayFailedCharging}}</span></th>
-                            </tr>
-
-                            <tr>
-                                <th scope="col">All Success Charging</th>
-                                <th scope="col"><span dir="rtl" class="btn borderCircle">{{$allSuccessCharging}}</span></th>
-                            </tr>
-
-                            <tr>
-                                <th scope="col">All Failed Charging</th>
-                                <th scope="col"><span dir="rtl" class="btn borderCircle">{{$allFailedCharging}}</span></th>
-                            </tr>
-                        </thead>
-
-                    </table>
+                    <div class="alert alert-success user_data"> <span class="alert-inner--icon"><i
+                                class="ni ni-like-2"></i></span>
+                        <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> -->
+                        <p><b>Alforsan Revenue<b></b></b></p><b><b>
+                                <hr>
+                                <br>
+                                <p><b>Date:<b> {{$date}} </b></b></p><b><b>
+                                        <p><b>Today Success Charging:<b> {{$todaySuccessCharging}} </b></b></p><b><b>
+                                                <p><b>Today Failed Charging:<b> {{$todayFailedCharging}}</b></b></p><b><b>
+                                                        <p><b>All Success Charging:<b> {{$allSuccessCharging}}</b></b></p><b><b>
+                                                            </b></b>
+                                                            <p><b>All Failed Charging:<b> {{$allFailedCharging}}</b></b></p><b><b>
+                                                            </b></b>
+                                                    </b></b>
+                                            </b></b>
+                                    </b></b>
+                            </b></b>
+                    </div>
 
                 </div>
             </form>
