@@ -636,6 +636,9 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
   public function alforsan_statistics(Request $request)
   {
+    if(!(session()->has("test_login") && session("test_login") == user_name)) {
+      return redirect()->route("orange.login");
+    }
 
     if ($request->has('to_date') && $request->to_date != '') {
       $validator = \Validator::make($request->all(), [
@@ -647,21 +650,29 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
       }
     }
 
-    if($request->has('from_date') && $request->from_date != ''){
-      $date = $request->from_date;
-      $equal = '<=';
-    }else{
-      $date = Carbon::now()->toDateString();
-      $equal = '=';
-    }
+    $date = Carbon::now()->toDateString();
+    $equal = '=';
 
     $todaySuccessCharging = OrangeCharging::whereNotIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->whereDate('created_at',$equal, $date)->count();
 
     $todayFailedCharging = OrangeCharging::whereIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->whereDate('created_at',$equal, $date)->count();
 
-    $allSuccessCharging = OrangeCharging::whereNotIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->count();
+    $allSuccessCharging = OrangeCharging::whereNotIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE']);
 
-    $allFailedCharging = OrangeCharging::whereIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE'])->count();
+    $allFailedCharging = OrangeCharging::whereIn('action',  ['GRACE2','OPERATORUNSUBSCRIBE']);
+
+    if ($request->has('from_date') && $request->from_date != '') {
+      $allSuccessCharging = $allSuccessCharging->whereDate('orange_chargings.created_at', '>=', $request->from_date);
+      $allFailedCharging = $allFailedCharging->whereDate('orange_chargings.created_at', '>=', $request->from_date);
+    }
+
+    if ($request->has('to_date') && $request->to_date != '') {
+      $allSuccessCharging = $allSuccessCharging->whereDate('orange_chargings.created_at', '<=', $request->to_date);
+      $allFailedCharging = $allFailedCharging->whereDate('orange_chargings.created_at', '<=', $request->to_date);
+    }
+
+    $allSuccessCharging = $allSuccessCharging->count();
+    $allFailedCharging = $allFailedCharging->count();
 
     return view('orange.alforsan_statistics',compact('todaySuccessCharging','todayFailedCharging','allSuccessCharging','allFailedCharging','date'));
   }

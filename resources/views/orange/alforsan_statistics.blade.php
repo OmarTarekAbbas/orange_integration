@@ -8,6 +8,8 @@
     <title>Alforsan Statistics</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{asset('css/datepicker3.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
 
 </head>
@@ -93,13 +95,10 @@ body {
 
                     <img class="logo" src="{{ asset('img/alforsan_logo.png') }}" alt="Al Forsan">
 
-                    <h3 class="logo_title text-center text-capitalize">Al Forsan service</h3>
-
-
-
+                    <h3 class="logo_title text-center text-capitalize">Al Forsan service Revenue</h3>
 
                     <div class="row">
-                        {!! Form::open(['url' => url('alforsan_statistics'),'method'=>'get',
+                        {!! Form::open(['url' => url('alforsan_revenue'),'method'=>'get',
                         'class'=>'all_form'])!!}
 
                         <div class="col-md-6">
@@ -108,7 +107,7 @@ body {
                                 <input type='text' class="form-control" value="{{request()->get('from_date')}}"
                                     name="from_date" id="from_date" placeholder="Select Form Date" />
                                 <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    <i class="far fa-calendar-alt fa-2x" style="color: #0804046b;"></i>
                                 </span>
                             </div>
                         </div>
@@ -119,7 +118,7 @@ body {
                                 <input type='text' class="form-control" value="{{request()->get('to_date')}}"
                                     name="to_date" id="to_date" placeholder="Select To Date" />
                                 <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    <i class="far fa-calendar-alt fa-2x" style="color: #0804046b;"></i>
                                 </span>
                             </div>
                         </div>
@@ -133,14 +132,27 @@ body {
 
 
 
-
                     <div class="alert alert-success user_data"> <span class="alert-inner--icon"><i
                                 class="ni ni-like-2"></i></span>
 
+                        @if (app('request')->input('from_date') && app('request')->input('to_date'))
                         <p><b>Alforsan Revenue<b></b></b></p><b><b>
                                 <hr>
                                 <br>
-                                <p><b>Date:<b> {{$date}} </b></b></p><b><b>
+                                        <p><b>All Success Charging:<b> {{$allSuccessCharging}}</b></b>
+                                        </p><b><b>
+                                            </b></b>
+                                        <p><b>All Failed Charging:<b> {{$allFailedCharging}}</b></b></p>
+                                        <b><b>
+                                            </b></b>
+                                    </b></b>
+                            </b></b>
+                        </b></b>
+                        </b></b>
+                        @else
+                        <p><b>Alforsan Revenue<b></b></b></p><b><b>
+                                <hr>
+                                <br>
                                         <p><b>Today Success Charging:<b> {{$todaySuccessCharging}} </b></b></p><b><b>
                                                 <p><b>Today Failed Charging:<b> {{$todayFailedCharging}}</b></b></p>
                                                 <b><b>
@@ -154,6 +166,8 @@ body {
                                             </b></b>
                                     </b></b>
                             </b></b>
+                        @endif
+
                     </div>
 
                 </div>
