@@ -90,7 +90,7 @@ body {
 
                     <h3 class="logo_title text-center text-capitalize">Al Forsan service</h3>
 
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" style="background: #9c877930;">
                         <thead>
                             <tr>
                                 <th scope="col">Date</th>
