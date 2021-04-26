@@ -1503,18 +1503,14 @@ public function orange_send_weekly_deduction()
 
     }
 
-    public function testLogin(Request $request)
-    {
-      if($request->user_name == user_name && $request->password == test_pasword) {
-        session()->put("test_login", $request->user_name);
-        return redirect()->route("orange.form");
-      }elseif($request->user_name == REVENUE_USERNAME && $request->password == REVENUE_PASSWORD){
-        session()->put("revenue_login", $request->user_name);
-        return redirect()->route("orange.revenue");
-      }else{
-        return back()->with("faild", "These credentials do not match our records");
-      }
+  public function testLogin(Request $request)
+  {
+    if ($request->user_name == user_name && $request->password == test_pasword) {
+      session()->put("test_login", $request->user_name);
+      return redirect()->route("orange.form");
     }
+    return back()->with("faild", "These credentials do not match our records");
+  }
 
     public function directSubOrangeWeb(Request $request)
     {
@@ -1734,7 +1730,7 @@ public function orange_send_weekly_deduction()
 
   public function orangeRevenue(Request $request)
   {
-    if (!(session()->has("revenue_login") && session("revenue_login") == user_name)) {
+    if (!(session()->has("test_login") && session("test_login") == user_name)) {
       return redirect()->route("orange.login");
     }
 

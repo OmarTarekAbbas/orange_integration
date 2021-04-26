@@ -108,6 +108,9 @@
       <div class="unsub_check text-center text-capitalize">
         <a href="{{url('/check_status')}}">Msisdn Check Status</a>
       </div>
+      <div class="unsub_check text-center text-capitalize">
+        <a href="{{route('orange.revenue')}}">Orange Revenue Tool</a>
+      </div>
 
 
     </div>
