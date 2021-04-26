@@ -111,7 +111,7 @@
       </div>
 
       <div class="unsub_check text-center text-capitalize">
-        <a href="{{url('/alforsan_revenue')}}">Revenue Tool</a>
+        <a href="{{url('/orange_revenue')}}">Revenue Tool</a>
       </div>
 
       <!--<h5>للاشتراك يرجى الارسال الى <span>965</span></h5>

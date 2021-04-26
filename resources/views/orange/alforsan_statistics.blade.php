@@ -98,7 +98,7 @@ body {
                     <h3 class="logo_title text-center text-capitalize">Al Forsan service Revenue</h3>
 
                     <div class="row">
-                        {!! Form::open(['url' => url('alforsan_revenue'),'method'=>'get',
+                        {!! Form::open(['url' => url('orange_revenue'),'method'=>'get',
                         'class'=>'all_form'])!!}
 
                         <div class="col-md-6">
