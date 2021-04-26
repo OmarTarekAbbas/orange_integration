@@ -174,7 +174,12 @@ body {
             </div>
 
             <div class="unsub_check text-center text-capitalize">
+              <a href="{{url('/sub_unsub')}}">subscribe & unsubscribe</a>
             </div>
+
+            <div class="unsub_check text-center text-capitalize">
+        <a href="{{url('/check_status')}}">Msisdn Check Status</a>
+      </div>
 
             <!--<h5>للاشتراك يرجى الارسال الى <span>965</span></h5>
                 <h5>الى <span>965</span><span> STOP1 </span>لالغاء الاشتراك ارسل</h5>-->

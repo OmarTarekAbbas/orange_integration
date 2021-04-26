@@ -97,6 +97,9 @@
       <div class="unsub_check text-center text-capitalize">
         <a href="{{url('/sub_unsub')}}">go to subscribe & unsubscribe</a>
       </div>
+      <div class="unsub_check text-center text-capitalize">
+        <a href="{{url('/orange_revenue')}}">Revenue Tool</a>
+      </div>
     </div>
   </section>
 
