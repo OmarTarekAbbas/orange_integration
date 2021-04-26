@@ -109,7 +109,7 @@ Route::get('alforsan_export_today_active_phonenumbers','ElforsanController@alfor
 Route::get('alforsan_get_today_content', 'ElforsanController@alforsan_get_today_content');
 Route::get('alforsan_send_daily_deduction_message', 'ElforsanController@alforsan_send_daily_deduction_message');
 
-Route::get('alforsan_revenue', 'ElforsanController@alforsan_statistics')->name("alforsan.revenue");
+Route::get('orange_revenue', 'ElforsanController@alforsan_statistics')->name("alforsan.revenue");
 
 
 define('ENABLE', Helper::get_setting('approve_enable'));
