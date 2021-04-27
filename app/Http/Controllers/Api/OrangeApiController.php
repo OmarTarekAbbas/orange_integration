@@ -205,7 +205,18 @@ class OrangeApiController extends Controller
                 $orange_subscribe->service_id = $request->service_id;
                 $orange_subscribe->save();
             }
-        }
+        }elseif($command == 'UNSUBSCRIBE' &&  $post_array['result_code'] == 2){  // NotSubscribed
+                  $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $service_id)->first();
+                  $orange_subscribe->active = 2;
+                  $orange_subscribe->free = 0;
+                  $orange_subscribe->orange_channel_id = $orange_web->id;
+                  $orange_subscribe->table_name = 'orange_sub_unsubs';
+                  $orange_subscribe->type = strtolower($bearer);
+                  $orange_subscribe->save();
+                  $post_array['result_code']  = 0 ;  // forced unsubscribe success
+
+
+                }
 
       $result_code =   isset($post_array['result_code'])?$post_array['result_code']:"" ;
         return $result_code ;
