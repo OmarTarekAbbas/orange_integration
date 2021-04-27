@@ -204,15 +204,13 @@
 
 
 
-      <div class="unsub_check text-center text-capitalize">
+      <!-- <div class="unsub_check text-center text-capitalize">
         <a href="{{url('/sub_unsub')}}">subscribe & unsubscribe</a>
       </div>
 
       <div class="unsub_check text-center text-capitalize">
-  <a href="{{url('/check_status')}}">Msisdn Check Status</a>
-
-
-    </div>
+        <a href="{{url('/check_status')}}">Msisdn Check Status</a>
+    </div> -->
   </section>
 
   <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>

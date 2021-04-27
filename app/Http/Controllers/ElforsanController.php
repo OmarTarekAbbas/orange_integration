@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Constants\OrangeResponseStatus;
 use App\OrangeCharging;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class ElforsanController extends Controller
 {
@@ -355,7 +356,13 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
     {
         if ($request->user_name == user_name && $request->password == test_pasword) {
             session()->put("test_login", $request->user_name);
-            return redirect()->route("orange.form");
+
+            if (Session::has('RUrl') && Session::get('RUrl') != "") {
+              return redirect(Session::get('RUrl'));
+            } else {
+              return redirect()->route("orange.form");
+            }
+
         }
         return back()->with("faild", "These credentials do not match our records");
     }
@@ -636,6 +643,9 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
 
   public function alforsan_statistics(Request $request)
   {
+
+    Session::put('RUrl', $request->fullUrl());
+    
     if(!(session()->has("test_login") && session("test_login") == user_name)) {
       return redirect()->route("orange.login");
     }
