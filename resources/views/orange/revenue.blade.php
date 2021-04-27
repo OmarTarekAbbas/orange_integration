@@ -158,7 +158,7 @@
 
 
 
-{{--
+
       <section class="form_content">
         <div class="container">
           <div class="unsub_check text-center text-capitalize">
@@ -170,7 +170,7 @@
         </div>
       </section>
     </div>
-  </section>  --}}
+  </section>
 
 
 
