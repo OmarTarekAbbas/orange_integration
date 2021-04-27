@@ -184,18 +184,6 @@
     $('#datetimepicker1').datepicker({
       format: "yyyy-mm-dd"
     });
-
-    $(".").submit(function(event) {
-      console.log('Invalid 1');
-      alert('Invalid');
-      var date_ini = parseDate($('#from_date').val()).getTime();
-      var date_end = parseDate($('#to_date').val()).getTime();
-      console.log(date_ini, date_end)
-      if (date_ini > date_end) {
-        console.log('Invalid 1');
-        alert('Invalid');
-      }
-    });
   </script>
 </body>
 
