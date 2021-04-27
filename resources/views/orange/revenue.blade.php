@@ -110,9 +110,57 @@
     background-color: #f60;
     border-color: #fff;
   }
+
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #0f1218;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
+  }
+
+  .sidenav a {
+    padding: 8px;
+    text-decoration: none;
+    color: #f60;
+    display: block;
+    transition: 0.3s
+  }
+
+  .sidenav a:hover,
+  .offcanvas a:focus {
+    color: #f1f1f1;
+  }
+
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+  }
+
+  .openNav {
+    margin: 10px;
+    color: #f60;
+    width: 75%;
+  }
 </style>
 
 <body>
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a class="text-capitalize" href="{{url('/sub_unsub')}}">go to subscribe & unsubscribe</a>
+
+    <a class="text-capitalize" href="{{url('/check_status')}}">Msisdn Check Status</a>
+  </div>
+
+  <div class="openNav" onclick="openNav()"><i class="fas fa-bars"></i></div>
+
   <section class="form_content">
     <div class="container">
       @include("orange/alerts")
@@ -156,23 +204,19 @@
         <p><b>All Failed Charging:</b> <b class="float-right">{{ $all_failed_charging }}</b></p>
       </div>
 
-
-
-
-      <section class="form_content">
+      <!-- <section class="form_content">
         <div class="container">
           <div class="unsub_check text-center text-capitalize">
             <a href="{{url('/sub_unsub')}}">go to subscribe & unsubscribe</a>
           </div>
+
           <div class="unsub_check text-center text-capitalize">
             <a href="{{url('/check_status')}}">Msisdn Check Status</a>
           </div>
         </div>
-      </section>
+      </section> -->
     </div>
   </section>
-
-
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -187,6 +231,28 @@
     $('#datetimepicker1').datepicker({
       format: "yyyy-mm-dd"
     });
+  </script>
+
+  <script>
+    (function() {
+      $('.hamburger-menu').on('click', function() {
+        $('.bar').toggleClass('animate');
+        var mobileNav = $('.mobile-nav');
+        mobileNav.toggleClass('hide show');
+      })
+    })();
+  </script>
+
+  <script>
+    /* Set the width of the side navigation to 250px */
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "75%";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
   </script>
 </body>
 
