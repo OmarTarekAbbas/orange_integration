@@ -645,7 +645,7 @@ TransactionId : SPID+Timestamp+sequence number from 000000 to 999999
   {
 
     Session::put('RUrl', $request->fullUrl());
-    
+
     if(!(session()->has("test_login") && session("test_login") == user_name)) {
       return redirect()->route("orange.login");
     }
