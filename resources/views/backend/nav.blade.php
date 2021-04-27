@@ -1,3 +1,6 @@
+<?php
+$date = Carbon\Carbon::now()->toDateString();
+?>
 <ul class="nav menu">
     <li class="active"><a href="{{ url('admin') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
     <!-- <li class="parent">
@@ -118,7 +121,7 @@
                 </a>
             </li>
             <li id="orange_whitelists">
-                <a class="" href="{{url('admin/orange_statistics_by_form')}}">
+                <a class="" href="{{url('admin/orange_statistics_by_form?from_date='.$date)}}">
                     <span class="glyphicon glyphicon-list-alt"></span>Orange Statistics By Date
                 </a>
             </li>
