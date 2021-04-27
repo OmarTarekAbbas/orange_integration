@@ -21,10 +21,9 @@
 
   .input-group-addon {
     padding: 6px 12px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 1;
-    color: #555;
+    color: #f60;
     text-align: center;
     background-color: #eee;
     border: 1px solid #ccc;
@@ -44,18 +43,6 @@
 
   .input-group-addon:last-child {
     border-left: 0;
-  }
-
-  .glyphicon {
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
@@ -94,35 +81,38 @@
     margin: 5% auto;
   }
 
-  .form_content form .form_grid .input-group-text {
+  .form_content form .form_grid .input-group {
     border: 1px solid #f60;
-    background-color: #f60;
+    border-radius: 5px;
     color: #FFF;
   }
 
-  .form_content form .form_grid #phone {
-    border: 1px solid #f60;
-  }
-
-  .form_content form .form_grid #zain_submit {
-    background-color: #f60;
-    color: #fff;
-    width: 50%;
-    margin: 5% auto;
-  }
-
-  .form_content form .form_grid #phone:focus {
-    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(255 102 0);
+  .form_content form .form_grid .input-group .show_class:focus {
+    box-shadow: 0 0 0 0.2rem #f60;
   }
 
   .form_content .unsub_check a {
     color: #fff;
     text-decoration: underline;
   }
+
+  .form_content div .form_grid .filter {
+    color: #fff;
+    background-color: #f60;
+  }
+
+  .form_content div .form_grid .filter:focus {
+    box-shadow: 0 0 0 0.1rem #fff;
+  }
+
+  .user_data {
+    color: #fff;
+    background-color: #f60;
+    border-color: #fff;
+  }
 </style>
 
 <body>
-
   <section class="form_content">
     <div class="container">
       @include("orange/alerts")
@@ -132,7 +122,7 @@
 
           <img class="logo" src="{{ asset('img/orange.png') }}" alt="Orange">
 
-          <h3 class="logo_title text-center">Orange Elkheer Revenue Tool</h3>
+          <h4 class="logo_title text-center mb-4">Orange Elkheer Revenue Tool</h4>
 
           <div class='input-group date' id='datetimepicker'>
             <input type='text' class="form-control show_class" value="{{request()->get('from_date')}}" name="from_date" id="from_date" placeholder="Select Form Date" autocomplete="off" />
@@ -142,44 +132,44 @@
           </div>
 
           <div class='input-group date' id='datetimepicker1' style="margin-top: 10px;">
-            <input type='text' class="form-control" value="{{request()->get('to_date')}}" name="to_date" id="to_date" placeholder="Select To Date" autocomplete="off" />
+            <input type='text' class="form-control show_class" value="{{request()->get('to_date')}}" name="to_date" id="to_date" placeholder="Select To Date" autocomplete="off" />
             <span class="input-group-addon">
               <i class="far fa-calendar-alt"></i>
             </span>
           </div>
 
-          <div class="col-xs-12 col-sm-12 col-md-12 text-center" style="margin-top: 10px;">
-            <button class="btn btn-labeled btn-primary filter" id="my_form" type="submit"><span class="btn-label"><i class="glyphicon glyphicon-search"></i></span>Filter</button>
+          <div class="mt-4 mb-4 text-center">
+            <button class="btn filter" id="my_form" type="submit">Filter</button>
           </div>
         </div>
       </form>
+
+      <div class="alert alert-success user_data">
+        <p><b>Orange Revenue</b></p>
+        <hr style="border-top-color: #fff;">
+        <br>
+        @if($from_date == NULL && $to_date == NULL)
+        <p><b>Today Success Charging:</b> <b class="float-right">{{ $today_success_charging }}</b></p>
+        <p><b>Today Failed Charging:</b> <b class="float-right">{{ $today_failed_charging }}</b></p>
+        @endif
+        <p><b>All Success Charging:</b> <b class="float-right">{{ $all_success_charging }}</b></p>
+        <p><b>All Failed Charging:</b> <b class="float-right">{{ $all_failed_charging }}</b></p>
+      </div>
+
+      <section class="form_content">
+        <div class="container">
+          <div class="unsub_check text-center text-capitalize">
+            <a href="{{url('/sub_unsub')}}">go to subscribe & unsubscribe</a>
+          </div>
+          <div class="unsub_check text-center text-capitalize">
+            <a href="{{url('/check_status')}}">Msisdn Check Status</a>
+          </div>
+        </div>
+      </section>
     </div>
   </section>
 
-  <div class="alert alert-success user_data">
-    <span class="alert-inner--icon"><i class="ni ni-like-2"></i></span>
-    <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> -->
-    <p><b>Orange Revenue<b></p>
-    <hr>
-    <br>
-    @if($from_date == NULL && $to_date == NULL)
-    <p><b>Today Success Charging:<b> {{ $today_success_charging }}</p>
-    <p><b>Today Failed Charging:<b> {{ $today_failed_charging }}</p>
-    @endif
-    <p><b>All Success Charging:<b> {{ $all_success_charging }}</p>
-    <p><b>All Failed Charging:<b> {{ $all_failed_charging }}</p>
-  </div>
 
-  <section class="form_content">
-    <div class="container">
-      <div class="unsub_check text-center text-capitalize">
-        <a href="{{url('/sub_unsub')}}">go to subscribe & unsubscribe</a>
-      </div>
-      <div class="unsub_check text-center text-capitalize">
-        <a href="{{url('/check_status')}}">Msisdn Check Status</a>
-      </div>
-    </div>
-  </section>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
