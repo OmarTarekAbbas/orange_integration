@@ -50,6 +50,11 @@
                     </tr>
 
                     <tr>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of Today Unsub Users</td>
+                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_today_unsub_users }}</span></td>
+                    </tr>
+
+                    <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Unsub Users</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_unsub_users }}</span></td>
                     </tr>
