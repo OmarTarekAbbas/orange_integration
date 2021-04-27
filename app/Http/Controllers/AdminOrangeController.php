@@ -430,7 +430,6 @@ class AdminOrangeController extends Controller
 
     public function download_excel_orange_statistics()
     {
-
         $count_user_today = OrangeSubscribe::where('active', 1)->where('type', '!=' ,'whitelists')->whereDate('created_at', Carbon::now()->toDateString())->count();
         $count_all_active_users = OrangeSubscribe::where('active', 1)->where('type', '!=' ,'whitelists')->count();
         $count_all_unsub_users = OrangeSubscribe::where('active', 2)->where('type', '!=' ,'whitelists')->count();
