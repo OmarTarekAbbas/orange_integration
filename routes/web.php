@@ -111,6 +111,9 @@ Route::get('orange_send_daily_deduction_message', 'OrangeController@orange_send_
 Route::get('orange_revenue','OrangeController@orangeRevenue');
 Route::post('orange_revenue','OrangeController@orangeRevenue')->name('orange.revenue');
 
+Route::get('orange_monthly_statistics','OrangeController@orangeMonthlyStatistics');
+Route::post('orange_monthly_statistics','OrangeController@orangeMonthlyStatistics')->name('orange.monthly.statistics');
+
 define('ENABLE', Helper::get_setting('approve_enable'));
 
 
