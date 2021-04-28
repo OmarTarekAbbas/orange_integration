@@ -63,6 +63,11 @@
                     </tr>
 
                     <tr>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Active Whitelist Users</td>
+                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_active_whitelist_users }}</span></td>
+                    </tr>
+
+                    <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Pending Users</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_pending_users }}</span></td>
                     </tr>
@@ -75,6 +80,11 @@
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Unsub Users</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_unsub_users }}</span></td>
+                    </tr>
+
+                    <tr>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Unsub Whitelist Users</td>
+                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_unsub_whitelist__users }}</span></td>
                     </tr>
 
                     <tr>

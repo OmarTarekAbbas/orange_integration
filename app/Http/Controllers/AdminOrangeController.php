@@ -398,7 +398,11 @@ class AdminOrangeController extends Controller
 
         $count_all_active_users = OrangeSubscribe::where('active', 1)->count();
 
+        $count_all_active_whitelist_users = OrangeSubscribe::where('active', 1)->where('type','whitelists')->count();
+
         $count_all_unsub_users = OrangeSubscribe::where('active', 2)->count();
+
+        $count_all_unsub_whitelist__users = OrangeSubscribe::where('active', 2)->where('type','whitelists')->count();
 
         $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at', Carbon::now()->toDateString())->count();
 
@@ -419,7 +423,9 @@ class AdminOrangeController extends Controller
         return view('backend.orange.call_orange_statistics', compact(
             'count_user_today',
             'count_all_active_users',
+            'count_all_active_whitelist_users',
             'count_all_unsub_users',
+            'count_all_unsub_whitelist__users',
             'count_all_pending_users',
             'count_of_total_free_users',
             'count_charging_users_not_free',
@@ -456,7 +462,7 @@ class AdminOrangeController extends Controller
 
       if($request->has('from_date') && $request->from_date != ''){
         $date = $request->from_date;
-        $equal = '<=';
+        $equal = '=';
       }else{
         $date = Carbon::now()->toDateString();
         $equal = '=';
@@ -465,7 +471,11 @@ class AdminOrangeController extends Controller
 
         $count_all_active_users = OrangeSubscribe::where('active', 1)->whereDate('created_at',$equal, $date)->count();
 
+        $count_all_active_whitelist_users = OrangeSubscribe::where('active', 1)->where('type','whitelists')->whereDate('created_at',$equal, $date)->count();
+
         $count_all_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at',$equal, $date)->count();
+
+        $count_all_unsub_whitelist__users = OrangeSubscribe::where('active', 2)->where('type','whitelists')->count();
 
         $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at',$equal, $date)->count();
 
@@ -485,7 +495,9 @@ class AdminOrangeController extends Controller
         return view('backend.orange.orange_statistics_v2.orange_statistics_v2', compact(
             'count_user_today',
             'count_all_active_users',
+            'count_all_active_whitelist_users',
             'count_all_unsub_users',
+            'count_all_unsub_whitelist__users',
             'count_all_pending_users',
             'count_of_total_free_users',
             'count_charging_users_not_free',
