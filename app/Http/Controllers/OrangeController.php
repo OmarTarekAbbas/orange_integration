@@ -1787,5 +1787,9 @@ public function orange_send_weekly_deduction()
     return view('orange.revenue', compact('all_success_charging', 'all_failed_charging', 'today_success_charging', 'today_failed_charging', 'from_date', 'to_date'));
   }
 
+  public function orangeMonthlyStatistics(){
+    
+  }
+
 
 }
