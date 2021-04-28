@@ -9,7 +9,6 @@
   <link href="{{asset('css/all.min.css')}}" rel="stylesheet">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="{{asset('css/datepicker3.css')}}" rel="stylesheet">
-
 </head>
 
 <style>
@@ -47,13 +46,6 @@
 
   body {
     background: #0f1218;
-  }
-
-  @media (min-width: 1030px) {
-    body {
-      width: 25%;
-      margin: auto;
-    }
   }
 
   .form_content {
@@ -110,10 +102,121 @@
     background-color: #f60;
     border-color: #fff;
   }
+
+  .header_Nav {
+    position: relative;
+  }
+
+  .header_Nav .navbar_btn {
+    background-color: #0f1218;
+    height: 100%;
+    left: -56%;
+    position: fixed;
+    width: 60%;
+    width: calc(200px);
+    top: 0;
+    transition: left 0.8s ease-in-out;
+    z-index: 9999999999;
+    overflow-x: hidden;
+  }
+
+  .header_Nav .navbar_btn .accordion {
+    width: 100%;
+    max-width: 360px;
+    margin: 70px auto 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding-right: 0;
+  }
+
+  .header_Nav .navbar_btn .accordion .link {
+    text-align: left;
+    cursor: pointer;
+    display: block;
+    padding: 15px 0 15px 12px;
+    color: #fff;
+    font-size: 13px;
+    border-bottom: 2px solid #fff;
+    position: relative;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+  }
+
+  .header_Nav .navbar_btn .accordion li:last-child .link {
+    border-bottom: 0;
+  }
+
+  .hamburger-wrapper {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 11px;
+    transition: background 0.8s ease-in-out;
+    z-index: 9999999999;
+  }
+
+  /* hamburger */
+  .hamburger {
+    color: #fff;
+    font-size: 1.25rem;
+    position: absolute;
+    top: 0.25rem;
+    left: 1rem;
+    transition: background 0.8s ease-in-out;
+  }
+
+  #menu-toggle {
+    display: none;
+  }
+
+  #menu-toggle:checked+.hamburger-wrapper {
+    background: transparent;
+  }
+
+  #menu-toggle:checked+label .burger-label {
+    color: #fff;
+  }
+
+  #menu-toggle:checked~.navbar_btn {
+    left: 0%;
+  }
+
+  @media (min-width: 1030px) {
+    body {
+      width: 25%;
+      margin: auto;
+    }
+
+    #menu-toggle:checked~.navbar_btn {
+      left: 38%;
+    }
+  }
 </style>
 
 <body>
-  <section class="form_content">
+  <header class="header_Nav">
+    <input type="checkbox" id="menu-toggle">
+    <label class="hamburger-wrapper" for="menu-toggle">
+      <i class="hamburger fas fa-bars"></i>
+    </label>
+
+    <nav class="navbar_btn">
+      <ul id="accordion" class="accordion list-unstyled">
+        <li id="indexed">
+          <a href="{{url('/sub_unsub')}}" class="link text-capitalize">subscribe & unsubscribe</a>
+        </li>
+
+        <li>
+          <a href="{{url('/check_status')}}" class="link text-capitalize">Msisdn Check Status</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="form_content close_nav">
     <div class="container">
       @include("orange/alerts")
       <form method="post" action="{{ route('orange.revenue') }}" id="form_zain">
@@ -156,23 +259,19 @@
         <p><b>All Failed Charging:</b> <b class="float-right">{{ $all_failed_charging }}</b></p>
       </div>
 
-
-
-
-      <section class="form_content">
+      <!-- <section class="form_content">
         <div class="container">
           <div class="unsub_check text-center text-capitalize">
             <a href="{{url('/sub_unsub')}}">go to subscribe & unsubscribe</a>
           </div>
+
           <div class="unsub_check text-center text-capitalize">
             <a href="{{url('/check_status')}}">Msisdn Check Status</a>
           </div>
         </div>
-      </section>
+      </section> -->
     </div>
   </section>
-
-
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -187,6 +286,22 @@
     $('#datetimepicker1').datepicker({
       format: "yyyy-mm-dd"
     });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $(".close_nav").click(function() {
+        $('#menu-toggle').prop('checked', false);
+      });
+    });
+
+    (function() {
+      $('.hamburger-menu').on('click', function() {
+        $('.bar').toggleClass('animate');
+        var mobileNav = $('.mobile-nav');
+        mobileNav.toggleClass('hide show');
+      })
+    })();
   </script>
 </body>
 
