@@ -6,9 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alforsan Statistics</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="{{asset('css/datepicker3.css')}}" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
 
 </head>
@@ -16,13 +16,6 @@
 <style>
   body {
     background: #fff;
-  }
-
-  @media (min-width: 1030px) {
-    body {
-      width: 25%;
-      margin: auto;
-    }
   }
 
   .form_content {
@@ -121,11 +114,121 @@
   .input-group-addon:last-child {
     border-left: 0;
   }
+
+  .header_Nav {
+    position: relative;
+  }
+
+  .header_Nav .navbar_btn {
+    background-color: #f60;
+    height: 100%;
+    left: -56%;
+    position: fixed;
+    width: 60%;
+    width: calc(200px);
+    top: 0;
+    transition: left 0.8s ease-in-out;
+    z-index: 9999999999;
+    overflow-x: hidden;
+  }
+
+  .header_Nav .navbar_btn .accordion {
+    width: 100%;
+    max-width: 360px;
+    margin: 70px auto 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding-right: 0;
+  }
+
+  .header_Nav .navbar_btn .accordion .link {
+    text-align: left;
+    cursor: pointer;
+    display: block;
+    padding: 15px 0 15px 12px;
+    color: #fff;
+    font-size: 13px;
+    border-bottom: 2px solid #fff;
+    position: relative;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+  }
+
+  .header_Nav .navbar_btn .accordion li:last-child .link {
+    border-bottom: 0;
+  }
+
+  .hamburger-wrapper {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 11px;
+    transition: background 0.8s ease-in-out;
+    z-index: 9999999999;
+  }
+
+  /* hamburger */
+  .hamburger {
+    color: #f60;
+    font-size: 1.25rem;
+    position: absolute;
+    top: 0.25rem;
+    left: 1rem;
+    transition: background 0.8s ease-in-out;
+  }
+
+  #menu-toggle {
+    display: none;
+  }
+
+  #menu-toggle:checked+.hamburger-wrapper {
+    background: transparent;
+  }
+
+  #menu-toggle:checked+label .burger-label {
+    color: #fff;
+  }
+
+  #menu-toggle:checked~.navbar_btn {
+    left: 0%;
+  }
+
+  @media (min-width: 1030px) {
+    body {
+      width: 25%;
+      margin: auto;
+    }
+
+    #menu-toggle:checked~.navbar_btn {
+      left: 38%;
+    }
+  }
 </style>
 
 <body>
+  <header class="header_Nav">
+    <input type="checkbox" id="menu-toggle">
+    <label class="hamburger-wrapper" for="menu-toggle">
+      <i class="hamburger fas fa-bars"></i>
+    </label>
 
-  <section class="form_content">
+    <nav class="navbar_btn">
+      <ul id="accordion" class="accordion list-unstyled">
+        <li id="indexed">
+          <a href="{{url('/sub_unsub')}}" class="link text-capitalize">subscribe & unsubscribe</a>
+        </li>
+
+        <li>
+          <a href="{{url('/check_status')}}" class="link text-capitalize">Msisdn Check Status</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="form_content close_nav">
     <div class="container">
       @include("orange/alerts")
       <div id="form_zain">
@@ -181,7 +284,7 @@
             </b></b>
             @else
             <p><b>Alforsan Revenue<b></b></b></p><b><b>
-                <hr  style="border-top: 1px solid #fff;">
+                <hr style="border-top: 1px solid #fff;">
                 <p><b>Today Success Charging:<b class="float-right"> {{$todaySuccessCharging}} </b></b></p><b><b>
                     <p><b>Today Failed Charging:<b class="float-right"> {{$todayFailedCharging}}</b></b></p>
                     <b><b>
@@ -202,12 +305,13 @@
         </div>
       </div>
 
-       <div class="unsub_check text-center text-capitalize">
+      <!-- <div class="unsub_check text-center text-capitalize">
         <a href="{{url('/sub_unsub')}}">subscribe & unsubscribe</a>
       </div>
+
       <div class="unsub_check text-center text-capitalize">
         <a href="{{url('/check_status')}}">Msisdn Check Status</a>
-    </div>
+      </div> -->
   </section>
 
   <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
@@ -221,6 +325,14 @@
 
     $('#datetimepicker1').attr("autocomplete", "off").datepicker({
       format: "yyyy-mm-dd"
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $(".close_nav").click(function() {
+        $('#menu-toggle').prop('checked', false);
+      });
     });
   </script>
 </body>
