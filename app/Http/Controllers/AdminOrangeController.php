@@ -394,7 +394,7 @@ class AdminOrangeController extends Controller
     public function call_orange_statistics(Request $request)
     {
 
-        $count_user_today = OrangeSubscribe::where('active', 1)->whereDate('created_at', Carbon::now()->toDateString())->count();
+        $count_user_today = OrangeSubscribe::whereDate('created_at', Carbon::now()->toDateString())->count();
 
         $count_all_active_users = OrangeSubscribe::where('active', 1)->count();
 
@@ -434,7 +434,7 @@ class AdminOrangeController extends Controller
 
     public function download_excel_orange_statistics()
     {
-        $count_user_today = OrangeSubscribe::where('active', 1)->whereDate('created_at', Carbon::now()->toDateString())->count();
+        $count_user_today = OrangeSubscribe::whereDate('created_at', Carbon::now()->toDateString())->count();
         $count_all_active_users = OrangeSubscribe::where('active', 1)->count();
         $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at', Carbon::now()->toDateString())->count();
         $count_all_unsub_users = OrangeSubscribe::where('active', 2)->count();
@@ -463,7 +463,7 @@ class AdminOrangeController extends Controller
         $date = Carbon::now()->toDateString();
         $equal = '=';
       }
-        $count_user_today = OrangeSubscribe::where('active', 1)->whereDate('created_at',"=", $date)->count();
+        $count_user_today = OrangeSubscribe::whereDate('created_at',"=", $date)->count();
 
         $count_all_active_users = OrangeSubscribe::where('active', 1)->whereDate('created_at',"<=", $date)->count();
 
@@ -510,7 +510,7 @@ class AdminOrangeController extends Controller
           $date = Carbon::now()->toDateString();
           $equal = '=';
         }
-          $count_user_today = OrangeSubscribe::where('active', 1)->whereDate('created_at',"=", $date)->count();
+          $count_user_today = OrangeSubscribe::whereDate('created_at',"=", $date)->count();
           $count_all_active_users = OrangeSubscribe::where('active', 1)->whereDate('created_at',"<=", $date)->count();
 
           $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at', Carbon::now()->toDateString())->count();
