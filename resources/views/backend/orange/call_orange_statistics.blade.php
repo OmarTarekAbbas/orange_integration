@@ -50,14 +50,15 @@
                     </tr>
 
                     <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Unsub Users</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_unsub_users }}</span></td>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count  Unsub Users Today</td>
+                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_today_unsub_users }}</span></td>
                     </tr>
 
                     <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Today Unsub Users</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_today_unsub_users }}</span></td>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Unsub Users</td>
+                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_unsub_users }}</span></td>
                     </tr>
+                
 
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of Total Free Users</td>
@@ -70,14 +71,17 @@
                     </tr>
 
                     <tr>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue Today</td>
+                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_today }}</span></td>
+                    </tr>
+                    
+
+                    <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
                     </tr>
 
-                    <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue Today</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_today }}</span></td>
-                    </tr>
+               
 
                 </table>
 
