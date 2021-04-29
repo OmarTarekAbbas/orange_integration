@@ -122,9 +122,14 @@ $date = Carbon\Carbon::now()->toDateString();
             </li>
             <li id="orange_whitelists">
                 <a class="" href="{{url('admin/orange_statistics_by_form?from_date='.$date)}}">
-                    <span class="glyphicon glyphicon-list-alt"></span>Orange Statistics By Date
+                    <span class="glyphicon glyphicon-list-alt"></span>Orange Statistics filter
                 </a>
             </li>
+            <!-- <li id="orange_whitelists">
+                <a class="" href="{{url('admin/download_subscribe')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Download Subscribe
+                </a>
+            </li> -->
         </ul>
     </li>
 

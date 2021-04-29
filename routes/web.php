@@ -75,6 +75,7 @@ Route::get('admin/orange_statistics','AdminOrangeController@call_orange_statisti
 Route::get('admin/download_excel_orange_statistics','AdminOrangeController@download_excel_orange_statistics');
 Route::get('admin/orange_statistics_by_form','AdminOrangeController@orange_statistics_by_form');
 Route::get('admin/download_excel_orange_statistics_v2','AdminOrangeController@download_excel_orange_statistics_v2');
+Route::get('admin/download_subscribe','AdminOrangeController@DownloadSubscribe');
 
 // End orange Routes...
 
