@@ -400,7 +400,7 @@ class AdminOrangeController extends Controller
 
         $count_all_active_whitelist_users = OrangeSubscribe::where('active', 1)->where('type','whitelists')->count();
 
-        $count_all_unsub_users = OrangeSubscribe::where('active', 2)->count();
+        $count_all_unsub_users = OrangeSubscribe::where('active', 2)->where('type','!=','whitelists')->count();
 
         $count_all_unsub_whitelist__users = OrangeSubscribe::where('active', 2)->where('type','whitelists')->count();
 
@@ -505,7 +505,7 @@ class AdminOrangeController extends Controller
     {
       if($request->has('from_date') && $request->from_date != ''){
           $date = $request->from_date;
-          $equal = '<=';
+          $equal = '=';
         }else{
           $date = Carbon::now()->toDateString();
           $equal = '=';
@@ -535,4 +535,19 @@ class AdminOrangeController extends Controller
               });
           })->export('csv');
       }
+
+      public function DownloadSubscribe(Request $request)
+      {
+        set_time_limit(0);
+        ini_set('memory_limit', -1);
+        
+        $downloadSubscribes = OrangeSubscribe::where('active', 1)->pluck('msisdn')->toArray();
+
+        \Excel::create('DownloadSubscribe-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+            $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
+             $sheet->loadView('backend.orange.download_subscribe')->with("downloadSubscribes",$downloadSubscribes);
+            });
+        })->export('csv');
+      }
+
 }
