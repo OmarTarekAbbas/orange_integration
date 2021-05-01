@@ -541,7 +541,7 @@ class AdminOrangeController extends Controller
         set_time_limit(0);
         ini_set('memory_limit', -1);
         
-        $downloadSubscribes = OrangeSubscribe::where('active', 1)->pluck('msisdn')->toArray();
+        $downloadSubscribes = OrangeSubscribe::where('active', 1)->where('type' ,"!=" , "whitelists")->pluck('msisdn')->toArray();
 
         \Excel::create('DownloadSubscribe-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
             $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
