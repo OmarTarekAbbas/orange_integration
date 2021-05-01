@@ -524,6 +524,9 @@ class AdminOrangeController extends Controller
 
       public function DownloadSubscribe(Request $request)
       {
+        set_time_limit(0);
+        ini_set('memory_limit', -1);
+        
         $downloadSubscribes = OrangeSubscribe::where('active', 1)->pluck('msisdn')->toArray();
         // $downloadSubscribes = OrangeSubscribe::where('active', 1)->where('free', 0)->get(['msisdn']);
         // dd($downloadSubscribes);
