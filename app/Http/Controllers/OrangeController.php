@@ -879,6 +879,7 @@ var_dump($output) ;
     ||  $request->message == "a١" || $request->message == "a٢"  || $request->message == "a٣"   || $request->message == "a٤"  ) {
       $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان لحلقة اليوم";
       $this->sendMessageToUser($request->msisdn, $message);
+      $this->updateAnswerInMondiaSystem($request->msisdn, $message);
       return "ok";
     } else {
       $message = "للاشتراك في خدمة الفرسان يرجي ارسال 1 ولالغاء الاشتراك ارسل الغاء " ;
@@ -943,6 +944,30 @@ var_dump($output) ;
       $message = "مشكلة فنية";
     }
     return $message;
+  }
+
+  /**
+   * Method updateAnswerInMondiaSystem
+   *
+   * @param string $msisdn
+   * @param string $message
+   *
+   * @return void
+   */
+  public function updateAnswerInMondiaSystem($msisdn, $message)
+  {
+    $date = date('Y-m-d');
+    $message = (int) ltrim($message, 'a');
+    $URL_Api = ELFORSAN_UPDATE_USER_ANSWER;
+    $param = "msisdn=$msisdn&message=$message&date=$date";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL_Api);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return $response;
   }
 
 
