@@ -416,7 +416,7 @@ class AdminOrangeController extends Controller
 
         $count_of_all_success_charging = OrangeCharging::whereIn('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
-    
+
 
         return view('backend.orange.call_orange_statistics', compact(
             'count_user_today',
@@ -526,7 +526,7 @@ class AdminOrangeController extends Controller
 
           $count_of_all_success_charging_today = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at',"=", $date)->count();
           $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at',"<=", $date)->count();
-      
+
 
 
           \Excel::create('orangestatistics-'.$date, function($excel) use ($count_user_today, $count_all_active_users, $count_all_unsub_users,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
@@ -540,8 +540,8 @@ class AdminOrangeController extends Controller
       {
         set_time_limit(0);
         ini_set('memory_limit', -1);
-        
-        $downloadSubscribes = OrangeSubscribe::where('active', 1)->where('type' ,"!=" , "whitelists")->pluck('msisdn')->toArray();
+
+        $downloadSubscribes = OrangeSubscribe::where('active', 1)->where('free', 0)->where('type' ,"!=" , "whitelists")->pluck('msisdn')->toArray();
 
         \Excel::create('DownloadSubscribe-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
             $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
