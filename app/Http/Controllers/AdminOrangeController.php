@@ -471,7 +471,7 @@ class AdminOrangeController extends Controller
         $count_charging_users_not_free = OrangeSubscribe::where('active', 1)->where('free', 0)->whereDate('created_at',"<=", $date)->count();
 
         $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
-        $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+        $count_of_all_success_charging = OrangeCharging::whereDate('created_at',"<=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
         return view('backend.orange.orange_statistics_v2.orange_statistics_v2', compact(
             'count_user_today',
