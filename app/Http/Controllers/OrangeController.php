@@ -879,7 +879,7 @@ var_dump($output) ;
     ||  $request->message == "a١" || $request->message == "a٢"  || $request->message == "a٣"   || $request->message == "a٤"  ) {
       $message = "سوف يتم مراجعة اجابتك في مسابقة الفرسان لحلقة اليوم";
       $this->sendMessageToUser($request->msisdn, $message);
-      $this->updateAnswerInMondiaSystem($request->msisdn, $message);
+     // $this->updateAnswerInMondiaSystem($request->msisdn, $message);
       return "ok";
     } else {
       $message = "للاشتراك في خدمة الفرسان يرجي ارسال 1 ولالغاء الاشتراك ارسل الغاء " ;
