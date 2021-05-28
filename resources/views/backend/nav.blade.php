@@ -125,13 +125,13 @@ $date = Carbon\Carbon::now()->toDateString();
                     <span class="glyphicon glyphicon-list-alt"></span>Orange Statistics filter
                 </a>
             </li>
-            @if( Auth::user()->id  == 1)
+            <!-- @if( Auth::user()->id  == 1) -->
             <li id="orange_whitelists">
                 <a class="" href="{{url('admin/download_subscribe')}}">
                     <span class="glyphicon glyphicon-list-alt"></span>Download Subscribe
                 </a>
             </li>
-            @endif
+            <!-- @endif -->
         </ul>
     </li>
 
