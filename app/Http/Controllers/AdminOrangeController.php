@@ -438,7 +438,7 @@ class AdminOrangeController extends Controller
         $count_charging_users_not_free = OrangeSubscribe::where('active', 1)->where('free', 0)->count();
         $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at', Carbon::now()->toDateString())->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
         $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
-      
+
         \Excel::create('alforsantatistics-'.Carbon::now()->toDateString(), function($excel) use ($count_user_today, $count_all_active_users, $count_all_unsub_users,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
             $excel->sheet('Excel', function($sheet) use ($count_user_today, $count_all_active_users, $count_all_unsub_users ,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
                 $sheet->loadView('backend.orange.download_excel_orange_statistics')->with("count_user_today", $count_user_today)->with("count_all_active_users", $count_all_active_users)->with("count_all_unsub_users", $count_all_unsub_users)->with("count_all_pending_users", $count_all_pending_users)->with("count_of_total_free_users", $count_of_total_free_users)->with("count_charging_users_not_free",$count_charging_users_not_free)->with("count_of_all_success_charging",$count_of_all_success_charging)->with("count_of_all_success_charging_today",$count_of_all_success_charging_today)->with("count_today_unsub_users",$count_today_unsub_users);
@@ -460,7 +460,7 @@ class AdminOrangeController extends Controller
 
         $count_all_active_users = OrangeSubscribe::where('active', 1)->count();
 
-    
+
         $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at',"=", $date)->count();
         $count_all_unsub_users = OrangeSubscribe::where('active', 2)->count();
 
@@ -468,7 +468,7 @@ class AdminOrangeController extends Controller
 
         $count_of_total_free_users = OrangeSubscribe::where('free', 1)->whereDate('created_at',"<=", $date)->count();
 
-        $count_charging_users_not_free = OrangeSubscribe::where('active', 1)->where('free', 0)->whereDate('created_at',"<=", $date)->count();
+        $count_charging_users_not_free = OrangeSubscribe::where('subscribe_due_date', $date)->count();
 
         $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
         $count_of_all_success_charging = OrangeCharging::whereDate('created_at',"<", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
@@ -507,13 +507,13 @@ class AdminOrangeController extends Controller
 
         $count_of_total_free_users = OrangeSubscribe::where('free', 1)->whereDate('created_at',"<=", $date)->count();
 
-        $count_charging_users_not_free = OrangeSubscribe::where('active', 1)->where('free', 0)->whereDate('created_at',"<=", $date)->count();
+        $count_charging_users_not_free = OrangeSubscribe::where('subscribe_due_date', $date)->count();
 
         $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
         $count_of_all_success_charging = OrangeCharging::whereDate('created_at',"<", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
-     
+
 
           \Excel::create('alforsantatistics-'.$date, function($excel) use ($count_user_today, $count_all_active_users, $count_all_unsub_users,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
               $excel->sheet('Excel', function($sheet) use ($count_user_today, $count_all_active_users, $count_all_unsub_users ,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
@@ -535,7 +535,7 @@ class AdminOrangeController extends Controller
       {
         set_time_limit(0);
         ini_set('memory_limit', -1);
-        
+
         $downloadSubscribes = OrangeSubscribe::where('active', 1)->pluck('msisdn')->toArray();
         // $downloadSubscribes = OrangeSubscribe::where('active', 1)->where('free', 0)->get(['msisdn']);
         // dd($downloadSubscribes);
