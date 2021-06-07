@@ -53,13 +53,13 @@
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-striped mt-table">
                     <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of New Free Users Today</td>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of New Free Users </td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_user_today }}</span></td>
                     </tr>
 
 
                     <tr>
-                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count of chargable users today</td>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count of chargable users </td>
                       <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_charging_users_not_free }}</span></td>
                   </tr>
 
@@ -85,7 +85,7 @@
 
 
                     <tr>
-                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Unsub Users Today</td>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Unsub Users </td>
                       <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_today_unsub_users }}</span></td>
                   </tr>
 
