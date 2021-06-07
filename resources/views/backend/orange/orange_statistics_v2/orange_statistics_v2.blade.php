@@ -78,22 +78,32 @@
 
 
 
-
-                <hr>
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All subscribers by the end of  {{$yesterday}}</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_active_users }}</span></td>
                     </tr>
 
+
                     <tr>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Unsub Users Today</td>
+                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_today_unsub_users }}</span></td>
+                  </tr>
+
+
+
+                  <tr>
+                    <td width='30%' class='label-view text-left' style="font-weight: bold;">Cancel Rate </td>
+                    <td><span dir="rtl" class="btn btn-success borderCircle">{{round(  $count_today_unsub_users / $count_all_active_users , 2 )}}</span></td>
+                </tr>
+
+
+
+
+                    {{--  <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Pending Users</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_pending_users }}</span></td>
                     </tr>
 
-                    <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Unsub Users Today</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_today_unsub_users }}</span></td>
-                    </tr>
 
 
                     <tr>
@@ -114,7 +124,7 @@
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
-                    </tr>
+                    </tr>  --}}
 
 
 
