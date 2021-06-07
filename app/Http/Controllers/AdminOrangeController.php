@@ -456,21 +456,25 @@ class AdminOrangeController extends Controller
         $date = Carbon::now()->toDateString();
         $equal = '=';
       }
+
+        $time = strtotime("$date - 1 days") ;
+        $yesterday =  date("Y-m-d" ,  $time ) ;
+
         $count_user_today = OrangeSubscribe::whereDate('created_at',"=", $date)->count();
+        $count_charging_users_not_free = OrangeSubscribe::where('subscribe_due_date', $date)->count();
+        $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+        $count_all_active_users = OrangeSubscribe::where('active', "!=",  2 )->whereDate('updated_at',"=",  $yesterday )->count();
+
+
+
+
+
 
         $count_all_active_users = OrangeSubscribe::where('active', 1)->count();
-
-
         $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('updated_at',"=", $date)->count();
         $count_all_unsub_users = OrangeSubscribe::where('active', 2)->count();
-
         $count_all_pending_users = OrangeSubscribe::where('active', 0)->count();
-
         $count_of_total_free_users = OrangeSubscribe::where('free', 1)->whereDate('created_at',"<=", $date)->count();
-
-        $count_charging_users_not_free = OrangeSubscribe::where('subscribe_due_date', $date)->count();
-
-        $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
         $count_of_all_success_charging = OrangeCharging::whereDate('created_at',"<", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
         return view('backend.orange.orange_statistics_v2.orange_statistics_v2', compact(
@@ -482,7 +486,8 @@ class AdminOrangeController extends Controller
             'count_charging_users_not_free',
             'count_of_all_success_charging',
             'count_of_all_success_charging_today',
-          'count_today_unsub_users'
+          'count_today_unsub_users',
+          'yesterday'
           ));
     }
 

@@ -79,11 +79,9 @@
 
 
 
-
-
                 <hr>
                     <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Active Users</td>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Active Users by the end of  {{$yesterday}}</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_active_users }}</span></td>
                     </tr>
 
