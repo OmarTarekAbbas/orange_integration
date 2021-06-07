@@ -59,16 +59,25 @@
 
 
                     <tr>
-                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Revenue Users Not Free</td>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count of chargable users today</td>
                       <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_charging_users_not_free }}</span></td>
                   </tr>
 
                   <tr>
-                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue Today</td>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of successful charged</td>
                       <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_today }}</span></td>
                   </tr>
 
 
+
+
+                  <tr>
+                    <td width='30%' class='label-view text-left' style="font-weight: bold;">Biling Rate</td>
+                    <td><span dir="rtl" class="btn btn-success borderCircle">{{ $ $count_of_all_success_charging_today / count_charging_users_not_free }}</span></td>
+                </tr>
+
+
+                <hr>
 
 
                     <tr>
