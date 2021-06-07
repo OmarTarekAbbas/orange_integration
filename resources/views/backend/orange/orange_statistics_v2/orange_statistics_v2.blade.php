@@ -53,9 +53,23 @@
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-striped mt-table">
                     <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of New Users Today</td>
+                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of New Free Users Today</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_user_today }}</span></td>
                     </tr>
+
+
+                    <tr>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Revenue Users Not Free</td>
+                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_charging_users_not_free }}</span></td>
+                  </tr>
+
+                  <tr>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue Today</td>
+                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_today }}</span></td>
+                  </tr>
+
+
+
 
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Active Users</td>
@@ -78,30 +92,22 @@
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_unsub_users }}</span></td>
                     </tr>
 
-                    
+
 
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of Total Free Users</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_total_free_users }}</span></td>
                     </tr>
 
-                    <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Revenue Users Not Free</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_charging_users_not_free }}</span></td>
-                    </tr>
 
-                    <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue Today</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_today }}</span></td>
-                    </tr>
-                    
+
 
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
                     </tr>
 
-                 
+
 
                 </table>
                 @if(app('request')->input('from_date'))
