@@ -73,7 +73,13 @@
 
                   <tr>
                     <td width='30%' class='label-view text-left' style="font-weight: bold;">Billing  Rate</td>
-                    <td><span dir="rtl" class="btn btn-success borderCircle">{{ round( $count_of_all_success_charging_today / $count_charging_users_not_free , 2  )  }}</span></td>
+                    <td><span dir="rtl" class="btn btn-success borderCircle">
+                      @if($count_charging_users_not_free > 0 )
+                      {{ round( $count_of_all_success_charging_today / $count_charging_users_not_free , 2  )  }}
+                    @else
+                    0
+                    @endif
+                    </span></td>
                 </tr>
 
 
@@ -93,7 +99,12 @@
 
                   <tr>
                     <td width='30%' class='label-view text-left' style="font-weight: bold;">Cancel Rate </td>
-                    <td><span dir="rtl" class="btn btn-success borderCircle">{{round(  $count_today_unsub_users / $count_all_active_users , 2 )}}</span></td>
+                    @if($count_all_active_users > 0 )
+                    <td><span dir="rtl" class="btn btn-success borderCircle">{{round(  $count_today_unsub_users / $count_all_active_users , 2 )}}
+                    @else
+                    0
+                    @endif
+                    </span></td>
                 </tr>
 
 
