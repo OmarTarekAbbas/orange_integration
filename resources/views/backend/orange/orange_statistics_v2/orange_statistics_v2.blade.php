@@ -99,8 +99,10 @@
 
                   <tr>
                     <td width='30%' class='label-view text-left' style="font-weight: bold;">Cancel Rate </td>
-                    @if($count_all_active_users > 0 )
-                    <td><span dir="rtl" class="btn btn-success borderCircle">{{round(  $count_today_unsub_users / $count_all_active_users , 2 )}}
+
+                    <td><span dir="rtl" class="btn btn-success borderCircle">
+                      @if($count_all_active_users > 0 )
+                      {{round(  $count_today_unsub_users / $count_all_active_users , 2 )}}
                     @else
                     0
                     @endif
