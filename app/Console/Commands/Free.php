@@ -35,7 +35,7 @@ class Free extends Command
     $email = 'emad@ivas.com.eg';
     $this->sendMail($subject, $email);
 
-    OrangeSubscribe::where('subscribe_due_date', date("Y-m-d"))->where('free', 1)->chunk(1000, function ($orange_subscribes) {
+    OrangeSubscribe::where('subscribe_due_date', "<=",date("Y-m-d"))->where('free', 1)->chunk(1000, function ($orange_subscribes) {
       foreach ($orange_subscribes as $subscriber) {
         // should make subscription request on orange as free 2 days is ended
         $orangeWeb = new Request;
