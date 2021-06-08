@@ -111,6 +111,16 @@
 
 
 
+                <tr>
+                  <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of all users until  {{$yesterday}} </td>
+
+                  <td><span dir="rtl" class="btn btn-success borderCircle">
+                    {{ $count_all_users }}
+                  </span></td>
+              </tr>
+
+
+
 
                     {{--  <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Pending Users</td>
