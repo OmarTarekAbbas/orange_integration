@@ -45,7 +45,7 @@
                         {{ Session::get('success') }}
                     </div>
                     @endif
-                    <h3>Orange Statistics</h3>
+                    <h3>Elforsan Statistics filter by date </h3>
                 </div>
             </div>
 
