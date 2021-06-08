@@ -138,7 +138,7 @@
                       {{ Session::get('success') }}
                   </div>
                   @endif
-                  <h3>Elforsan total </h3>
+                  <h3>Elforsan total ( from day 1 to {{yesterday}})</h3>
               </div>
           </div>
 
@@ -149,7 +149,7 @@
 
 
               <tr>
-                <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of all users ( active + pending + unsub ) untill {{$date}}  </td>
+                <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of all users ( active + pending + unsub ) untill {{$yesterday}}  </td>
 
                 <td><span dir="rtl" class="btn btn-success borderCircle">
                   {{ $count_all_users }}
@@ -158,7 +158,7 @@
 
 
             <tr>
-              <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of active users  until {{$date}} </td>
+              <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of active users  until {{$yesterday}} </td>
 
               <td><span dir="rtl" class="btn btn-success borderCircle">
                 {{ $count_total_all_active_users }}
@@ -167,7 +167,7 @@
 
 
           <tr>
-            <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of pending users  until {{$date}} </td>
+            <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of pending users  until {{$yesterday}} </td>
 
             <td><span dir="rtl" class="btn btn-success borderCircle">
               {{ $count_all_pending_users }}
@@ -176,7 +176,7 @@
 
 
         <tr>
-          <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of unsubcribe users  until {{$date}} </td>
+          <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of unsubcribe users  until {{$yesterday}} </td>
 
           <td><span dir="rtl" class="btn btn-success borderCircle">
             {{ $count_all_unsub_users }}
