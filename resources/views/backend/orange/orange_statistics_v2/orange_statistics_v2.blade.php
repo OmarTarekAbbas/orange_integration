@@ -138,7 +138,7 @@
                       {{ Session::get('success') }}
                   </div>
                   @endif
-                  <h3>Elforsan total ( from day 1 to {{yesterday}})</h3>
+                  <h3>Elforsan total ( from day 1 to {{$yesterday}})</h3>
               </div>
           </div>
 
