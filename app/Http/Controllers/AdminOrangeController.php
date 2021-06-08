@@ -470,6 +470,7 @@ class AdminOrangeController extends Controller
         $count_all_active_users = OrangeSubscribe::whereDate('created_at',"=",  $yesterday )->count();
         $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('updated_at',"=", $date)->count();
         $count_all_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->count();
+        $count_all_active_users_until_yesterday = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 1)->count();
 
 
 
@@ -489,7 +490,8 @@ class AdminOrangeController extends Controller
             'count_of_all_success_charging_today',
           'count_today_unsub_users',
           'yesterday',
-          'count_all_users'
+          'count_all_users',
+          'count_all_active_users_until_yesterday'
           ));
     }
 

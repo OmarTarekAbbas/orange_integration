@@ -120,6 +120,22 @@
               </tr>
 
 
+              <tr>
+                <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of active users until  {{$yesterday}} </td>
+
+                <td><span dir="rtl" class="btn btn-success borderCircle">
+                  {{ $count_all_active_users_until_yesterday }}
+                </span></td>
+            </tr>
+
+
+
+            <tr>
+              <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
+              <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
+          </tr>
+
+
 
 
                     {{--  <tr>
@@ -144,10 +160,7 @@
 
 
 
-                    <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
-                    </tr>  --}}
+                   --}}
 
 
 
