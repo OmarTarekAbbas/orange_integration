@@ -149,7 +149,7 @@
 
 
               <tr>
-                <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of all users ( active + pending + unsub )  </td>
+                <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of all users ( active + pending + unsub ) untill {{$date}}  </td>
 
                 <td><span dir="rtl" class="btn btn-success borderCircle">
                   {{ $count_all_users }}
@@ -158,7 +158,7 @@
 
 
             <tr>
-              <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of active users </td>
+              <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of active users  until {{$date}} </td>
 
               <td><span dir="rtl" class="btn btn-success borderCircle">
                 {{ $count_total_all_active_users }}
@@ -167,7 +167,7 @@
 
 
           <tr>
-            <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of pending users </td>
+            <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of pending users  until {{$date}} </td>
 
             <td><span dir="rtl" class="btn btn-success borderCircle">
               {{ $count_all_pending_users }}
@@ -176,7 +176,7 @@
 
 
         <tr>
-          <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of unsubcribe users </td>
+          <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of unsubcribe users  until {{$date}} </td>
 
           <td><span dir="rtl" class="btn btn-success borderCircle">
             {{ $count_all_unsub_users }}
@@ -186,7 +186,7 @@
 
 
           <tr>
-            <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
+            <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue until Now</td>
             <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
         </tr>
 
