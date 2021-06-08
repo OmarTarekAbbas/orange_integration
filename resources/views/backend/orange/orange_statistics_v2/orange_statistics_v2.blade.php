@@ -111,58 +111,6 @@
 
 
 
-                <tr>
-                  <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of all users until  {{$yesterday}} </td>
-
-                  <td><span dir="rtl" class="btn btn-success borderCircle">
-                    {{ $count_all_users }}
-                  </span></td>
-              </tr>
-
-
-              <tr>
-                <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of active users until  {{$yesterday}} </td>
-
-                <td><span dir="rtl" class="btn btn-success borderCircle">
-                  {{ $count_all_active_users_until_yesterday }}
-                </span></td>
-            </tr>
-
-
-
-            <tr>
-              <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
-              <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
-          </tr>
-
-
-
-
-                    {{--  <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Pending Users</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_pending_users }}</span></td>
-                    </tr>
-
-
-
-                    <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Unsub Users</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_unsub_users }}</span></td>
-                    </tr>
-
-
-
-                    <tr>
-                        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of Total Free Users</td>
-                        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_total_free_users }}</span></td>
-                    </tr>
-
-
-
-
-                   --}}
-
-
 
                 </table>
                 @if(app('request')->input('from_date'))
@@ -176,6 +124,109 @@
 
 
     </div>
+
+
+
+
+
+    <div class="col-xs-12">
+      <div class="box">
+          <div class="col-md-6">
+              <div class="box-title">
+                  @if(Session::has('success'))
+                  <div class="alert alert-success">
+                      {{ Session::get('success') }}
+                  </div>
+                  @endif
+                  <h3>Elforsan total </h3>
+              </div>
+          </div>
+
+
+          <div class="box-body table-responsive no-padding">
+              <table class="table table-hover table-striped mt-table">
+
+
+
+              <tr>
+                <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of all users ( active + pending + unsub )  </td>
+
+                <td><span dir="rtl" class="btn btn-success borderCircle">
+                  {{ $count_all_users }}
+                </span></td>
+            </tr>
+
+
+            <tr>
+              <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of active users </td>
+
+              <td><span dir="rtl" class="btn btn-success borderCircle">
+                {{ $count_total_all_active_users }}
+              </span></td>
+          </tr>
+
+
+          <tr>
+            <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of pending users </td>
+
+            <td><span dir="rtl" class="btn btn-success borderCircle">
+              {{ $count_all_pending_users }}
+            </span></td>
+        </tr>
+
+
+        <tr>
+          <td width='30%' class='label-view text-left' style="font-weight: bold;"> Count of unsubcribe users </td>
+
+          <td><span dir="rtl" class="btn btn-success borderCircle">
+            {{ $count_all_unsub_users }}
+          </span></td>
+      </tr>
+
+
+
+          <tr>
+            <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue</td>
+            <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
+        </tr>
+
+
+
+
+                  {{--  <tr>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Pending Users</td>
+                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_pending_users }}</span></td>
+                  </tr>
+
+
+
+                  <tr>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All Unsub Users</td>
+                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_unsub_users }}</span></td>
+                  </tr>
+
+
+
+                  <tr>
+                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of Total Free Users</td>
+                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_total_free_users }}</span></td>
+                  </tr>
+
+
+
+
+                 --}}
+
+
+
+              </table>
+
+          </div>
+      </div>
+
+
+  </div>
+
 </div>
 
 @include('backend.footer')
