@@ -102,7 +102,7 @@
 
                     <td><span dir="rtl" class="btn btn-success borderCircle">
                       @if($count_user_today > 0 )
-                      {{round(  count_today_unsub_users / $count_user_today , 2 )}}
+                      {{round(  $count_today_unsub_users / $count_user_today , 2 )}}
                     @else
                     0
                     @endif
