@@ -531,6 +531,8 @@ class AdminOrangeController extends Controller
         $count_of_total_free_users = OrangeSubscribe::where('free', 1)->whereDate('created_at',"<=", $date)->count();
         $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
+        
+
         \Excel::create('alforsantatistics-two'.$date,
         function($excel)
           use (
