@@ -138,6 +138,18 @@
                 </a>
             </li>
 
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/download_subscribe_one')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Success Send Subscribers to Orange
+                </a>
+            </li>
+
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/download_subscribe_two')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Send Subscribers to Orange
+                </a>
+            </li>
+
         </ul>
     </li>
 
