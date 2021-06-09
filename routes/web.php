@@ -79,8 +79,8 @@ Route::get('admin/remove_duplicate_msisdn','AdminOrangeController@removeDuplicat
 Route::get('admin/download_subscribe','AdminOrangeController@DownloadSubscribe');
 Route::get('admin/orange_statistics_by_form_v2','AdminOrangeController@orange_statistics_by_form_v2');
 Route::get('admin/download_excel_orange_statistics_by_form','AdminOrangeController@download_excel_orange_statistics_by_form');
-Route::get('admin/download_subscribe_one','AdminOrangeController@DownloadSubscribeOne');
-Route::get('admin/download_subscribe_two','AdminOrangeController@DownloadSubscribeTwo');
+Route::get('admin/success_send_subscribers_to_orange','AdminOrangeController@DownloadSubscribeOne');
+Route::get('admin/send_subscribers_to_orange','AdminOrangeController@DownloadSubscribeTwo');
 // End orange Routes...
 
 // Authentication Routes...

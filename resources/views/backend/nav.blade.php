@@ -139,13 +139,13 @@
             </li>
 
             <li id="orange_whitelists">
-                <a class="" href="{{url('admin/download_subscribe_one')}}">
+                <a class="" href="{{url('admin/success_send_subscribers_to_orange')}}">
                     <span class="glyphicon glyphicon-list-alt"></span>Success Send Subscribers to Orange
                 </a>
             </li>
 
             <li id="orange_whitelists">
-                <a class="" href="{{url('admin/download_subscribe_two')}}">
+                <a class="" href="{{url('admin/send_subscribers_to_orange')}}">
                     <span class="glyphicon glyphicon-list-alt"></span>Send Subscribers to Orange
                 </a>
             </li>

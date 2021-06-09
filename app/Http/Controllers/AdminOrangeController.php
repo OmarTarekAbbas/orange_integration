@@ -716,7 +716,7 @@ class AdminOrangeController extends Controller
 
       $downloadSubscribes = \DB::select("SELECT date(created_at) as date , count(created_at) as date_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB' AND on_result_code = 0 GROUP BY date(created_at) HAVING count(created_at) >= 1;");
 
-      \Excel::create('DownloadSubscribeOne-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+      \Excel::create('success_send_subscribers_to_orange-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
           $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
            $sheet->loadView('backend.orange.download_subscribe.download_subscribe_two')->with("downloadSubscribes",$downloadSubscribes);
           });
@@ -730,7 +730,7 @@ class AdminOrangeController extends Controller
 
       $downloadSubscribes = \DB::select("SELECT date(created_at) as date , count(created_at) as date_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB'  GROUP BY date(created_at) HAVING count(created_at) >= 1;");
 
-      \Excel::create('DownloadSubscribeTwo-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+      \Excel::create('send_subscribers_to_orange-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
           $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
            $sheet->loadView('backend.orange.download_subscribe.download_subscribe_two')->with("downloadSubscribes",$downloadSubscribes);
           });
