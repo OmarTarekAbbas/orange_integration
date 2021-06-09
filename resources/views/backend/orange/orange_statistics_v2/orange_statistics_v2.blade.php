@@ -98,30 +98,16 @@
 
 
                   <tr>
-                    <td width='30%' class='label-view text-left' style="font-weight: bold;">Cancel Rate  :  (Count Unsub Users Today /Count of active users until {{$yesterday}}  ) </td>
+                    <td width='30%' class='label-view text-left' style="font-weight: bold;">Cancel Rate </td>
 
                     <td><span dir="rtl" class="btn btn-success borderCircle">
-                      @if($count_total_all_active_users > 0 )
-                      {{round(  $count_today_unsub_users / $count_total_all_active_users , 2 )}}
+                      @if($count_user_today > 0 )
+                      {{round(  count_today_unsub_users / $count_user_today , 2 )}}
                     @else
                     0
                     @endif
                     </span></td>
                 </tr>
-
-
-
-                <tr>
-                  <td width='30%' class='label-view text-left' style="font-weight: bold;">Cancel Rate  :  (Count Unsub Users Today /Count of [ active + pending  ] users until {{$yesterday}}  ) </td>
-
-                  <td><span dir="rtl" class="btn btn-success borderCircle">
-                    @if($count_total_all_active_users > 0 )
-                    {{round(  $count_today_unsub_users / ( $count_total_all_active_users + $count_all_pending_users ) , 2 )}}
-                  @else
-                  0
-                  @endif
-                  </span></td>
-              </tr>
 
 
 
