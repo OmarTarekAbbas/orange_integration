@@ -117,11 +117,18 @@
                     <span class="glyphicon glyphicon-list-alt"></span>Orange Statistics
                 </a>
             </li>
-           
+
 
             <li id="orange_whitelists">
                 <a class="" href="{{url('admin/orange_statistics_by_form')}}">
                     <span class="glyphicon glyphicon-list-alt"></span>Orange filter
+                </a>
+            </li>
+
+
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/orange_statistics_by_form_v2')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Orange filter v2
                 </a>
             </li>
 
