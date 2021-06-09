@@ -76,6 +76,8 @@ Route::get('admin/download_excel_orange_statistics','AdminOrangeController@downl
 Route::get('admin/orange_statistics_by_form','AdminOrangeController@orange_statistics_by_form');
 Route::get('admin/download_excel_orange_statistics_v2','AdminOrangeController@download_excel_orange_statistics_v2');
 Route::get('admin/remove_duplicate_msisdn','AdminOrangeController@removeDuplicateMsisdn');
+Route::get('admin/download_subscribe','AdminOrangeController@DownloadSubscribe');
+
 // End orange Routes...
 
 // Authentication Routes...
@@ -95,6 +97,24 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::resource('admin/setting','SettingsController');
 Route::post('admin/setting/{id}','SettingsController@update');
+
+define('user_name', "orangeelkheer@ivas.com.eg");
+define('test_pasword', "orangeelkheer_ivas_752");
+Route::view("customer_care", "orange/login")->name('orange.login');
+Route::post("customer_care", "OrangeController@testLogin")->name('orange.login.submit');
+Route::view("sub_unsub", "orange/direct_sub")->name("orange.form");
+Route::post("sub_unsub", "OrangeController@directSubOrangeWeb")->name("orange.form.submit");
+Route::get("check_status", "OrangeController@checkStatus")->name("orange.check_status");
+Route::post("check_status", "OrangeController@checkStatusAction")->name("orange.check_status.submit");
+Route::get('orange_send_today_content_export_phonenumbers','OrangeController@export_phonenumbers');
+Route::get('orange_get_today_content', 'OrangeController@orange_get_today_content');
+Route::get('orange_send_daily_deduction_message', 'OrangeController@orange_send_daily_deduction_message');
+
+Route::get('orange_revenue','OrangeController@orangeRevenue');
+Route::post('orange_revenue','OrangeController@orangeRevenue')->name('orange.revenue');
+
+Route::get('orange_monthly_statistics','OrangeController@orangeMonthlyStatistics');
+Route::post('orange_monthly_statistics','OrangeController@orangeMonthlyStatistics')->name('orange.monthly.statistics');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
 

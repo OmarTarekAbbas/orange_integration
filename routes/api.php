@@ -80,7 +80,7 @@ define('password', '3sJ4YiK4');
 define('service', '0067380001');
 define('productId', '1000000577');
 define('partnerId', '1000000577');
-define("sendKenelApi",'http://10.2.10.15:8310/~smsorange/api/orange_egypt_send_message');
+define("sendKenelApi",'http://10.2.10.15:8310/~smsorange/api/orange_elkheer_egypt_send_message');
 define("ORANGEGETTODAYCONTENTLINK",'https://orange-elkheer.com/orange_get_today_content_link');
 
 
@@ -115,6 +115,8 @@ Route::get('orange_send_today_content', 'OrangeController@orange_send_today_cont
 
 Route::get('get_orange_subscribers_not_receive_today_content','OrangeController@get_orange_subscribers_not_receive_today_content');
 Route::get('orange_send_daily_deduction', 'OrangeController@orange_send_daily_deduction');
+
+Route::get('orange_daily_deduction_message', 'OrangeController@orange_send_daily_deduction_message');
 
 
 /***************************************/

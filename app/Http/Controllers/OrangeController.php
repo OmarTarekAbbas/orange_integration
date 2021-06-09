@@ -18,6 +18,8 @@ use Monolog\Handler\StreamHandler;
 use Illuminate\Support\Facades\File;
 use App\Constants\OrangeResponseStatus;
 use App\Http\Controllers\Api\OrangeApiController;
+use Validator;
+use DB;
 use App\Http\Requests\Request as RequestsRequest;
 
 class OrangeController extends Controller
@@ -783,6 +785,7 @@ var_dump($output) ;
           $welcome_message .= "https://orange-elkheer.com" ;
           $welcome_message .= "  لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا" ;
           $send_message = $welcome_message;
+          $response_msg = 'انت مشترك بالفعل في خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم';
 
         }
         $response_xml = '<?xml version="1.0" encoding="UTF - 8" ?><html><head><meta name="nav" content="end"></head><body>' . $response_msg . '</body></html>';
@@ -803,6 +806,7 @@ var_dump($output) ;
     public function sms_notify(Request $request)
     {
          $orangeSms = new OrangeSms();
+         $request->msisdn = ltrim($request->msisdn, "+");
          $orangeSms->msisdn      = $request->msisdn;
          $orangeSms->message     = $request->message ?? " ";
          $orangeSms->service_id  = isset($request->service_id)?$request->service_id:productId;
@@ -851,7 +855,7 @@ var_dump($output) ;
          //  return   $message;
         }else{
          // $message = "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1";
-          $message = "للاشتراك في خدمة اورانج الخير يرجي ارسال    215" ;
+          $message = "للاشتراك في خدمة اورانج الخير يرجي ارسال 215 ولالغاء الاشتراك ارسل 0215 " ;
           $this->sendMessageToUser($request->msisdn, $message);
          // return "to subscribe to orange Elkeer You can send sub1 and to unsubscribe you can send unsub1." ;
         }
@@ -1314,78 +1318,97 @@ var_dump($output) ;
       echo "Ok";
     }
 
-    public function orange_send_today_content()
-    {
-      //$orange_subscribes = OrangeSubscribe::where("active",1)->get();
-     // $orange_subscribes = OrangeSubscribe::where("active",1)->where("msisdn","201223872695")->get(); // test on my number
+  public function orange_send_today_content()
+  {
+    $message = $this->orange_get_today_content();
+    $today_message_msisdns = TodayMessage::whereDate('created_at', Carbon::now()->toDateString())->pluck('msisdn');
 
-     $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->where("type","!=","charge")->pluck('msisdn');
-     $orange_subscribes = OrangeSubscribe::where("active",1)->whereNotIn('msisdn',$today_message_msisdns)->get();
-
-      $orange_today_link  =  $this->orange_get_today_content();
-
-      $message =  $orange_today_link ;
-      // append charging fee
-
-      // $subject = "Ivas Send today content to Orange subscribers";  // this server not send email
-      // $this->emailSend($subject) ;
-
+    OrangeSubscribe::where("active", 1)->whereNotIn('msisdn', $today_message_msisdns)->chunk(1000, function ($orange_subscribes) use ($message) {
       foreach ($orange_subscribes as $orange_subscribe) {
-      if($orange_subscribe->free == 1){
-          $type = "free" ;
-        }elseif($orange_subscribe->active == 1){
-          $type = "today" ;
-        }
-
-        $this->sendMessageToUser($orange_subscribe->msisdn, $message);
-
-
-        // add log to DB
-      $TodayMessage  =   new TodayMessage();
-      $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
-      $TodayMessage->message   = $orange_today_link;
-      $TodayMessage->type   =  $type  ;
-      $TodayMessage->save() ;
-      }
-
-      echo "send today content is Done" ;
-
-    }
-
-
-public function orange_send_daily_deduction()
-{
-
-
-  $today_message_msisdns = TodayMessage::whereDate('created_at',Carbon::now()->toDateString())->where("type","=","charge")->pluck('msisdn');
-  $orange_subscribes = OrangeSubscribe::where("active",1)->where("free",0)->whereNotIn('msisdn',$today_message_msisdns)->get();
-
-
-    //  $orange_subscribes = OrangeSubscribe::where("active",1)->get();
-
-      $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
-
-
-      foreach ($orange_subscribes as $orange_subscribe) {
-      if($orange_subscribe->free == 1){
-          $type = "charge" ;
-        }elseif($orange_subscribe->active == 1){
-          $type = "charge" ;
+        if ($orange_subscribe->free == 1) {
+          $type = "free";
+        } elseif ($orange_subscribe->active == 1) {
+          $type = "today";
         }
 
         $this->sendMessageToUser($orange_subscribe->msisdn, $message);
 
         // add log to DB
-      $TodayMessage  =   new TodayMessage();
-      $TodayMessage->msisdn   = $orange_subscribe->msisdn  ;
-      $TodayMessage->message   = $message;
-      $TodayMessage->type   =  $type  ;
-      $TodayMessage->save() ;
+        $TodayMessage  =   new TodayMessage();
+        $TodayMessage->msisdn   = $orange_subscribe->msisdn;
+        $TodayMessage->message   = $message;
+        $TodayMessage->type   =  $type;
+        $TodayMessage->save();
       }
+    });
 
-      echo "send today charging message  is Done" ;
+    echo "send today content is Done";
+  }
 
-    }
+  public function export_phonenumbers()
+  {
+    set_time_limit(0);
+    ini_set('memory_limit', -1);
+
+    $file = 'orange-elkheer_'. date("d-m-Y") .'.txt';
+    $file_object = fopen($file, "w") or die("Unable to open file!");
+    fwrite($file_object, "phone_number \n");
+    $this->orange_send_today_content_export_phonenumbers($file_object);
+    fclose($file_object);
+
+    header('Content-Description: File Transfer');
+    header('Content-Disposition: attachment; filename='.basename($file));
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    header("Content-Type: text/plain");
+    readfile($file);
+
+    echo "Today Content Phonenumbers Exported Successfully.";
+  }
+
+  public function orange_send_today_content_export_phonenumbers($file_object)
+  {
+    OrangeSubscribe::where("active", 1)->chunk(50000, function ($orange_subscribes) use ($file_object) {
+
+      foreach ($orange_subscribes as $orange_subscribe) {
+
+        //create file of phone numbers
+        fwrite($file_object, ltrim($orange_subscribe->msisdn, '2') . "\n");
+
+      }
+    });
+
+    return true;
+  }
+
+  public function orange_send_daily_deduction()
+  {
+    $message =  "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
+    $today_message_msisdns = TodayMessage::whereDate('created_at', Carbon::now()->toDateString())->where("type", "=", "charge")->pluck('msisdn');
+
+    OrangeSubscribe::where("active", 1)->where("free", 0)->whereNotIn('msisdn', $today_message_msisdns)->chunk(1000, function ($orange_subscribes) use ($message) {
+      foreach ($orange_subscribes as $orange_subscribe) {
+        if ($orange_subscribe->free == 1) {
+          $type = "charge";
+        } elseif ($orange_subscribe->active == 1) {
+          $type = "charge";
+        }
+
+        $this->sendMessageToUser($orange_subscribe->msisdn, $message);
+
+        // add log to DB
+        $TodayMessage  =   new TodayMessage();
+        $TodayMessage->msisdn   = $orange_subscribe->msisdn;
+        $TodayMessage->message   = $message;
+        $TodayMessage->type   =  $type;
+        $TodayMessage->save();
+      }
+    });
+
+    echo "send today charging message  is Done";
+  }
 
 
 public function orange_send_weekly_deduction()
@@ -1444,6 +1467,10 @@ public function orange_send_weekly_deduction()
 
     }
 
+    public function orange_send_daily_deduction_message(){
+      return "سوف يتم خصم 1 جنيه  فى اليوم، واستهلاك الإنترنت سوف يخصم من الباقة الخاصة بك، ولإلغاء الإشتراك ارسل 0215 إلى 6124 مجانا.";
+    }
+
 
 
     public function emailSend($subject)
@@ -1475,6 +1502,297 @@ public function orange_send_weekly_deduction()
       $orange_subscribes = OrangeSubscribe::where("active",1)->whereNotIn('msisdn',$today_message_msisdns)->get();
 
     }
+
+  public function testLogin(Request $request)
+  {
+    if ($request->user_name == user_name && $request->password == test_pasword) {
+      session()->put("test_login", $request->user_name);
+
+      if(session()->has("orange_revenue_url")){
+        return redirect()->route("orange.revenue");
+      }else{
+        return redirect()->route("orange.form");
+      }
+    }
+    return back()->with("faild", "These credentials do not match our records");
+  }
+
+    public function directSubOrangeWeb(Request $request)
+    {
+      if(!(session()->has("test_login") && session("test_login") == user_name)) {
+        return redirect()->route("orange.login");
+      }
+
+      // default values
+      $bearer = "WEB";
+      $service_id = productId  ;
+      $phone_number = ltrim($request->msisdn, 0);
+      $request->msisdn = "20$phone_number";
+      $msisdn = "20$phone_number";
+      $command = $request->command;
+
+
+      $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('free', 1)->where('service_id', $service_id)->first();
+      if($orange_subscribe  &&  $request->command == "UNSUBSCRIBE"){ // user still free and need to unsub
+        $orange_subscribe->active = 2 ;  // unsub
+        $orange_subscribe->free = 0;  // unsub
+        $orange_subscribe->save();
+        $flash_message = "لقد تم الغاء الاشتراك بنجاح ";
+        return back()->with("success", $flash_message);
+      }
+
+
+
+        set_time_limit(100000);
+        date_default_timezone_set("UTC");
+
+        $spId = spId;
+        $time_stamp = date('YmdHis');
+        $sp_password = MD5($spId.password.$time_stamp);  // spPassword = MD5(spId + Password + timeStamp)
+        $productId = productId;
+
+
+
+        $soap_request ='<?xml version="1.0" encoding="UTF-8" standalone="no"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:asp="http://smsgwpusms/wsdls/Mobinil/ASP_XML.wsdl">
+        <soap:Header>
+        <RequestSOAPHeader xmlns="http://www.huawei.com.cn/schema/common/v2_1">
+        <spId>'.$spId.'</spId>
+        <spPassword>'.$sp_password.'</spPassword>
+        <timeStamp>'.$time_stamp.'</timeStamp>
+        </RequestSOAPHeader>
+        </soap:Header>
+        <soap:Body>
+        <asp:AspActionRequest>
+        <CC_Service_Number>'.$productId.'</CC_Service_Number>
+        <CC_Calling_Party_Id>'.$msisdn.'</CC_Calling_Party_Id>
+        <ON_Selfcare_Command>'.$command.'</ON_Selfcare_Command>
+        <ON_Bearer_Type>'.$bearer.'</ON_Bearer_Type>
+        </asp:AspActionRequest>
+        </soap:Body>
+        </soap:Envelope>';
+
+
+
+
+        $header = array(
+          "Content-Type: text/xml",
+          "Content-Length: ".strlen($soap_request),
+      );
+
+    // $URL = "http://10.240.22.41:8310/smsgwws/ASP/";  // testing
+     $URL = "http://10.240.22.62:8310/smsgwws/ASP/";  // production
+
+    //  $f = fopen('request.txt', 'w');
+      $soap_do = curl_init();
+      curl_setopt($soap_do, CURLOPT_URL, $URL);
+      curl_setopt($soap_do, CURLOPT_CONNECTTIMEOUT, 1000000000000000000);
+      curl_setopt($soap_do, CURLOPT_TIMEOUT, 1000000000000000000);
+      curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+    //  curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+    //   curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+      curl_setopt($soap_do, CURLOPT_POST, true);
+      curl_setopt($soap_do, CURLOPT_POSTFIELDS, $soap_request);
+      curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+    //  curl_setopt($soap_do, CURLOPT_VERBOSE, 1);  // show curl connect
+    //  curl_setopt($soap_do, CURLOPT_STDERR, $f);
+
+      $output = curl_exec($soap_do);
+
+      if(curl_errno($soap_do))
+      print curl_error($soap_do);
+  else
+      curl_close($soap_do);
+
+        $request_array = array(
+            'result_code' => ['start' => '<ON_Result_Code>', 'end' => '</ON_Result_Code>'],
+            'bearer_type' => ['start' => '<ON_Bearer_Type>', 'end' => '</ON_Bearer_Type>'],
+        );
+
+        $string = $output;
+
+        foreach ($request_array as $key => $value) {
+            $start = $value['start'];
+            $end = $value['end'];
+
+            $startpos = strpos($string, $start) + strlen($start);
+            if (strpos($string, $start) !== false) {
+                $endpos = strpos($string, $end, $startpos);
+                if (strpos($string, $end, $startpos) !== false) {
+                    $post_array[$key] = substr($string, $startpos, $endpos - $startpos);
+                } else {
+                    $post_array[$key] = "";
+                }
+            }
+        }
+
+        $orange_web = new OrangeSubUnsub;
+        $orange_web->req = $soap_request;
+        $orange_web->response = $output;
+        $orange_web->spId = $spId;
+        $orange_web->sp_password = $sp_password;
+        $orange_web->time_stamp = $time_stamp;
+        $orange_web->service_number = $productId;
+        $orange_web->calling_party_id = $msisdn;
+        $orange_web->selfcare_command = $command;
+        $orange_web->on_bearer_type = $bearer;
+        $orange_web->on_result_code = isset($post_array['result_code'])?$post_array['result_code']:"";
+
+        $OrangeWeb = $orange_web->save();
+
+
+
+     /* =================  Orange result_code for sub / unsub api ===================
+      0	success
+      1	already subscribed
+      2	not subscribed
+      5	not allowed
+      6	account problem = no balance
+      31	Technical problem
+      */
+        if(isset($post_array['result_code']) &&  $post_array['result_code'] == 0     ){
+            if ($command == 'SUBSCRIBE') {
+                $commandActive = 1;  // sub success
+                $free =  1 ;
+                $flash_message = "لقد تم الاشتراك بنجاح";
+            } elseif ($command == 'UNSUBSCRIBE') {
+                $commandActive = 2;  // unsub success
+                $free =  0 ;
+                $flash_message = "لقد تم الغاء الاشتراك بنجاح ";
+            }
+
+
+            $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $service_id)->first();
+            if ($orange_subscribe) {
+                $orange_subscribe->active = $commandActive;
+                $orange_subscribe->free =  $free;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
+                $orange_subscribe->table_name = 'orange_sub_unsubs';
+                $orange_subscribe->type = strtolower($bearer);
+                $orange_subscribe->save();
+            } else { // will not accured
+                $orange_subscribe = new OrangeSubscribe;
+                $orange_subscribe->msisdn = $msisdn;
+                $orange_subscribe->orange_channel_id = $orange_web->id;
+                $orange_subscribe->table_name = 'orange_sub_unsubs';
+                $orange_subscribe->free =  $free;
+                $orange_subscribe->active = $commandActive;
+                $orange_subscribe->type = strtolower($bearer);
+                $orange_subscribe->subscribe_due_date =date("Y-m-d", strtotime(date('Y-m-d')." +2 days"));
+                $orange_subscribe->service_id = $service_id;
+                $orange_subscribe->save();
+            }
+        }elseif($command == 'UNSUBSCRIBE' &&  $post_array['result_code'] == 2){  // NotSubscribed
+          $orange_subscribe = OrangeSubscribe::where('msisdn', $request->msisdn)->where('service_id', $service_id)->first();
+          if( $orange_subscribe ){
+            $orange_subscribe->active = 2;
+            $orange_subscribe->free = 0;
+            $orange_subscribe->orange_channel_id = $orange_web->id;
+            $orange_subscribe->table_name = 'orange_sub_unsubs';
+            $orange_subscribe->type = strtolower($bearer);
+            $orange_subscribe->save();
+          }
+
+          $flash_message = "لقد تم الغاء الاشتراك بنجاح ";
+
+        }
+
+
+        $result_code =   isset($post_array['result_code']) ? $post_array['result_code'] : "error" ;
+        if(isset($flash_message) && $flash_message != ''){
+          session()->flash('success', $flash_message);
+        } else {
+          session()->flash('warning', OrangeResponseStatus::getLabel($result_code));
+        }
+        return back();
+      }
+
+
+    public function checkStatus(Request $request){
+
+      if(!(session()->has("test_login") && session("test_login") == user_name)) {
+        return redirect()->route("orange.login");
+      }
+      return view('orange.check_status');
+
+    }
+
+    public function checkStatusAction(Request $request)
+    {
+
+        $service_id = productId  ;
+        $phone_number = ltrim($request->msisdn, 0);
+        $msisdn = "20$phone_number";
+
+        $subscriber = OrangeSubscribe::where('msisdn', $msisdn)->where('service_id', $service_id)->first();
+
+        if(isset($subscriber) && $subscriber!=null){
+          $subscriber = $subscriber;
+        }else{
+          $subscriber = [];
+        }
+
+        //register log
+        $action = 'CheckStatus';
+        $url = url()->full();
+        $log['msisdn'] = $msisdn;
+        $log['service_id'] = $service_id;
+        if($subscriber){
+          $log['subscriber'] = $subscriber->toArray();
+        }else{
+          $log['subscriber'] = $subscriber;
+        }
+        $this->log_action($action, $url, $log);
+
+        return view('orange.check_status', compact('subscriber'));
+    }
+
+  public function orangeRevenue(Request $request)
+  {
+    if (!(session()->has("test_login") && session("test_login") == user_name)) {
+      session()->put("orange_revenue_url", url()->current());
+
+      return redirect()->route("orange.login");
+    }
+
+    if ($request->has('to_date') && $request->to_date != '') {
+      $validator = Validator::make($request->all(), [
+        'from_date' => '',
+        'to_date' => 'required|after_or_equal:from_date',
+      ]);
+      if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput();
+      }
+    }
+
+    $date = Carbon::now()->toDateString();
+    $from_date = $request->has('from_date') && $request->from_date != '' ? $request->from_date : NULL ;
+    $to_date = $request->has('to_date') && $request->to_date != ''? $request->to_date : NULL ;
+    $equal = '=';
+
+    $today_success_charging = OrangeCharging::whereNotIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->whereDate('created_at', $equal, $date)->count();
+    $today_failed_charging = OrangeCharging::whereIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE'])->whereDate('created_at', $equal, $date)->count();
+    $all_success_charging = OrangeCharging::query()->whereNotIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE']);
+    $all_failed_charging = OrangeCharging::query()->whereIn('action',  ['GRACE2', 'OPERATORUNSUBSCRIBE']);
+
+    if ($request->has('from_date') && $request->from_date != '') {
+      $all_success_charging = $all_success_charging->whereDate('orange_chargings.created_at', '>=', $request->from_date);
+      $all_failed_charging = $all_failed_charging->whereDate('orange_chargings.created_at', '>=', $request->from_date);
+    }
+
+    if ($request->has('to_date') && $request->to_date != '') {
+      $all_success_charging = $all_success_charging->whereDate('orange_chargings.created_at', '<=', $request->to_date);
+      $all_failed_charging = $all_failed_charging->whereDate('orange_chargings.created_at', '<=', $request->to_date);
+    }
+
+    $all_success_charging = $all_success_charging->count();
+    $all_failed_charging = $all_failed_charging->count();
+
+    return view('orange.revenue', compact('all_success_charging', 'all_failed_charging', 'today_success_charging', 'today_failed_charging', 'from_date', 'to_date'));
+  }
+
+  public function orangeMonthlyStatistics(){
+
+  }
 
 
 }
