@@ -500,6 +500,85 @@ class AdminOrangeController extends Controller
           ));
     }
 
+    public function download_excel_orange_statistics_by_form(Request $request)
+    {
+      if($request->has('from_date') && $request->from_date != ''){
+        $date = $request->from_date;
+        $equal = '=';
+      }else{
+        $date = Carbon::now()->toDateString();
+        $equal = '=';
+      }
+
+        $time = strtotime("$date - 1 days") ;
+        $yesterday =  date("Y-m-d" ,  $time ) ;
+
+        $time_next = strtotime("$date + 1 days") ;
+        $tomorrow =  date("Y-m-d" ,  $time_next ) ;
+
+        $count_user_today = OrangeSubscribe::whereDate('created_at',"=", $date)->count();
+        $count_charging_users_not_free = OrangeCharging::whereDate('created_at',"=", $date)->count();
+        $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)
+                                              ->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+        $count_all_active_users = OrangeSubscribe::whereDate('created_at',"=",  $yesterday )->count();
+        $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('updated_at',"=", $date)->count();
+
+        $count_all_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->count();
+        $count_total_all_active_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 1)->count();
+        $count_all_pending_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 0)->count();
+        $count_all_unsub_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 2)->count();
+
+        $count_of_total_free_users = OrangeSubscribe::where('free', 1)->whereDate('created_at',"<=", $date)->count();
+        $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+
+        \Excel::create('alforsantatistics-two'.$date,
+        function($excel)
+          use (
+              $count_user_today,
+              $count_charging_users_not_free,
+              $count_of_all_success_charging_today,
+              $count_all_active_users, $count_today_unsub_users,
+              $count_all_users,
+              $count_total_all_active_users,
+              $count_all_pending_users,
+              $count_all_unsub_users,
+              $count_of_total_free_users,
+              $count_of_all_success_charging,
+              $yesterday)
+          {
+            $excel->sheet('Excel',
+            function($sheet)
+            use (
+              $count_user_today,
+              $count_charging_users_not_free,
+              $count_of_all_success_charging_today,
+              $count_all_active_users,
+              $count_today_unsub_users,
+              $count_all_users,
+              $count_total_all_active_users,
+              $count_all_pending_users,
+              $count_all_unsub_users,
+              $count_of_total_free_users,
+              $count_of_all_success_charging,
+              $yesterday)
+            {
+              $sheet->loadView('backend.orange.download_excel_orange_statistics_by_form')
+              ->with("count_user_today", $count_user_today)
+              ->with("count_charging_users_not_free", $count_charging_users_not_free)
+              ->with("count_of_all_success_charging_today", $count_of_all_success_charging_today)
+              ->with("count_all_active_users", $count_all_active_users)
+              ->with("count_today_unsub_users", $count_today_unsub_users)
+              ->with("count_all_users", $count_all_users)
+              ->with("count_total_all_active_users", $count_total_all_active_users)
+              ->with("count_all_pending_users", $count_all_pending_users)
+              ->with("count_all_unsub_users", $count_all_unsub_users)
+              ->with("count_of_total_free_users", $count_of_total_free_users)
+              ->with("yesterday", $yesterday)
+              ->with("count_of_all_success_charging", $count_of_all_success_charging);
+          });
+      })->export('csv');
+    }
+
     public function download_excel_orange_statistics_v2(Request $request)
     {
       if($request->has('from_date') && $request->from_date != ''){

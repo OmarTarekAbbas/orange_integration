@@ -128,9 +128,15 @@
 
                 </table>
                 @if(app('request')->input('from_date'))
-                <a href="{{url('admin/download_excel_orange_statistics_v2?from_date='.app('request')->input('from_date'))}}"><button class="btn btn-warning borderRadius">Download Excel</button></a>
+                <a href="{{url('admin/download_excel_orange_statistics_v2?from_date='.app('request')->input('from_date'))}}"><button class="btn btn-warning borderRadius">Download Excel One</button></a>
                 @else
                 <a href="{{url('admin/download_excel_orange_statistics_v2')}}"><button class="btn btn-warning borderRadius">Download Excel</button></a>
+                @endif
+
+                @if(app('request')->input('from_date'))
+                <a href="{{url('admin/download_excel_orange_statistics_by_form?from_date='.app('request')->input('from_date'))}}"><button class="btn btn-warning borderRadius">Download Excel Two</button></a>
+                @else
+                <a href="{{url('admin/download_excel_orange_statistics_by_form')}}"><button class="btn btn-warning borderRadius">Download Excel Two</button></a>
                 @endif
 
             </div>
