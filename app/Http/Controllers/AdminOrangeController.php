@@ -531,7 +531,7 @@ class AdminOrangeController extends Controller
         $count_of_total_free_users = OrangeSubscribe::where('free', 1)->whereDate('created_at',"<=", $date)->count();
         $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
-        
+
 
         \Excel::create('alforsantatistics-two'.$date,
         function($excel)
@@ -638,6 +638,34 @@ class AdminOrangeController extends Controller
         \Excel::create('DownloadSubscribe-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
             $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
              $sheet->loadView('backend.orange.download_subscribe')->with("downloadSubscribes",$downloadSubscribes);
+            });
+        })->export('csv');
+      }
+
+      public function DownloadSubscribeOne(Request $request)
+      {
+        set_time_limit(0);
+        ini_set('memory_limit', -1);
+
+        $downloadSubscribes = \DB::select("SELECT date(created_at) as date , count(created_at) as date_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB' AND on_result_code = 0 GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+        \Excel::create('DownloadSubscribeOne-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+            $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
+             $sheet->loadView('backend.orange.download_subscribe.download_subscribe_two')->with("downloadSubscribes",$downloadSubscribes);
+            });
+        })->export('csv');
+      }
+
+      public function DownloadSubscribeTwo(Request $request)
+      {
+        set_time_limit(0);
+        ini_set('memory_limit', -1);
+
+        $downloadSubscribes = \DB::select("SELECT date(created_at) as date , count(created_at) as date_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB'  GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+        \Excel::create('DownloadSubscribeTwo-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+            $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
+             $sheet->loadView('backend.orange.download_subscribe.download_subscribe_two')->with("downloadSubscribes",$downloadSubscribes);
             });
         })->export('csv');
       }
