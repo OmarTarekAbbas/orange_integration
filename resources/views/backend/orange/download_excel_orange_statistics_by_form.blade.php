@@ -24,7 +24,7 @@
                 <td> {{ $count_charging_users_not_free > 0 ? round( $count_of_all_success_charging_today / $count_charging_users_not_free , 2  ) : 0  }}</td>
                 <td> {{ $count_all_active_users}} </td>
                 <td> {{ $count_today_unsub_users }} </td>
-                <td> {{ $count_user_today > 0 ? round(count_today_unsub_users / $count_user_today , 2) : 0 }} </td>
+                <td> {{ $count_user_today > 0 ? round( $count_today_unsub_users / $count_user_today , 2) : 0 }} </td>
                 <td> {{ $count_all_users }}</td>
                 <td> {{ $count_total_all_active_users }}</td>
                 <td> {{ $count_all_pending_users }}</td>
