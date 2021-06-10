@@ -722,8 +722,8 @@ class AdminOrangeController extends Controller
           $group_all_subscriber[$key]['all_count'] = $all_index != false ? $all_send_subscribers[$all_index]->all_count : 0;
           $group_all_subscriber[$key]['success_count'] = $success_index != false ? $success_send_subscribers[$success_index]->success_count: 0;
           $group_all_subscriber[$key]['new_count'] = $new_index != false? $new_subscribers[$new_index]->new_count : 0;
-          $group_all_subscriber[$key]['all_charging_count'] = $new_index != false? $all_charging[$all_charging_index]->all_charging_count : 0;
-          $group_all_subscriber[$key]['success_charging_count'] = $new_index != false? $success_charging[$success_charging_index]->success_charging_count : 0;
+          $group_all_subscriber[$key]['all_charging_count'] = $all_charging_index != false? $all_charging[$all_charging_index]->all_charging_count : 0;
+          $group_all_subscriber[$key]['success_charging_count'] = $success_charging_index != false? $success_charging[$success_charging_index]->success_charging_count : 0;
         }
 
         \Excel::create('download-all-info-'.Carbon::now()->toDateString(), function($excel) use ($group_all_subscriber) {
