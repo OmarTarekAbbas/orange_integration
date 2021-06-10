@@ -80,6 +80,8 @@ Route::get('admin/download_subscribe','AdminOrangeController@DownloadSubscribe')
 Route::get('admin/success_send_subscribers_to_orange','AdminOrangeController@DownloadSubscribeOne');
 Route::get('admin/send_subscribers_to_orange','AdminOrangeController@DownloadSubscribeTwo');
 Route::get('admin/download_new_subscriber','AdminOrangeController@downloadNewSubscriber');
+Route::get('admin/all_info','AdminOrangeController@getAllInfoAboutSubscriberPage');
+Route::post('admin/download_all_info','AdminOrangeController@downloadAllInfoAboutSubscriber');
 
 // End orange Routes...
 

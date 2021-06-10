@@ -684,5 +684,53 @@ class AdminOrangeController extends Controller
         })->export('csv');
       }
 
+      public function getAllInfoAboutSubscriberPage()
+      {
+        return view("backend.orange.download_subscribe.all_info");
+      }
+
+      public function downloadAllInfoAboutSubscriber(Request $request)
+      {
+        $start = $request->from_date??"2021-04-01";
+        $end   = $request->to_date??date('Y-m-d');
+        $group_all_subscriber = [];
+
+        $success_send_subscribers = \DB::select("SELECT date(created_at) as date , count(created_at) as success_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB' AND on_result_code = 0 GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+        $all_send_subscribers = \DB::select("SELECT date(created_at) as date , count(created_at) as all_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB'  GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+        $new_subscribers = \DB::select("SELECT date(created_at) as date , count(created_at) as new_count FROM `orange_subscribes` GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+        $all_charging = \DB::select("SELECT date(created_at) as date , count(created_at) as all_charging_count FROM `orange_chargings` GROUP BY date(created_at) HAVING count(created_at) >= 1");
+
+        $success_charging = \DB::select("SELECT date(created_at) as date , count(created_at) as success_charging_count FROM `orange_chargings` WHERE action IN  ('OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE') GROUP BY date(created_at) HAVING count(created_at) >= 1");
+
+        $period = new \DatePeriod(
+          new \DateTime($start),
+          new \DateInterval('P1D'),
+          new \DateTime($end)
+        );
+
+        foreach ($period as $key => $value) {
+          $all_index = array_search($value->format('Y-m-d'), array_column($all_send_subscribers, 'date'));
+          $success_index = array_search( $value->format('Y-m-d'), array_column($success_send_subscribers, 'date'));
+          $new_index = array_search($value->format('Y-m-d'), array_column($new_subscribers, 'date'));
+          $all_charging_index = array_search($value->format('Y-m-d'), array_column($all_charging, 'date'));
+          $success_charging_index = array_search($value->format('Y-m-d'), array_column($success_charging, 'date'));
+
+          $group_all_subscriber[$key]['date'] = $value->format('Y-m-d');
+          $group_all_subscriber[$key]['all_count'] = $all_index != false ? $all_send_subscribers[$all_index]->all_count : 0;
+          $group_all_subscriber[$key]['success_count'] = $success_index != false ? $success_send_subscribers[$success_index]->success_count: 0;
+          $group_all_subscriber[$key]['new_count'] = $new_index != false? $new_subscribers[$new_index]->new_count : 0;
+          $group_all_subscriber[$key]['all_charging_count'] = $new_index != false? $all_charging[$all_charging_index]->all_charging_count : 0;
+          $group_all_subscriber[$key]['success_charging_count'] = $new_index != false? $success_charging[$success_charging_index]->success_charging_count : 0;
+        }
+
+        \Excel::create('download-all-info-'.Carbon::now()->toDateString(), function($excel) use ($group_all_subscriber) {
+          $excel->sheet('Excel', function($sheet) use ($group_all_subscriber) {
+           $sheet->loadView('backend.orange.download_subscribe.download_all_info')->with("group_all_subscriber", $group_all_subscriber);
+          });
+        })->export('csv');
+      }
 
 }

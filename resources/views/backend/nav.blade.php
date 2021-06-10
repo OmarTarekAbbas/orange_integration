@@ -150,6 +150,12 @@ $date = Carbon\Carbon::now()->toDateString();
                 </a>
             </li>
 
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/all_info')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>All Info About Orange
+                </a>
+            </li>
+
         </ul>
     </li>
 
