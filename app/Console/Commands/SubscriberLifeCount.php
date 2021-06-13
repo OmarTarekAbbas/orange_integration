@@ -38,7 +38,7 @@ class SubscriberLifeCount extends Command
      */
     public function handle()
     {
-      OrangeSubscribe::where('active',1)->where('type','!=','whitelists')->chunk(10000, function($subscribers)
+      OrangeSubscribe::where('type','!=','whitelists')->chunk(10000, function($subscribers)
       {
         foreach ($subscribers as $subscriber) {
           $date1 = new \DateTime(date("Y-m-d"));
