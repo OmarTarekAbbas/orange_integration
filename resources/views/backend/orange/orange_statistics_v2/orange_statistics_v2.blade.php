@@ -191,10 +191,18 @@
 
 
 
-          <tr>
+
+
+
+      <tr>
+        <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue  until {{$date}}</td>
+        <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_untill_today }}</span></td>
+    </tr>
+
+          {{--  <tr>
             <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of All Success Revenue until Now</td>
             <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging }}</span></td>
-        </tr>
+        </tr>  --}}
 
 
 
