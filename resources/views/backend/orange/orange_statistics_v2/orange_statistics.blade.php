@@ -19,7 +19,7 @@
 
 
     <div class="form-group">
-    {!! Form::open(['url' => url('admin/orange_statistics_by_form'),'method'=>'get', 'class'=>'all_form']) !!}
+    {!! Form::open(['url' => url('admin/orange_statistics_by_form_v2'),'method'=>'get', 'class'=>'all_form']) !!}
     <div class="col-md-4">
       {!! Form::label('from_date', 'Select Form Date :') !!}
       <div class='input-group date' id='datetimepicker'>

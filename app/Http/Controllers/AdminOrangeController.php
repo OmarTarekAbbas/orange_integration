@@ -562,10 +562,10 @@ class AdminOrangeController extends Controller
         $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('updated_at',"=", $date)->count();
 
 
-        $count_all_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->count();
-        $count_total_all_active_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 1)->count();
-        $count_all_pending_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 0)->count();
-        $count_all_unsub_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 2)->count();
+        $count_all_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('type', "!=" ,'whitelists')->count();
+        $count_total_all_active_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('type', "!=" ,'whitelists')->where('active', 1)->count();
+        $count_all_pending_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('type', "!=" ,'whitelists')->where('active', 0)->count();
+        $count_all_unsub_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('type', "!=" ,'whitelists')->where('active', 2)->count();
 
 
 
