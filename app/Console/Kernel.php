@@ -90,6 +90,8 @@ class Kernel extends ConsoleKernel
      $schedule->command('subscribe_free')->dailyAt('22:49');
      $schedule->command('subscribe_free')->dailyAt('23:00');
 
+     $schedule->command('subscriber:lifecount')->dailyAt('01:00');
+
 
 
     }
