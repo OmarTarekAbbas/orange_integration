@@ -44,7 +44,7 @@ class SubscriberLifeCount extends Command
           $date1 = new \DateTime(date("Y-m-d"));
           $date2 = new \DateTime($subscriber->created_at->format("Y-m-d"));
           $diff = $date1->diff($date2);
-          $subscriber->life_count = $diff->format("%a");
+          $subscriber->life_count = $diff->format("%a") > 3 ? $diff->format("%a") - 3 : 0;
           $subscriber->save();
         }
       });
