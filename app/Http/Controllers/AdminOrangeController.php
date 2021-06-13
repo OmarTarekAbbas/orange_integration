@@ -609,7 +609,7 @@ class AdminOrangeController extends Controller
 
         $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
-        $count_of_all_success_charging = OrangeCharging::whereDate('created_at',"<", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+        $count_of_all_success_charging = OrangeCharging::whereDate('created_at',"<=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
 
 
 
