@@ -38,14 +38,16 @@ class SubscriberLifeCount extends Command
      */
     public function handle()
     {
-      $subscribers = OrangeSubscribe::all();
-      foreach ($subscribers as $key => $subscriber) {
-        $datetime1 = strtotime($subscriber->created_at->format("Y-m-d"));
-        $datetime2 = strtotime(date("Y-m-d"));
-        $secs = $datetime2 - $datetime1;// == return sec in difference
-        $days = $secs / 86400;
-        $subscriber->life_count = $days;
-        $subscriber->save();
-      }
+      OrangeSubscribe::chunk(10000, function($subscribers)
+      {
+        foreach ($subscribers as $subscriber) {
+          $date1 = new \DateTime(date("Y-m-d"));
+          $date2 = new \DateTime($subscriber->created_at->format("Y-m-d"));
+          $diff = $date1->diff($date2);
+          $subscriber->life_count = $diff->format("%a") > 3 ? $diff->format("%a") - 3 : 0;
+          $subscriber->save();
+        }
+      });
+
     }
 }
