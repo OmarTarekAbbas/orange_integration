@@ -52,68 +52,49 @@
 
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover table-striped mt-table">
+                  <tr>
+                    <td width='30%' class='label-view text-left' style="font-weight: bold;">Count of chargable users </td>
+                    <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_charging_users_not_free }}</span></td>
+                </tr>
+                  <tr>
+                    <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of successful charged</td>
+                    <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_today }}</span></td>
+                </tr>
+                <tr>
+                  <td width='30%' class='label-view text-left' style="font-weight: bold;">Billing  Rate</td>
+                  <td><span dir="rtl" class="btn btn-success borderCircle">
+                    @if($count_charging_users_not_free > 0 )
+                    {{ round( $count_of_all_success_charging_today / $count_charging_users_not_free , 2  )  }}
+                  @else
+                  0
+                  @endif
+                  </span></td>
+              </tr>
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of New Free Users </td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_user_today }}</span></td>
                     </tr>
-                    <tr>
-                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Of successful charged</td>
-                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_of_all_success_charging_today }}</span></td>
-                  </tr>
 
                   <tr>
                     <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Unsub Users Today  </td>
                     <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_today_unsub_users }}</span></td>
                 </tr>
+                <tr>
+                  <td width='30%' class='label-view text-left' style="font-weight: bold;">Cancel Rate </td>
 
-                    <tr>
-                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count of chargable users </td>
-                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_charging_users_not_free }}</span></td>
-                  </tr>
-
-
-
-
-
-
-                  <tr>
-                    <td width='30%' class='label-view text-left' style="font-weight: bold;">Billing  Rate</td>
-                    <td><span dir="rtl" class="btn btn-success borderCircle">
-                      @if($count_charging_users_not_free > 0 )
-                      {{ round( $count_of_all_success_charging_today / $count_charging_users_not_free , 2  )  }}
-                    @else
-                    0
-                    @endif
-                    </span></td>
-                </tr>
-
-
+                  <td><span dir="rtl" class="btn btn-success borderCircle">
+                    @if($count_user_today > 0 )
+                    {{round(  $count_today_unsub_users / $count_user_today , 2 )}}
+                  @else
+                  0
+                  @endif
+                  </span></td>
+              </tr>
 
                     <tr>
                         <td width='30%' class='label-view text-left' style="font-weight: bold;">Count All subscribers on the end of  {{$yesterday}}</td>
                         <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_all_active_users }}</span></td>
                     </tr>
-
-
-                    <tr>
-                      <td width='30%' class='label-view text-left' style="font-weight: bold;">Count Unsub Users Today  </td>
-                      <td><span dir="rtl" class="btn btn-success borderCircle">{{ $count_today_unsub_users }}</span></td>
-                  </tr>
-
-
-
-                  <tr>
-                    <td width='30%' class='label-view text-left' style="font-weight: bold;">Cancel Rate </td>
-
-                    <td><span dir="rtl" class="btn btn-success borderCircle">
-                      @if($count_user_today > 0 )
-                      {{round(  $count_today_unsub_users / $count_user_today , 2 )}}
-                    @else
-                    0
-                    @endif
-                    </span></td>
-                </tr>
-
 
 
 
