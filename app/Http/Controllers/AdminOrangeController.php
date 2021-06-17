@@ -11,6 +11,7 @@ use App\OrangeWhitelist;
 use App\Provision;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use Illuminate\Support\Facades\Session;
 
@@ -468,14 +469,16 @@ class AdminOrangeController extends Controller
         $count_charging_users_not_free = OrangeCharging::whereDate('created_at',"=", $date)->count();
         $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
         $count_all_active_users = OrangeSubscribe::whereDate('created_at',"=",  $yesterday )->count();
-        $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('updated_at',"=", $date)->count();
+        // $sql = "SELECT COUNT(*) as count FROM `orange_sub_unsubs` WHERE selfcare_command = 'UNSUBSCRIBE' AND on_result_code = 0 AND date(created_at) = '{$date}'";
+        // $count_today_unsub_users =   DB::select(($sql));
+        $count_today_unsub_users = OrangeSubUnsub::whereDate('created_at',"=", $date)->where('selfcare_command','UNSUBSCRIBE')->where('on_result_code',0)->count();
+        //  dd($count_today_unsub_users);
 
 
         $count_all_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->count();
         $count_total_all_active_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 1)->count();
         $count_all_pending_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 0)->count();
         $count_all_unsub_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 2)->count();
-
 
 
 
@@ -524,7 +527,7 @@ class AdminOrangeController extends Controller
         $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)
                                               ->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
         $count_all_active_users = OrangeSubscribe::whereDate('created_at',"=",  $yesterday )->count();
-        $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('updated_at',"=", $date)->count();
+        $count_today_unsub_users = OrangeSubUnsub::whereDate('created_at',"=", $date)->where('selfcare_command','UNSUBSCRIBE')->where('on_result_code',0)->count();
 
         $count_all_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->count();
         $count_total_all_active_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 1)->count();
@@ -597,7 +600,7 @@ class AdminOrangeController extends Controller
 
         $count_all_active_users = OrangeSubscribe::where('active', 1)->count();
 
-    $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at',"=", $date)->count();
+    $count_today_unsub_users = OrangeSubUnsub::whereDate('created_at',"=", $date)->where('selfcare_command','UNSUBSCRIBE')->where('on_result_code',0)->count();
     $count_all_unsub_users = OrangeSubscribe::where('active', 2)->count();
 
 
