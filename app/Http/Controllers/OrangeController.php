@@ -941,7 +941,7 @@ $message .= "لإلغاء الإشتراك، ابعت الغاء ل 6124 ببل�
       if($responseStatus == OrangeResponseStatus::Success) {
        // $message = "The subscription for Orange Al Kheer service has been successfully canceled";
         // if($this->is_arabic($keyWord)) {
- $message = "انت الآن غير مشترك في خدمة أورنج الخير، ابعت 215 ل 6124 عشان تشترك من جديد وتستمتع كل يوم بأجمل الأدعية و الابتهالات غيرها من المزايا المخصصة ليك وبس!";
+ $message = "انت الآن غير مشترك في خدمة أورنج الخير، ابعت 215 ل 6124 عشان تشترك من جديد وتستمتع كل يوم بأجمل الأدعية و الابتهالات وغيرها من المزايا المخصصة ليك وبس!";
         // }
       } elseif($responseStatus == OrangeResponseStatus::NotSubscribed) {
        // $message = "You are already not subscribed to Orange Al Kheer service";
