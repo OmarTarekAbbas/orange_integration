@@ -769,10 +769,13 @@ var_dump($output) ;
     if ($OrangeSubscribe == 0) {
       $welcome_message =  $response_msg ;
 
-      $welcome_message .= " ";
-      $welcome_message .= "تم الإشتراك فى خدمة الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
-      $welcome_message .= "   للدخول اضغط علي هذا الرابط  ";
-      $welcome_message .= URL_ELFORSAN;
+
+      $welcome_message = "أهلا بيك في خدمة الفرسان من اورنج! ادخل على لينك";
+      $welcome_message .= " ".URL_ELFORSAN." ";
+      $welcome_message .= "واتفرج على فيديو لدعاء النهاردة من أورنج بصوت هاني شاكر وكمان استمتع بمحتوى حصري لهاني شاكر ليك وبس كل يوم.";
+      $welcome_message .= " بعد إنتهاء الفترة المجانية سيتم خصم 1 جنيه بس يوميا!";
+      $welcome_message .= " لإلغاء الإشتراك، ابعت الغاء ل 6122 ببلاش";
+
       $send_message = $welcome_message;
     } elseif ($OrangeSubscribe == 1) {
       $welcome_message = 'انت مشترك بالفعل في خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم';
@@ -902,10 +905,22 @@ var_dump($output) ;
     $url = URL_ELFORSAN;
 
     if ($responseStatus == OrangeResponseStatus::Success) {
+      /*
+      أهلا بيك في خدمة الفرسان من اورنج! ادخل على لينك
+      https://elforsan.net
 
+      واتفرج على فيديو لدعاء النهاردة من أورنج بصوت هاني شاكر وكمان استمتع بمحتوى حصري لهاني شاكر ليك وبس كل يوم.
+      بعد إنتهاء الفترة المجانية سيتم خصم 1 جنيه بس يوميا!
+      لإلغاء الإشتراك، ابعت الغاء ل 6122 ببلاش
 
-      $message = "تم الإشتراك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
-      $message .= " للدخول اضغط علي هذا الرابط " . $url;
+      */
+
+      $message = "أهلا بيك في خدمة الفرسان من اورنج! ادخل على لينك";
+      $message .= " ". $url." ";
+      $message .= "واتفرج على فيديو لدعاء النهاردة من أورنج بصوت هاني شاكر وكمان استمتع بمحتوى حصري لهاني شاكر ليك وبس كل يوم.";
+      $message .= " بعد إنتهاء الفترة المجانية سيتم خصم 1 جنيه بس يوميا!";
+      $message .= " لإلغاء الإشتراك، ابعت الغاء ل 6122 ببلاش";
+
     } elseif ($responseStatus == OrangeResponseStatus::AlreadySubscribe) {
       $message = " انت بالفعل مشترك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، , اضغط على هذا الرابط" . $url;
     } elseif ($responseStatus == OrangeResponseStatus::NotAllowed) {
@@ -932,7 +947,7 @@ var_dump($output) ;
     $message = '';
     if ($responseStatus == OrangeResponseStatus::Success) {
       //   $message = "The subscription for Al forsan service has been successfully canceled";
-      $message = "تم الغاء اشتراكك في خدمة الفرسان بنجاح";
+      $message = "انت الآن غير مشترك في خدمة الفرسان ، ابعت 1 ل 6122 عشان تشترك من جديد وتستمتع كل يوم بمحتوى جديد حصري لهاني شاكر ليك وبس!";
     } elseif ($responseStatus == OrangeResponseStatus::NotSubscribed) {
       // $message = "You are already not subscribed to Al forsan service";
       $message = "أنت  غير مشترك في خدمة الفرسان";
