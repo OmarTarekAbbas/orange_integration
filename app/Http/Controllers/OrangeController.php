@@ -883,7 +883,7 @@ var_dump($output) ;
         $message = "تم الإشتراك فى باقة  أورانج الخير من أورانج تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا.";
           $message .= "  ". $url;
        // }
-      } elseif($responseStatus == OrangeResponseStatus::AlreadySuccess) {
+      } elseif($responseStatus == OrangeResponseStatus::AlreadySubscribe) {
        // $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
 
        // if($this->is_arabic($keyWord)) {
