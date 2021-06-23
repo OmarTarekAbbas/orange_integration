@@ -906,7 +906,7 @@ var_dump($output) ;
 
       $message = "تم الإشتراك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، دلوقتي عندك الفرصة تحل لغز الفرسان وتبقى فائز ب 5000 جنيه يوميًا طوال شهر رمضان، وتستمتع بمحتوى حصري بصوت الفنان هاني شاكر. لالغاء الإشتراك ارسل الغاء إلى 6122 مجانًا." ;
       $message .= " للدخول اضغط علي هذا الرابط " . $url;
-    } elseif ($responseStatus == OrangeResponseStatus::AlreadySuccess) {
+    } elseif ($responseStatus == OrangeResponseStatus::AlreadySubscribe) {
       $message = " انت بالفعل مشترك فى خدمة  الفرسان من أورنج تجدد ب 1 جنيه فى اليوم، , اضغط على هذا الرابط" . $url;
     } elseif ($responseStatus == OrangeResponseStatus::NotAllowed) {
       //  $message = "Not Allowed";
