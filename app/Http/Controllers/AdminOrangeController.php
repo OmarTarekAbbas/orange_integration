@@ -739,4 +739,44 @@ class AdminOrangeController extends Controller
         })->export('csv');
       }
 
+  public function orangeStatisticsGraph()
+  {
+    return view("backend.orange.orange_statistics_graph.all");
+  }
+
+  public function orangeStatisticsGraphData(Request $request)
+  {
+    $start_date = $request->from_date ?? date('Y-m-01');
+    $end_date   = $request->to_date ?? date('Y-m-d');
+    $group_all_subscriber = [];
+
+    $new_subscribers = \DB::select("SELECT date(created_at) as date , count(created_at) as new_count FROM `orange_subscribes` GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+    $all_charging = \DB::select("SELECT date(created_at) as date , count(created_at) as all_charging_count FROM `orange_chargings` GROUP BY date(created_at) HAVING count(created_at) >= 1");
+    $success_charging = \DB::select("SELECT date(created_at) as date , count(created_at) as success_charging_count FROM `orange_chargings` WHERE action IN  ('OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE') GROUP BY date(created_at) HAVING count(created_at) >= 1");
+    $daily_unsub_subscribers = \DB::select("SELECT date(created_at) as date, count(created_at) as daily_unsub_subscribers_count FROM `orange_sub_unsubs` WHERE selfcare_command='UNSUBSCRIBE' AND on_result_code=0 GROUP BY date(created_at) HAVING count(created_at) >= 1");
+
+    $period = new \DatePeriod(
+      new \DateTime($start_date),
+      new \DateInterval('P1D'),
+      new \DateTime($end_date)
+    );
+
+    foreach ($period as $key => $value) {
+      $new_index = array_search($value->format('Y-m-d'), array_column($new_subscribers, 'date'));
+      $all_charging_index = array_search($value->format('Y-m-d'), array_column($all_charging, 'date'));
+      $success_charging_index = array_search($value->format('Y-m-d'), array_column($success_charging, 'date'));
+      $daily_unsub_subscribers_index = array_search($value->format('Y-m-d'), array_column($daily_unsub_subscribers, 'date'));
+
+      $group_all_subscriber[$key]['date'] = $value->format('Y-m-d');
+      $group_all_subscriber[$key]['new_count'] = $new_index != false ? $new_subscribers[$new_index]->new_count : 0;
+      $group_all_subscriber[$key]['all_charging_count'] = $all_charging_index != false ? $all_charging[$all_charging_index]->all_charging_count : 0;
+      $group_all_subscriber[$key]['success_charging_count'] = $success_charging_index != false ? $success_charging[$success_charging_index]->success_charging_count : 0;
+      $group_all_subscriber[$key]['billing_rate'] = ($group_all_subscriber[$key]['all_charging_count'] > 0) ? (round($group_all_subscriber[$key]['success_charging_count'] / $group_all_subscriber[$key]['all_charging_count'], 2)) : 0;
+      $group_all_subscriber[$key]['daily_unsub_subscribers_count'] = $daily_unsub_subscribers_index != false ? $daily_unsub_subscribers[$daily_unsub_subscribers_index]->daily_unsub_subscribers_count : 0;
+      $group_all_subscriber[$key]['cancel_rate'] = ($group_all_subscriber[$key]['new_count'] > 0) ? (round($group_all_subscriber[$key]['daily_unsub_subscribers_count'] / $group_all_subscriber[$key]['new_count'], 2)) : 0;
+    }
+
+    return response()->json($group_all_subscriber);
+  }
+
 }

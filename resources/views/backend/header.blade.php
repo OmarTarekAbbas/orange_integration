@@ -8,6 +8,7 @@
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/datepicker3.css')}}" rel="stylesheet">
     <link href="{{asset('css/styles.css')}}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!--[if lt IE 9]>
     <script src="{{asset('js/html5shiv.js')}}"></script>
