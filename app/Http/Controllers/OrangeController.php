@@ -846,7 +846,7 @@ $welcome_message .= "لإلغاء الإشتراك، ابعت الغاء ل 6124
 
 
 
-        } elseif(    ($request->message == "215"  && $firstCharacter == "0"  )  ||  (  mb_strlen($request->message) == 4    && $request->message == "٠٢١٥"  )  ){
+        } elseif(  strtolower($request->message) == "unsub"  || $request->message == "الغاء" || $request->message == "ألغاء" ||   ($request->message == "215"  && $firstCharacter == "0"  )  ||  (  mb_strlen($request->message) == 4    && $request->message == "٠٢١٥"  )  ){
           $orange_un_sub = new Request();
           $orange_un_sub->msisdn     = $request->msisdn;
           $orange_un_sub->command    = 'UNSUBSCRIBE';
