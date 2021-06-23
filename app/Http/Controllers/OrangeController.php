@@ -772,11 +772,15 @@ var_dump($output) ;
         if( $OrangeSubscribe == 0 ){
           $response_msg = 'تم الاشتراك بنجاح في خدمة اورانج الخير';
 
-          $welcome_message = "تم الإشتراك فى باقة  أورانج الخير من أورانج  لمدة 3 ايام ببلاش ثم تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا.";
-          $welcome_message .= "  للدخول اضغط علي هذا الرابط ";
-          $welcome_message .= "https://orange-elkheer.com" ;
 
-          $send_message = $welcome_message ;
+
+$welcome_message = " أهلا بيك في أورنج الخير من اورنج! ادخل على لينك ";
+$welcome_message .= " https://orange-elkheer.com ";
+$welcome_message .= "واستمتع كل يوم بأجمل الأدعية و الابتهالات وكمان هتقدر تحسب زكاتك و تستخدم السبحة الالكترونية و غيرها من المزايا المخصصة ليك وبس!" ;
+$welcome_message .= " بعد إنتهاء الفترة المجانية سيتم خصم 1 جنيه بس يوميا! ";
+$welcome_message .= "لإلغاء الإشتراك، ابعت الغاء ل 6124 ببلاش" ;
+
+ $send_message = $welcome_message ;
 
 
         }elseif($OrangeSubscribe == 1 ){
@@ -880,8 +884,24 @@ var_dump($output) ;
       if($responseStatus == OrangeResponseStatus::Success) {
      //   $message = "You have subscribed to the Orange Al Kheer package from Orange,You get 3 days free then renewed for 1 EGP per day, renew your faith and enjoy the latest prayers, invocations and masterpieces of religious songs with the Orange Al Kheer package. To unsubscribe, text 0215 to 6124 for free. To enter, click on this link ".$url;
       //  if($this->is_arabic($keyWord)) {
-        $message = "تم الإشتراك فى باقة  أورانج الخير من أورانج تجدد ب 1 جنيه فى اليوم، جدد إيمانك واستمتع بأجدد الأدعية والإبتهالات وروائع الأناشيد الدينية مع باقة أورانج الخير. لالغاء الإشتراك ارسل 0215 إلى 6124 مجانًا.";
-          $message .= "  ". $url;
+
+/*
+
+أهلا بيك في أورنج الخير من اورنج! ادخل على لينك
+https://orange-elkheer.com
+
+واستمتع كل يوم بأجمل الأدعية و الابتهالات وكمان هتقدر تحسب زكاتك و تستخدم السبحة الالكترونية و غيرها من المزايا المخصصة ليك وبس!
+بعد إنتهاء الفترة المجانية سيتم خصم 1 جنيه بس يوميا!
+لإلغاء الإشتراك، ابعت الغاء ل 6124 ببلاش
+
+*/
+
+$message = " أهلا بيك في أورنج الخير من اورنج! ادخل على لينك ";
+$message .= "  ". $url ." ";
+$message .= "واستمتع كل يوم بأجمل الأدعية و الابتهالات وكمان هتقدر تحسب زكاتك و تستخدم السبحة الالكترونية و غيرها من المزايا المخصصة ليك وبس!" ;
+$message .= " بعد إنتهاء الفترة المجانية سيتم خصم 1 جنيه بس يوميا! ";
+$message .= "لإلغاء الإشتراك، ابعت الغاء ل 6124 ببلاش" ;
+
        // }
       } elseif($responseStatus == OrangeResponseStatus::AlreadySubscribe) {
        // $message = "You are already subscribed to Orange El-Kheer service. To enter, click on this link ".$url;
