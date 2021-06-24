@@ -84,6 +84,9 @@ Route::get('admin/send_subscribers_to_orange','AdminOrangeController@DownloadSub
 Route::get('admin/download_new_subscriber','AdminOrangeController@downloadNewSubscriber');
 Route::get('admin/all_info','AdminOrangeController@getAllInfoAboutSubscriberPage');
 Route::post('admin/download_all_info','AdminOrangeController@downloadAllInfoAboutSubscriber');
+
+Route::get('admin/orange_statistics_graph', 'AdminOrangeController@orangeStatisticsGraph');
+Route::get('admin/orange_statistics_graph_download_to_excel', 'AdminOrangeController@orangeStatisticsGraphDownloadToExcel');
 // End orange Routes...
 
 // Authentication Routes...
