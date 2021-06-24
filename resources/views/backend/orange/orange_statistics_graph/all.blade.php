@@ -21,13 +21,15 @@
   </div>
   @endif
 
+  {{ $from_date = request()->get('from_date') ?? date('Y-m-01') }}
+  {{ $to_date = request()->get('to_date') ?? date('Y-m-d') }}
   <div class="form-group" style="border: solid 1px #ccc; margin: 0px 50px">
     {!! Form::open(['url' => url('admin/orange_statistics_graph'),'method'=>'get', 'class'=>'all_form', 'style'=>'width: 100%']) !!}
 
     <div class="col-md-5">
       {!! Form::label('from_date', 'Select Form Date :') !!}
       <div class='input-group date' id='datetimepicker'>
-        <input type='text' class="form-control" value="{{request()->get('from_date')}}" name="from_date" id="from_date" placeholder="Select Form Date" autocomplete="off" />
+        <input type='text' class="form-control" value="{{$from_date}}" name="from_date" id="from_date" placeholder="Select Form Date" autocomplete="off" />
         <span class="input-group-addon">
           <span class="glyphicon glyphicon-calendar"></span>
         </span>
@@ -37,7 +39,7 @@
     <div class="col-md-5">
       {!! Form::label('to_date', 'Select To Date :') !!}
       <div class='input-group date' id='datetimepicker1'>
-        <input type='text' class="form-control" value="{{request()->get('to_date')}}" name="to_date" id="to_date" placeholder="Select To Date" autocomplete="off" />
+        <input type='text' class="form-control" value="{{$to_date}}" name="to_date" id="to_date" placeholder="Select To Date" autocomplete="off" />
         <span class="input-group-addon">
           <span class="glyphicon glyphicon-calendar"></span>
         </span>
@@ -49,7 +51,7 @@
     </div>
 
     <div id="download_excel_div" class="col-md-12">
-      <p> You can get <strong> Orange Statistics </strong> from as excel by click on <a href='{{url("admin/orange_statistics_graph_download_to_excel")}}'><strong>download</strong></a> link</p>
+      <p> You can get <strong> Orange Statistics </strong> from {{ $from_date }} to {{ $to_date }} as excel by click on <a href='{{url("admin/orange_statistics_graph_download_to_excel")}}'><strong>download</strong></a> link</p>
     </div>
     {!! Form::close() !!}
   </div>
