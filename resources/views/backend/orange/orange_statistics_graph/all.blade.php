@@ -21,8 +21,8 @@
   </div>
   @endif
 
-  {{ $from_date = request()->get('from_date') ?? date('Y-m-01') }}
-  {{ $to_date = request()->get('to_date') ?? date('Y-m-d') }}
+  @php $from_date = request()->get('from_date') ?? date('Y-m-01') @endphp
+  @php $to_date = request()->get('to_date') ?? date('Y-m-d') @endphp
   <div class="form-group" style="border: solid 1px #ccc; margin: 0px 50px">
     {!! Form::open(['url' => url('admin/orange_statistics_graph'),'method'=>'get', 'class'=>'all_form', 'style'=>'width: 100%']) !!}
 
