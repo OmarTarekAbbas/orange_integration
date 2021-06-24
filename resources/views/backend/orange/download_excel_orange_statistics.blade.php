@@ -11,7 +11,7 @@
                 <th>Count Revenue Users Not Free</th>
                 <th>Count Of All Success Revenue Today</th>
                 <th>Count Of All Success Revenue</th>
-               
+                <th>count Of all whitelists</th>
             </tr>
         </thead>
         <tbody>
@@ -25,7 +25,7 @@
                 <td> {{ $count_charging_users_not_free }} </td>
                 <td> {{ $count_of_all_success_charging_today }} </td>
                 <td> {{ $count_of_all_success_charging }} </td>
-               
+                <td> {{ $count_all_whitelists }} </td>
         </tbody>
     </table>
 </div>

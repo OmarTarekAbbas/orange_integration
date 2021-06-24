@@ -117,20 +117,51 @@
                     <span class="glyphicon glyphicon-list-alt"></span>Orange Statistics
                 </a>
             </li>
-           
+
 
             <li id="orange_whitelists">
                 <a class="" href="{{url('admin/orange_statistics_by_form')}}">
                     <span class="glyphicon glyphicon-list-alt"></span>Orange filter
                 </a>
             </li>
-            @if( Auth::user()->id  == 1)
+
+
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/orange_statistics_by_form_v2')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Orange filter v2
+                </a>
+            </li>
+
             <li id="orange_whitelists">
                 <a class="" href="{{url('admin/download_subscribe')}}">
                     <span class="glyphicon glyphicon-list-alt"></span>Download Subscribe
                 </a>
             </li>
-            @endif
+
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/success_send_subscribers_to_orange')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Success Send Subscribers to Orange
+                </a>
+            </li>
+
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/send_subscribers_to_orange')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>Send Subscribers to Orange
+                </a>
+            </li>
+
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/download_new_subscriber')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>New Subscriber
+                </a>
+            </li>
+
+            <li id="orange_whitelists">
+                <a class="" href="{{url('admin/all_info')}}">
+                    <span class="glyphicon glyphicon-list-alt"></span>All Info About Orange
+                </a>
+            </li>
+
         </ul>
     </li>
 

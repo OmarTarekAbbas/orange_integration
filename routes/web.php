@@ -75,8 +75,15 @@ Route::get('admin/orange_statistics','AdminOrangeController@call_orange_statisti
 Route::get('admin/download_excel_orange_statistics','AdminOrangeController@download_excel_orange_statistics');
 Route::get('admin/orange_statistics_by_form','AdminOrangeController@orange_statistics_by_form');
 Route::get('admin/download_excel_orange_statistics_v2','AdminOrangeController@download_excel_orange_statistics_v2');
+Route::get('admin/remove_duplicate_msisdn','AdminOrangeController@removeDuplicateMsisdn');
 Route::get('admin/download_subscribe','AdminOrangeController@DownloadSubscribe');
-
+Route::get('admin/orange_statistics_by_form_v2','AdminOrangeController@orange_statistics_by_form_v2');
+Route::get('admin/download_excel_orange_statistics_by_form','AdminOrangeController@download_excel_orange_statistics_by_form');
+Route::get('admin/success_send_subscribers_to_orange','AdminOrangeController@DownloadSubscribeOne');
+Route::get('admin/send_subscribers_to_orange','AdminOrangeController@DownloadSubscribeTwo');
+Route::get('admin/download_new_subscriber','AdminOrangeController@downloadNewSubscriber');
+Route::get('admin/all_info','AdminOrangeController@getAllInfoAboutSubscriberPage');
+Route::post('admin/download_all_info','AdminOrangeController@downloadAllInfoAboutSubscriber');
 // End orange Routes...
 
 // Authentication Routes...
@@ -116,5 +123,4 @@ Route::get('orange_monthly_statistics','OrangeController@orangeMonthlyStatistics
 Route::post('orange_monthly_statistics','OrangeController@orangeMonthlyStatistics')->name('orange.monthly.statistics');
 
 define('ENABLE', Helper::get_setting('approve_enable'));
-
 

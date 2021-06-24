@@ -444,11 +444,11 @@ class AdminOrangeController extends Controller
         $count_charging_users_not_free = OrangeSubscribe::where('active', 1)->where('free', 0)->count();
         $count_of_all_success_charging_today = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at', Carbon::now()->toDateString())->count();
         $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+        $count_all_whitelists = OrangeSubscribe::where('type', 'whitelists')->count();
 
-
-        \Excel::create('orangestatistics-'.Carbon::now()->toDateString(), function($excel) use ($count_user_today, $count_all_active_users, $count_all_unsub_users,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
-            $excel->sheet('Excel', function($sheet) use ($count_user_today, $count_all_active_users, $count_all_unsub_users ,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
-                $sheet->loadView('backend.orange.download_excel_orange_statistics')->with("count_user_today", $count_user_today)->with("count_all_active_users", $count_all_active_users)->with("count_all_unsub_users", $count_all_unsub_users)->with("count_all_pending_users", $count_all_pending_users)->with("count_of_total_free_users", $count_of_total_free_users)->with("count_charging_users_not_free",$count_charging_users_not_free)->with("count_of_all_success_charging",$count_of_all_success_charging)->with("count_of_all_success_charging_today",$count_of_all_success_charging_today)->with("count_today_unsub_users",$count_today_unsub_users);
+        \Excel::create('orangestatistics-'.Carbon::now()->toDateString(), function($excel) use ($count_user_today, $count_all_active_users, $count_all_unsub_users,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users,$count_all_whitelists) {
+            $excel->sheet('Excel', function($sheet) use ($count_user_today, $count_all_active_users, $count_all_unsub_users ,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users,$count_all_whitelists) {
+                $sheet->loadView('backend.orange.download_excel_orange_statistics')->with("count_user_today", $count_user_today)->with("count_all_active_users", $count_all_active_users)->with("count_all_unsub_users", $count_all_unsub_users)->with("count_all_pending_users", $count_all_pending_users)->with("count_of_total_free_users", $count_of_total_free_users)->with("count_charging_users_not_free",$count_charging_users_not_free)->with("count_of_all_success_charging",$count_of_all_success_charging)->with("count_of_all_success_charging_today",$count_of_all_success_charging_today)->with("count_today_unsub_users",$count_today_unsub_users)->with("count_all_whitelists",$count_all_whitelists);
             });
         })->export('csv');
     }
@@ -465,14 +465,16 @@ class AdminOrangeController extends Controller
       }
         $count_user_today = OrangeSubscribe::whereDate('created_at',"=", $date)->count();
 
-        $count_all_active_users = OrangeSubscribe::where('active', 1)->where('type',"!=",'whitelists')->whereDate('created_at',"<=", $date)->count();
+        $count_all_active_users = OrangeSubscribe::where('active', 1)->where('type',"!=",'whitelists')->whereDate('created_at',"<", $date)->count();
 
         $count_all_active_whitelist_users = OrangeSubscribe::where('active', 1)->where('type','whitelists')->whereDate('created_at',"<=", $date)->count();
 
 
-        $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at',"=", $date)->count();
-        $count_all_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at',"<=", $date)->count();
-        $count_all_unsub_whitelist__users = OrangeSubscribe::where('active', 2)->where('type','whitelists')->count();
+        $count_today_unsub_users = OrangeSubUnsub::whereDate('created_at',"=", $date)->where('selfcare_command','UNSUBSCRIBE')->where('on_result_code',0)->count();
+
+        $count_all_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at',"<", $date)->count();
+        $count_all_unsub_whitelist__users = OrangeSubscribe::where('active', 2)->where('type','whitelists')
+        ->whereDate('created_at',"<", $date)->count();
 
 
         $count_all_pending_users = OrangeSubscribe::where('active', 0)->where('type' ,"!=" , "whitelists")->whereDate('created_at',"<=", $date)->count();
@@ -482,7 +484,7 @@ class AdminOrangeController extends Controller
 
         $count_charging_users_not_free = OrangeSubscribe::where('active', 1)->where('free', 0)->whereDate('created_at',"<=", $date)->count();
         $count_of_all_success_charging_today = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at',"=", $date)->count();
-        $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at',"<=", $date)->count();
+        $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at',"<", $date)->count();
 
 
 
@@ -513,7 +515,9 @@ class AdminOrangeController extends Controller
           $count_user_today = OrangeSubscribe::whereDate('created_at',"=", $date)->count();
           $count_all_active_users = OrangeSubscribe::where('active', 1)->whereDate('created_at',"<=", $date)->count();
 
-          $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at', Carbon::now()->toDateString())->count();
+          // $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at', Carbon::now()->toDateString())->count();
+          $count_today_unsub_users = OrangeSubUnsub::whereDate('created_at',"=", $date)->where('selfcare_command','UNSUBSCRIBE')->where('on_result_code',0)->count();
+
           $count_all_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('created_at',"<=", $date)->count();
 
 
@@ -525,29 +529,280 @@ class AdminOrangeController extends Controller
 
 
           $count_of_all_success_charging_today = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at',"=", $date)->count();
-          $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at',"<=", $date)->count();
+          $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->whereDate('created_at',"<", $date)->count();
+          $count_all_whitelists = OrangeSubscribe::where('active', 1)->where('type', 'whitelists')->whereDate('created_at',"<=", $date)->count();
 
 
-
-          \Excel::create('orangestatistics-'.$date, function($excel) use ($count_user_today, $count_all_active_users, $count_all_unsub_users,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
-              $excel->sheet('Excel', function($sheet) use ($count_user_today, $count_all_active_users, $count_all_unsub_users ,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users) {
-                  $sheet->loadView('backend.orange.download_excel_orange_statistics')->with("count_user_today", $count_user_today)->with("count_all_active_users", $count_all_active_users)->with("count_all_unsub_users", $count_all_unsub_users)->with("count_all_pending_users", $count_all_pending_users)->with("count_of_total_free_users", $count_of_total_free_users)->with("count_charging_users_not_free",$count_charging_users_not_free)->with("count_of_all_success_charging",$count_of_all_success_charging)->with("count_of_all_success_charging_today",$count_of_all_success_charging_today)->with("count_today_unsub_users",$count_today_unsub_users);
+          \Excel::create('orangestatistics-'.$date, function($excel) use ($count_user_today, $count_all_active_users, $count_all_unsub_users,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users, $count_all_whitelists) {
+              $excel->sheet('Excel', function($sheet) use ($count_user_today, $count_all_active_users, $count_all_unsub_users ,$count_all_pending_users,$count_of_total_free_users,$count_charging_users_not_free,$count_of_all_success_charging,$count_of_all_success_charging_today,$count_today_unsub_users, $count_all_whitelists) {
+                  $sheet->loadView('backend.orange.download_excel_orange_statistics')->with("count_user_today", $count_user_today)->with("count_all_active_users", $count_all_active_users)->with("count_all_unsub_users", $count_all_unsub_users)->with("count_all_pending_users", $count_all_pending_users)->with("count_of_total_free_users", $count_of_total_free_users)->with("count_charging_users_not_free",$count_charging_users_not_free)->with("count_of_all_success_charging",$count_of_all_success_charging)->with("count_of_all_success_charging_today",$count_of_all_success_charging_today)->with("count_today_unsub_users",$count_today_unsub_users)->with("count_all_whitelists",$count_all_whitelists);
               });
           })->export('csv');
+    }
+
+    public function orange_statistics_by_form_v2(Request $request)
+    {
+
+      if($request->has('from_date') && $request->from_date != ''){
+        $date = $request->from_date;
+        $equal = '=';
+      }else{
+        $date = Carbon::now()->toDateString();
+        $equal = '=';
       }
 
-      public function DownloadSubscribe(Request $request)
-      {
-        set_time_limit(0);
-        ini_set('memory_limit', -1);
+        $time = strtotime("$date - 1 days") ;
+        $yesterday =  date("Y-m-d" ,  $time ) ;
 
-        $downloadSubscribes = OrangeSubscribe::where('active', 1)->where('free', 0)->where('type' ,"!=" , "whitelists")->pluck('msisdn')->toArray();
+        $time_next = strtotime("$date + 1 days") ;
+        $tomorrow =  date("Y-m-d" ,  $time_next ) ;
 
-        \Excel::create('DownloadSubscribe-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
-            $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
-             $sheet->loadView('backend.orange.download_subscribe')->with("downloadSubscribes",$downloadSubscribes);
-            });
-        })->export('csv');
+        $count_user_today = OrangeSubscribe::whereDate('created_at',"=", $date)->count();
+      //  $count_charging_users_not_free = OrangeSubscribe::where('subscribe_due_date', $date)->count();
+        $count_charging_users_not_free = OrangeCharging::whereDate('created_at',"=", $date)->count();
+        $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+        $count_all_active_users = OrangeSubscribe::whereDate('created_at',"=",  $yesterday )->count();
+        // $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('updated_at',"=", $date)->count();
+        $count_today_unsub_users = OrangeSubUnsub::whereDate('created_at',"=", $date)->where('selfcare_command','UNSUBSCRIBE')->where('on_result_code',0)->count();
+
+
+        $count_all_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('type', "!=" ,'whitelists')->count();
+        $count_total_all_active_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('type', "!=" ,'whitelists')->where('active', 1)->count();
+        $count_all_pending_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('type', "!=" ,'whitelists')->where('active', 0)->count();
+        $count_all_unsub_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('type', "!=" ,'whitelists')->where('active', 2)->count();
+
+
+
+
+
+        $count_of_total_free_users = OrangeSubscribe::where('free', 1)->whereDate('created_at',"<=", $date)->count();
+        $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+
+        return view('backend.orange.orange_statistics_v2.orange_statistics', compact(
+            'count_user_today',
+            'count_all_active_users',
+            'count_all_unsub_users',
+            'count_all_pending_users',
+            'count_of_total_free_users',
+            'count_charging_users_not_free',
+            'count_of_all_success_charging',
+            'count_of_all_success_charging_today',
+          'count_today_unsub_users',
+          'yesterday',
+          'count_all_users',
+          'count_total_all_active_users',
+          'date'
+          ));
+    }
+
+    public function download_excel_orange_statistics_by_form(Request $request)
+    {
+      if($request->has('from_date') && $request->from_date != ''){
+        $date = $request->from_date;
+        $equal = '=';
+      }else{
+        $date = Carbon::now()->toDateString();
+        $equal = '=';
       }
 
+        $time = strtotime("$date - 1 days") ;
+        $yesterday =  date("Y-m-d" ,  $time ) ;
+
+        $time_next = strtotime("$date + 1 days") ;
+        $tomorrow =  date("Y-m-d" ,  $time_next ) ;
+
+        $count_user_today = OrangeSubscribe::whereDate('created_at',"=", $date)->count();
+        $count_charging_users_not_free = OrangeCharging::whereDate('created_at',"=", $date)->count();
+        $count_of_all_success_charging_today = OrangeCharging::whereDate('created_at',"=", $date)
+                                              ->whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+        $count_all_active_users = OrangeSubscribe::whereDate('created_at',"=",  $yesterday )->count();
+        // $count_today_unsub_users = OrangeSubscribe::where('active', 2)->whereDate('updated_at',"=", $date)->count();
+        $count_today_unsub_users = OrangeSubUnsub::whereDate('created_at',"=", $date)->where('selfcare_command','UNSUBSCRIBE')->where('on_result_code',0)->count();
+
+
+        $count_all_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->count();
+        $count_total_all_active_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 1)->count();
+        $count_all_pending_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 0)->count();
+        $count_all_unsub_users = OrangeSubscribe::whereDate('created_at',"<=",  $yesterday )->where('active', 2)->count();
+
+        $count_of_total_free_users = OrangeSubscribe::where('free', 1)->whereDate('created_at',"<=", $date)->count();
+        $count_of_all_success_charging = OrangeCharging::whereIN('action', ['OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE'])->count();
+
+        \Excel::create('alforsantatistics-two'.$date,
+        function($excel)
+          use (
+              $count_user_today,
+              $count_charging_users_not_free,
+              $count_of_all_success_charging_today,
+              $count_all_active_users, $count_today_unsub_users,
+              $count_all_users,
+              $count_total_all_active_users,
+              $count_all_pending_users,
+              $count_all_unsub_users,
+              $count_of_total_free_users,
+              $count_of_all_success_charging,
+              $yesterday)
+          {
+            $excel->sheet('Excel',
+            function($sheet)
+            use (
+              $count_user_today,
+              $count_charging_users_not_free,
+              $count_of_all_success_charging_today,
+              $count_all_active_users,
+              $count_today_unsub_users,
+              $count_all_users,
+              $count_total_all_active_users,
+              $count_all_pending_users,
+              $count_all_unsub_users,
+              $count_of_total_free_users,
+              $count_of_all_success_charging,
+              $yesterday)
+            {
+              $sheet->loadView('backend.orange.download_excel_orange_statistics_by_form')
+              ->with("count_user_today", $count_user_today)
+              ->with("count_charging_users_not_free", $count_charging_users_not_free)
+              ->with("count_of_all_success_charging_today", $count_of_all_success_charging_today)
+              ->with("count_all_active_users", $count_all_active_users)
+              ->with("count_today_unsub_users", $count_today_unsub_users)
+              ->with("count_all_users", $count_all_users)
+              ->with("count_total_all_active_users", $count_total_all_active_users)
+              ->with("count_all_pending_users", $count_all_pending_users)
+              ->with("count_all_unsub_users", $count_all_unsub_users)
+              ->with("count_of_total_free_users", $count_of_total_free_users)
+              ->with("yesterday", $yesterday)
+              ->with("count_of_all_success_charging", $count_of_all_success_charging);
+          });
+      })->export('csv');
+    }
+
+    public function removeDuplicateMsisdn()
+    {
+      $whitelist_unique_numbers = [];
+      $subscribe_unique_numbers = [];
+      OrangeWhitelist::orderBy("created_at", "desc")->chunk(100, function ($whitelists) use ($whitelist_unique_numbers){
+        foreach ($whitelists as $whitelist) {
+            if(!in_array($whitelist->msisdn, $whitelist_unique_numbers)){
+              array_push($whitelist_unique_numbers, $whitelist->msisdn);
+              continue;
+            }
+            $whitelist->delete();
+        }
+      });
+
+      OrangeSubscribe::orderBy("created_at", "desc")->chunk(100, function ($OrangeSubscribes) use ($subscribe_unique_numbers){
+        foreach ($OrangeSubscribes as $OrangeSubscribe) {
+            if(!in_array($OrangeSubscribe->msisdn, $subscribe_unique_numbers)){
+              array_push($subscribe_unique_numbers, $OrangeSubscribe->msisdn);
+              continue;
+            }
+            $OrangeSubscribe->delete();
+        }
+      });
+    }
+
+    public function DownloadSubscribe(Request $request)
+    {
+      set_time_limit(0);
+      ini_set('memory_limit', -1);
+
+      $downloadSubscribes = OrangeSubscribe::where('active', 1)->where('type' ,"!=" , "whitelists")->pluck('msisdn')->toArray();
+
+      \Excel::create('DownloadSubscribe-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+          $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
+            $sheet->loadView('backend.orange.download_subscribe')->with("downloadSubscribes",$downloadSubscribes);
+          });
+      })->export('csv');
+    }
+
+    public function DownloadSubscribeOne(Request $request)
+    {
+      set_time_limit(0);
+      ini_set('memory_limit', -1);
+
+      $downloadSubscribes = \DB::select("SELECT date(created_at) as date , count(created_at) as date_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB' AND on_result_code = 0 GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+      \Excel::create('success_send_subscribers_to_orange-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+          $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
+           $sheet->loadView('backend.orange.download_subscribe.download_subscribe_two')->with("downloadSubscribes",$downloadSubscribes);
+          });
+      })->export('csv');
+    }
+
+    public function DownloadSubscribeTwo(Request $request)
+    {
+      set_time_limit(0);
+      ini_set('memory_limit', -1);
+
+      $downloadSubscribes = \DB::select("SELECT date(created_at) as date , count(created_at) as date_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB'  GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+      \Excel::create('send_subscribers_to_orange-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+          $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
+           $sheet->loadView('backend.orange.download_subscribe.download_subscribe_two')->with("downloadSubscribes",$downloadSubscribes);
+          });
+      })->export('csv');
+    }
+
+    public function downloadNewSubscriber(Request $request)
+    {
+      set_time_limit(0);
+      ini_set('memory_limit', -1);
+
+      $downloadSubscribes = \DB::select("SELECT date(created_at) as date , count(created_at) as date_count FROM `orange_subscribes` GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+      \Excel::create('new-subscriber-'.Carbon::now()->toDateString(), function($excel) use ($downloadSubscribes) {
+          $excel->sheet('Excel', function($sheet) use ($downloadSubscribes) {
+           $sheet->loadView('backend.orange.download_subscribe.download_subscribe_two')->with("downloadSubscribes",$downloadSubscribes);
+          });
+      })->export('csv');
+    }
+
+    public function getAllInfoAboutSubscriberPage()
+    {
+      return view("backend.orange.download_subscribe.all_info");
+    }
+
+    public function downloadAllInfoAboutSubscriber(Request $request)
+    {
+      $start = $request->from_date??"2021-04-01";
+      $end   = $request->to_date??date('Y-m-d');
+      $group_all_subscriber = [];
+
+      $success_send_subscribers = \DB::select("SELECT date(created_at) as date , count(created_at) as success_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB' AND on_result_code = 0 GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+      $all_send_subscribers = \DB::select("SELECT date(created_at) as date , count(created_at) as all_count FROM `orange_sub_unsubs` WHERE selfcare_command = 'SUBSCRIBE' AND on_bearer_type = 'WEB'  GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+      $new_subscribers = \DB::select("SELECT date(created_at) as date , count(created_at) as new_count FROM `orange_subscribes` GROUP BY date(created_at) HAVING count(created_at) >= 1;");
+
+      $all_charging = \DB::select("SELECT date(created_at) as date , count(created_at) as all_charging_count FROM `orange_chargings` GROUP BY date(created_at) HAVING count(created_at) >= 1");
+
+      $success_charging = \DB::select("SELECT date(created_at) as date , count(created_at) as success_charging_count FROM `orange_chargings` WHERE action IN  ('OUTOFGRACE','GRACE1','OPERATORSUBSCRIBE') GROUP BY date(created_at) HAVING count(created_at) >= 1");
+
+      $period = new \DatePeriod(
+        new \DateTime($start),
+        new \DateInterval('P1D'),
+        new \DateTime($end)
+      );
+
+      foreach ($period as $key => $value) {
+        $all_index = array_search($value->format('Y-m-d'), array_column($all_send_subscribers, 'date'));
+        $success_index = array_search( $value->format('Y-m-d'), array_column($success_send_subscribers, 'date'));
+        $new_index = array_search($value->format('Y-m-d'), array_column($new_subscribers, 'date'));
+        $all_charging_index = array_search($value->format('Y-m-d'), array_column($all_charging, 'date'));
+        $success_charging_index = array_search($value->format('Y-m-d'), array_column($success_charging, 'date'));
+
+        $group_all_subscriber[$key]['date'] = $value->format('Y-m-d');
+        $group_all_subscriber[$key]['all_count'] = $all_index != false ? $all_send_subscribers[$all_index]->all_count : 0;
+        $group_all_subscriber[$key]['success_count'] = $success_index != false ? $success_send_subscribers[$success_index]->success_count: 0;
+        $group_all_subscriber[$key]['new_count'] = $new_index != false? $new_subscribers[$new_index]->new_count : 0;
+        $group_all_subscriber[$key]['all_charging_count'] = $new_index != false? $all_charging[$all_charging_index]->all_charging_count : 0;
+        $group_all_subscriber[$key]['success_charging_count'] = $new_index != false? $success_charging[$success_charging_index]->success_charging_count : 0;
+      }
+
+      \Excel::create('download-all-info-'.Carbon::now()->toDateString(), function($excel) use ($group_all_subscriber) {
+        $excel->sheet('Excel', function($sheet) use ($group_all_subscriber) {
+         $sheet->loadView('backend.orange.download_subscribe.download_all_info')->with("group_all_subscriber", $group_all_subscriber);
+        });
+      })->export('csv');
+    }
 }
