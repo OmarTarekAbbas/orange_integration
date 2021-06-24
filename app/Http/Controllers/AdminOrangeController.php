@@ -739,12 +739,16 @@ class AdminOrangeController extends Controller
         })->export('csv');
       }
 
-  public function orangeStatisticsGraph()
+  public function orangeStatisticsGraph(Request $request)
   {
-    return view("backend.orange.orange_statistics_graph.all");
+    $request = $request;
+    $graph_data = $this->orangeStatisticsGraphData($request);
+    Session::put('graph_data', $graph_data);
+
+    return view("backend.orange.orange_statistics_graph.all", compact('graph_data'));
   }
 
-  public function orangeStatisticsGraphData(Request $request)
+  public function orangeStatisticsGraphData($request)
   {
     $start_date = $request->from_date ?? date('Y-m-01');
     $end_date   = $request->to_date ?? date('Y-m-d');
@@ -776,7 +780,20 @@ class AdminOrangeController extends Controller
       $group_all_subscriber[$key]['cancel_rate'] = ($group_all_subscriber[$key]['new_count'] > 0) ? (round($group_all_subscriber[$key]['daily_unsub_subscribers_count'] / $group_all_subscriber[$key]['new_count'], 2)) : 0;
     }
 
-    return response()->json($group_all_subscriber);
+    return $group_all_subscriber;
+  }
+
+  public function orangeStatisticsGraphDownloadToExcel()
+  {
+    $graph_excel_data = Session::get('graph_data');
+    if (isset($graph_excel_data) && $graph_excel_data != null) {
+      $excel_title = 'orange-statistics-' . Carbon::now()->toDateString();
+      \Excel::create($excel_title, function ($excel) use ($graph_excel_data) {
+        $excel->sheet('Excel', function ($sheet) use ($graph_excel_data) {
+          $sheet->loadView('backend.orange.orange_statistics_graph.excel')->with("graph_excel_data", $graph_excel_data);
+        });
+      })->export('csv');
+    }
   }
 
 }
